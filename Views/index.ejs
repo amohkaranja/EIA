@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <title><%= pageTitle %></title>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-top">
+            <div class="login-top-left">
+                <img src="/images/eia_logo.png" alt="EIA Image">
+            </div>
+            <div class="login-top-right">
+                <h2><span>Always</span> Be With You</h2>
+            </div>
+        </div>
+        <div class="login-main">
+            <div class="login-left">
+                <div class="left-title">
+                    <h1>WELCOME BACK</h1>
+                </div>
+            </div>
+            <div class="login-right">
+                <div class="login-info">
+                    <form action="/login" method="POST" class="form-action">
+                        <h2>Login</h2>
+                        <div class="input-group">
+                            <label for="username" class="input-label">Username</label>
+                            <input id="username" type="text" class="input-space" placeholder="Enter username" name="username">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="password" class="input-label">Password</label>
+                            <input id="password" type="password" class="input-labelss" placeholder="Enter password" name="password">
+                        </div>
+
+                        <div class="spaced-row">
+                            <button class="btn login" type="submit">Login</button>
+                            <a href="" class="forgot-pass">Forget Password</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
