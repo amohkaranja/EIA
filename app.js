@@ -6,9 +6,13 @@ const path = require('path');
 
 const session = require('express-session');
 
+const flash = require('connect-flash');
+
+const User = require('./models/user')
+
 const sequelize = require('./util/database')
 
-// const  SequelizeStore = require('connect-session-sequelize')(session.Store);
+const  SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const allRoutes= require('./routes/home')
 
@@ -19,28 +23,30 @@ app.set('view engine','ejs');
 app.set('views','views');
 
 app.use(bodyParser.urlencoded({extended:false}));
+app.use(session({
+    secret: 'endeavors',
+     resave: false, 
+     saveUninitialized: false,
+     store: new SequelizeStore({db:sequelize,}),
+     resave: false,
+     proxy:true
+    }));
+app.use(flash());
 
 app.use(allRoutes);
 
 app.use(express.static(path.join(__dirname,'public')));
 
-// app.use(session({
-//     secret: 'endeavors',
-//      resave: false, 
-//      saveUninitialized: false,
-//      store: new SequelizeStore({db:sequilize,}),
-//      resave: false,
-//      proxy:true
-//     }));
 
-    // sequilize
+
+sequelize
 //.sync({force : true})
-// .sync()
+.sync()
 
-// .then( callback=>{
+.then( callback=>{
     app.listen(3000) 
-// })
-// .catch(
+})
+.catch(
     
-    // err=>{ console.log(err)
-    // });
+    err=>{ console.log(err)
+    });

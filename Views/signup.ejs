@@ -29,7 +29,7 @@
             </div>
             <div class="login-right">
                 <div class="login-info">
-                    <form action="/login" method="POST" class="form-action">
+                    <form action="/signup" method="POST" class="form-action">
                         <h2>Login</h2>
                         <div class="input-group">
                             <label for="username" class="input-label">Username</label>
@@ -42,12 +42,9 @@
                         </div>
 
                         <div class="spaced-row">
-                            <button class="btn login" type="submit">Login</button>
+                            <button class="btn login" type="submit">SignUp</button>
                             <a href="" class="forgot-pass">Forget Password</a>
                         </div>
-                        <% if (errorMessage) {%>
-                            <h3> <%= errorMessage%></h3> 
-                        <%}%>
 
                     </form>
                 </div>
