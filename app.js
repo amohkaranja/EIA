@@ -8,9 +8,11 @@ const session = require('express-session');
 
 const flash = require('connect-flash');
 
-const User = require('./models/user')
+const nodemailer = require('nodemailer');
 
-const sequelize = require('./util/database')
+const User = require('./models/user');
+
+const sequelize = require('./util/database');
 
 const  SequelizeStore = require('connect-session-sequelize')(session.Store);
 
