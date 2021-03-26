@@ -18,26 +18,34 @@ exports.getSignup= (req,res,next) =>{
         isAuthenticated: false
 })
 };
-exports.postSignup=(req,res,next)=>{
+exports.postCreate=(req,res,next)=>{
     const email = req.body.email;
   const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
+  const phoneNumber= req.body.phoneNumber;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  // const confirmPassword = req.body.confirmPassword;
   User.findOne({where:{email: email}})
-    .then(userDoc => {
-      if (userDoc) {
-        return res.redirect('/signup');
+    .then(user => {
+      if (user) {
+        req.flash('email-error','username or email already exist!');
+        return res.redirect('/new-user');
+        
       }
       return bcrypt
         .hash(password, 12)
         .then(hashedPassword => {
           const user = new User({
             email: email,
-            password: hashedPassword
+            password: hashedPassword,
+            phoneNumber:phoneNumber,
+            firstName:firstName,
+            lastName:lastName
           });
           return user.save();
         })
         .then(result => {
-          res.redirect('/');
+          res.redirect('/new-user');
         });
     })
     .catch(err => {
@@ -75,10 +83,18 @@ exports.postLogin = (req,res,next)=>{
       .catch(err => console.log(err)); 
 };
 exports.getDashboard=(req,res,next)=>{
-    res.render('dashboard', {
+  const email = req.params.email
+  User.findByPk(email)
+  .then(user=>{
+    console.log(email)
+      res.render('dashboard', {
+        user:user,
         pageTitle: 'dashboard',
         path: '/dashboard',
         isAuthenticated: req.session.isLoggedIn
+  }
+  ).catch(err=>{console.log(err)});
+    
 })
 };
 exports.getUnderwriting= (req,res,next)=>{
@@ -106,11 +122,32 @@ exports.getNewpolicy= (req,res,next)=>{
 
 };
 
-exports.postLogout =(req,res,next)=>{
+exports.postLogout =(req,res,next)=>{ 
     req.session.destroy((err)=>{
         console.log(err);
         res.redirect('/');
     })
 
   
+};
+exports.getAdmin = (req,res,next) =>{
+  res.render('admin', {
+    pageTitle: 'admin',
+    path: '/admin',
+    isAuthenticated: req.session.isLoggedIn
+})
+};
+exports.getNewUser = (req,res,next) =>{
+  User.findAll()
+  .then(users=>{
+    res.render('new-user', {
+      users: users,
+      pageTitle: 'new-user',
+      path: '/new-user',
+      isAuthenticated: req.session.isLoggedIn,
+      errorMessage: req.flash('email-error')
+  })
+  .catch(err=>{console.log(err)});
+ 
+})
 };
