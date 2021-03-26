@@ -20,9 +20,11 @@ router.get("/underwriting",controllers.getUnderwriting);
 
 router.get('/new-policy',controllers.getNewpolicy);
 
-router.post('/signup',controllers.postSignup);
+router.post('/create',controllers.postCreate);
 
-router.get('/signup',controllers.getSignup)
+router.get('/admin',controllers.getAdmin);
+
+router.get('/new-user',controllers.getNewUser);
 
 
 module.exports= router;
