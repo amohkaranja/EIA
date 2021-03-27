@@ -29,8 +29,8 @@
             </div>
             <div class="login-right">
                 <div class="login-info">
-                    <form action="/login" method="POST" class="form-action">
-                        <h2>Login</h2>
+                    <form action="/reset" method="POST" class="form-action">
+                        <h2>Reset password by entering your email</h2>
                         <div class="input-group">
                             <label for="username" class="input-label">Username</label>
                             <input id="username" type="text" class="input-space" placeholder="Enter username" name="email">
@@ -38,19 +38,15 @@
                         
                         <div class="input-group">
                             <label for="password" class="input-label">Password</label>
-                            <input id="password" type="password" class="input-labelss" placeholder="Enter password" name="password">
+                            <input id="password" type="hidden" class="input-labelss" placeholder="Enter password" name="password">
                         </div>
 
                         <div class="spaced-row">
-                            <button class="btn login" type="submit">Login</button>
-                            <a href="/reset" class="forgot-pass">Forget/Reset Password</a>
+                            <button class="btn login" type="submit">submit</button>
+                            <a href="/" class="forgot-pass">Back to Login page</a>
                         </div>
                         <% if (errorMessage) {%>
                             <h3> <%= errorMessage%></h3> 
-                             
-                        <%}%>
-                        <% if (linkMessage) {%> 
-                            <h3> <%= linkMessage%></h3> 
                         <%}%>
 
                     </form>
