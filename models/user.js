@@ -1,3 +1,4 @@
+const { DATE } = require('sequelize');
 const Sequelize = require('sequelize');
 
 const sequelize = require('../util/database');
@@ -28,7 +29,9 @@ const User = sequelize.define('user', {
   phoneNumber:{
     type:Sequelize.INTEGER,
     allowNull:false
-  }
+  },
+  resetToken:Sequelize.STRING,
+  resetTokenExpiration:Sequelize.TIME
 
 });
 

@@ -2,12 +2,28 @@ const User = require('../models/user');
 
 const bcrypt= require('bcrypt');
 
+const crypto = require('crypto');
+
+const nodemailer= require('nodemailer');
+
+const transporter =nodemailer.createTransport({
+  service : 'gmail',
+  auth :{
+    user:'amosdkaranja@gmail.com',
+    pass:'0798230245'
+  },
+  tls: {
+    rejectUnauthorized: false
+}
+ 
+});
 
 exports.getIndex= (req,res,next) =>{
     res.render('index', {
         pageTitle: 'home',
         path: '/',
         isAuthenticated: false,
+        linkMessage: req.flash('linkMessage'),
         errorMessage: req.flash('error')
 })
 };
@@ -46,6 +62,25 @@ exports.postCreate=(req,res,next)=>{
         })
         .then(result => {
           res.redirect('/new-user');
+          const mailOptions = {
+            from: 'amosdkaranja@gmail.com',
+            to: email,
+            subject: 'Welcome on board',
+            html: `
+            <p><b>Endeavors Insuarance Agency Welcomes you board!</b></p>
+            <p>Please reset your password, and rememeber to set a strong password Hacking is real!</p>
+            <P> Click this <a href="http://localhost:3000/reset">link</a> to reset Your password </p>
+       `
+          };
+          
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
+          
         });
     })
     .catch(err => {
@@ -151,3 +186,102 @@ exports.getNewUser = (req,res,next) =>{
  
 })
 };
+exports.getReset=(req,res,next)=>{
+  res.render('reset', {
+    pageTitle: 'reset',
+    path: '/reset',
+    isAuthenticated: false,
+    errorMessage: req.flash('resetError')
+    
+
+})
+};
+exports.postReset=(req,res,next)=>{
+  const email = req.body.email;
+  crypto.randomBytes(32,(err,buffer)=>{
+    if(err){
+      console.log(err);
+      return res.redirect('/');
+    }
+    const token = buffer.toString('hex')
+    User.findOne({where:{email:email}}).then(user=>{
+      if (!user) {
+                req.flash('resetError','The email you have eneterd does not exist!');
+              return res.redirect('/reset');
+            }
+            user.resetToken = token;
+            user.resetTokenExpiration = Date.now() + 3600000;
+            return user.save();
+    })
+    .then(result=>{
+      const mailOptions = {
+        from: 'amosdkaranja@gmail.com',
+        to: email,
+        subject: 'Reset Password Request',
+        html: `
+             <p> You requested a password reset</p>
+             <P> Click this <a href="http://localhost:3000/newPassword/${token}">link</a> to reset Your password. 
+             This link expires after one hour. </p>
+        `
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+      req.flash('linkMessage','check your email', email, 'to reset your password');
+      res.redirect('/');
+    })
+    .catch(err=>{console.log(err)})
+  });
+};
+exports.getNewpassword=(req,res,next)=>{
+  const token = req.params.token;
+  User.findOne({where:{resetToken: token,}})
+  .then(user=>{
+    res.render('newPassword', {
+      pageTitle: 'reset Password',
+      path: '/newPassword',
+      isAuthenticated: false,
+      successMessage: req.flash('successMessage'),
+      passwordError:req.flash('passwordError'),
+      userId: user.id.toString(),
+      passwordToken: token
+    })
+  })
+  .catch(err=>{console.log(err)})
+
+    
+};
+exports.postNewPassword=(req,res,next)=>{
+  console.log("i am here what next");
+  const newPassword = req.body.password;
+  const confirm =  req.body.confirm;
+  const userId = req.body.userId;
+  const passwordToken = req.body.passwordToken;
+  let resetUser;
+  User.findOne({where:{resetToken:passwordToken,id:userId}})
+  .then(user=>{
+    resetUser = user;
+    if(!newPassword===confirm){
+       req.flash('passwordError','The new password does not match. please enter the same new password as confirm password and try again!');
+      return res.redirect('/newPassword');
+    }else{
+      return bcrypt.hash(newPassword, 12);
+    }
+  }).then(hashedPassword=>{
+    resetUser.password= hashedPassword;
+    resetUser.resetToken= null;
+    resetUser.resetTokenExpiration =null;
+    return resetUser.save();
+
+  }).then(result=>{
+    req.flash('successMessage','You have succesifully changed your password! please click home page link to login ');
+    return res.redirect('/newPassword');
+  })
+  .catch(err=>{console.log(err)})
+  
+}

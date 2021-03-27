@@ -26,5 +26,13 @@ router.get('/admin',controllers.getAdmin);
 
 router.get('/new-user',controllers.getNewUser);
 
+router.get('/reset',controllers.getReset);
+
+router.post('/reset',controllers.postReset);
+
+router.get('/newPassword/:token',controllers.getNewpassword);
+
+router.post('/newPassword',controllers.postNewPassword);
+
 
 module.exports= router;
