@@ -136,17 +136,17 @@ exports.getUnderwriting= (req,res,next)=>{
     res.render('underwriting', {
         pageTitle: 'underwriting',
         path: '/underwriting',
-        isAuthenticated: req.session.isLoggedIn
+        
 })
 };
-exports.getMvdetails= (req,res,next)=>{
-    res.render('mv-details', {
-        pageTitle: 'mv-details',
-        path: '/mv-details',
-        isAuthenticated: req.session.isLoggedIn
-}) 
+// exports.getMvdetails= (req,res,next)=>{
+//     res.render('mv-details', {
+//         pageTitle: 'mv-details',
+//         path: '/mv-details',
+//         isAuthenticated: req.session.isLoggedIn
+// }) 
 
-};
+// };
 
 exports.getNewpolicy= (req,res,next)=>{
     res.render('new-policy', {
