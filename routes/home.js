@@ -30,9 +30,8 @@ router.get('/reset',controllers.getReset);
 
 router.post('/reset',controllers.postReset);
 
-router.get('/newPassword/:token',controllers.getNewpassword);
+router.get('/reset/:token',controllers.getNewpassword);
 
 router.post('/newPassword',controllers.postNewPassword);
-
 
 module.exports= router;

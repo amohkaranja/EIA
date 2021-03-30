@@ -6,17 +6,17 @@ const crypto = require('crypto');
 
 const nodemailer= require('nodemailer');
 
-const transporter =nodemailer.createTransport({
-  service : 'gmail',
-  auth :{
-    user:'amosdkaranja@gmail.com',
-    pass:'0798230245'
-  },
-  tls: {
-    rejectUnauthorized: false
-}
+// const transporter =nodemailer.createTransport({
+//   service : 'gmail',
+//   auth :{
+//     user:'amosdkaranja@gmail.com',
+//     pass:'0798230245'
+//   },
+//   tls: {
+//     rejectUnauthorized: false
+// }
  
-});
+// });
 
 exports.getIndex= (req,res,next) =>{
     res.render('index', {
@@ -36,11 +36,10 @@ exports.getSignup= (req,res,next) =>{
 };
 exports.postCreate=(req,res,next)=>{
     const email = req.body.email;
-  const password = req.body.password;
+  const password = 1234;
   const phoneNumber= req.body.phoneNumber;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
-  // const confirmPassword = req.body.confirmPassword;
   User.findOne({where:{email: email}})
     .then(user => {
       if (user) {
@@ -48,40 +47,19 @@ exports.postCreate=(req,res,next)=>{
         return res.redirect('/new-user');
         
       }
-      return bcrypt
-        .hash(password, 12)
-        .then(hashedPassword => {
-          const user = new User({
-            email: email,
-            password: hashedPassword,
-            phoneNumber:phoneNumber,
-            firstName:firstName,
-            lastName:lastName
-          });
-          return user.save();
-        })
-        .then(result => {
-          res.redirect('/new-user');
-          const mailOptions = {
-            from: 'amosdkaranja@gmail.com',
-            to: email,
-            subject: 'Welcome on board',
-            html: `
-            <p><b>Endeavors Insuarance Agency Welcomes you board!</b></p>
-            <p>Please reset your password, and rememeber to set a strong password Hacking is real!</p>
-            <P> Click this <a href="http://localhost:3000/reset">link</a> to reset Your password </p>
-       `
-          };
-          
-          transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-              console.log(error);
-            } else {
-              console.log('Email sent: ' + info.response);
-            }
-          });
-          
-        });
+     
+    }).then(result=>{
+      const user = new User({
+        email: email,
+        password: password,
+        phoneNumber:phoneNumber,
+        firstName:firstName,
+        lastName:lastName
+      });
+      return user.save();
+
+    }).then(aftersave=>{
+      res.redirect('/new-user');
     })
     .catch(err => {
       console.log(err);
@@ -136,17 +114,17 @@ exports.getUnderwriting= (req,res,next)=>{
     res.render('underwriting', {
         pageTitle: 'underwriting',
         path: '/underwriting',
-        
+        isAuthenticated: req.session.isLoggedIn
 })
 };
-// exports.getMvdetails= (req,res,next)=>{
-//     res.render('mv-details', {
-//         pageTitle: 'mv-details',
-//         path: '/mv-details',
-//         isAuthenticated: req.session.isLoggedIn
-// }) 
+exports.getMvdetails= (req,res,next)=>{
+    res.render('mv-details', {
+        pageTitle: 'mv-details',
+        path: '/mv-details',
+        isAuthenticated: req.session.isLoggedIn
+}) 
 
-// };
+};
 
 exports.getNewpolicy= (req,res,next)=>{
     res.render('new-policy', {
@@ -210,45 +188,27 @@ exports.postReset=(req,res,next)=>{
               return res.redirect('/reset');
             }
             user.resetToken = token;
-            user.resetTokenExpiration = Date.now() + 3600000;
+            user.resetTokenExpiration= Date.now() + 3600000;
             return user.save();
     })
     .then(result=>{
-      const mailOptions = {
-        from: 'amosdkaranja@gmail.com',
-        to: email,
-        subject: 'Reset Password Request',
-        html: `
-             <p> You requested a password reset</p>
-             <P> Click this <a href="http://localhost:3000/newPassword/${token}">link</a> to reset Your password. 
-             This link expires after one hour. </p>
-        `
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
-      req.flash('linkMessage','check your email', email, 'to reset your password');
-      res.redirect('/');
+      res.redirect(`/reset/${token}`);
     })
     .catch(err=>{console.log(err)})
   });
 };
 exports.getNewpassword=(req,res,next)=>{
   const token = req.params.token;
-  User.findOne({where:{resetToken: token,}})
+  User.findOne({where:{resetToken: token}})
   .then(user=>{
+    console.log(user)
     res.render('newPassword', {
-      pageTitle: 'reset Password',
+      pageTitle: 'newPassword',
       path: '/newPassword',
       isAuthenticated: false,
       successMessage: req.flash('successMessage'),
       passwordError:req.flash('passwordError'),
-      userId: user.id.toString(),
+      userId : user._id.toString(),
       passwordToken: token
     })
   })
@@ -257,21 +217,16 @@ exports.getNewpassword=(req,res,next)=>{
     
 };
 exports.postNewPassword=(req,res,next)=>{
-  console.log("i am here what next");
   const newPassword = req.body.password;
-  const confirm =  req.body.confirm;
+  // const confirm =  req.body.confirm;
   const userId = req.body.userId;
   const passwordToken = req.body.passwordToken;
   let resetUser;
-  User.findOne({where:{resetToken:passwordToken,id:userId}})
+  User.findOne({where:{resetToken:passwordToken}})
   .then(user=>{
-    resetUser = user;
-    if(!newPassword===confirm){
-       req.flash('passwordError','The new password does not match. please enter the same new password as confirm password and try again!');
-      return res.redirect('/newPassword');
-    }else{
+      // console.log(user)
+      resetUser = user;
       return bcrypt.hash(newPassword, 12);
-    }
   }).then(hashedPassword=>{
     resetUser.password= hashedPassword;
     resetUser.resetToken= null;
@@ -280,7 +235,7 @@ exports.postNewPassword=(req,res,next)=>{
 
   }).then(result=>{
     req.flash('successMessage','You have succesifully changed your password! please click home page link to login ');
-    return res.redirect('/newPassword');
+    return res.redirect('/');
   })
   .catch(err=>{console.log(err)})
   
