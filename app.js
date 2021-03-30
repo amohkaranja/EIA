@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname,'public')));
 
 
 sequelize
-// .sync({force : true})
+//  .sync({force : true})
 .sync()
 
 .then( callback=>{

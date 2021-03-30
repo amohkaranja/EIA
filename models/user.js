@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 
 const User = sequelize.define('user', {
-  id: {
+  _id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
@@ -31,8 +31,8 @@ const User = sequelize.define('user', {
     allowNull:false
   },
   resetToken:Sequelize.STRING,
-  resetTokenExpiration:Sequelize.TIME
-
+  resetTokenExpiration:Sequelize.DATE
+  
 });
 
 module.exports = User;
