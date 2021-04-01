@@ -39,11 +39,24 @@ app.use(allRoutes);
 
 app.use(express.static(path.join(__dirname,'public')));
 
+app.use((req,res,next)=>{
+    if(!req.session.user){
+        return next()
+    }
+    User.findByPk(req.session.user._id)
+    .then(user=>{
+        req.user = user;
+        next();
+    })
+    .catch(err=>{console.log(err)});
+})
+
 
 
 sequelize
 //  .sync({force : true})
-.sync()
+    .sync({ alter: true })
+// .sync()
 
 .then( callback=>{
     app.listen(3000) 

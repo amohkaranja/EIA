@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <div class="dash-container">
+      <div class="dash-top">
+        <div class="dash-top-right">
+          <img src="./images/avatar.jpg" alt="Profile Image" />
+          <h3>Enzo Wo</h3>
+        </div>
+      </div>
+
+      <div class="dash-main">
+        <div class="dash-main-top">
+          <h2>Manage User Accounts</h2>
+        </div>
+
+        <div class="dash-main-body">
+          <table class="info-list-table">
+            <thead>
+              <tr>
+                <th>First Name.</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Options</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Stephen</td>
+                <td>Muraya</td>
+                <td>gathaiya28@gmail.com</td>
+                <td>0797923201</td>
+                <td class="users">
+                  <a href="/user-profile-view" class="user-option">Edit</a>
+                  <a href="" class="user-option">Delete</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Stephen</td>
+                <td>Muraya</td>
+                <td>gathaiya28@gmail.com</td>
+                <td>0797923201</td>
+                <td class="users">
+                  <a href="user-profile-view.html" class="user-option">Edit</a>
+                  <a href="" class="user-option">Delete</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Stephen</td>
+                <td>Muraya</td>
+                <td>gathaiya28@gmail.com</td>
+                <td>0797923201</td>
+                <td class="users">
+                  <a href="user-profile-view.html" class="user-option">Edit</a>
+                  <a href="" class="user-option">Delete</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Stephen</td>
+                <td>Muraya</td>
+                <td>gathaiya28@gmail.com</td>
+                <td>0797923201</td>
+                <td class="users">
+                  <a href="user-profile-view.html" class="user-option">Edit</a>
+                  <a href="" class="user-option">Delete</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Stephen</td>
+                <td>Muraya</td>
+                <td>gathaiya28@gmail.com</td>
+                <td>0797923201</td>
+                <td class="users">
+                  <a href="/user-profile-view" class="user-option">Edit</a>
+                  <a href="" class="user-option">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="date-time">
+          <%- include ('./includes/date.ejs') %>
+        </div>
+      </div>
+      <%- include ('./includes/sidePane.ejs') %>
+    </div>
+  </body>
+</html>

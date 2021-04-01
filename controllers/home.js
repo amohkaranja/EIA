@@ -5,6 +5,7 @@ const bcrypt= require('bcrypt');
 const crypto = require('crypto');
 
 const nodemailer= require('nodemailer');
+const { reset } = require('nodemon');
 
 // const transporter =nodemailer.createTransport({
 //   service : 'gmail',
@@ -24,7 +25,9 @@ exports.getIndex= (req,res,next) =>{
         path: '/',
         isAuthenticated: false,
         linkMessage: req.flash('linkMessage'),
-        errorMessage: req.flash('error')
+        errorMessage: req.flash('error'),
+        successMessage: req.flash('successMessage'),
+        resetNull: req.flash('resetNull')
 })
 };
 exports.getSignup= (req,res,next) =>{
@@ -36,7 +39,8 @@ exports.getSignup= (req,res,next) =>{
 };
 exports.postCreate=(req,res,next)=>{
     const email = req.body.email;
-  const password = 1234;
+    const endeavor= "1234"
+  const password = endeavor;
   const phoneNumber= req.body.phoneNumber;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
@@ -45,10 +49,9 @@ exports.postCreate=(req,res,next)=>{
       if (user) {
         req.flash('email-error','username or email already exist!');
         return res.redirect('/new-user');
-        
       }
-     
     }).then(result=>{
+
       const user = new User({
         email: email,
         password: password,
@@ -199,14 +202,19 @@ exports.postReset=(req,res,next)=>{
 };
 exports.getNewpassword=(req,res,next)=>{
   const token = req.params.token;
-  User.findOne({where:{resetToken: token}})
+  User.findOne({where:{resetToken: token,}})
   .then(user=>{
-    console.log(user)
+    const resetFlag =user.resetFlag;
+    console.log(resetFlag);
+    if(resetFlag===1){
+      req.flash('resetNull','Contact your admin to get a reset password permission!');
+      return res.redirect('/')
+    }
     res.render('newPassword', {
       pageTitle: 'newPassword',
       path: '/newPassword',
       isAuthenticated: false,
-      successMessage: req.flash('successMessage'),
+      
       passwordError:req.flash('passwordError'),
       userId : user._id.toString(),
       passwordToken: token
@@ -218,25 +226,51 @@ exports.getNewpassword=(req,res,next)=>{
 };
 exports.postNewPassword=(req,res,next)=>{
   const newPassword = req.body.password;
-  // const confirm =  req.body.confirm;
+  const confirm =  req.body.confirm;
   const userId = req.body.userId;
   const passwordToken = req.body.passwordToken;
   let resetUser;
   User.findOne({where:{resetToken:passwordToken}})
-  .then(user=>{
-      // console.log(user)
-      resetUser = user;
-      return bcrypt.hash(newPassword, 12);
+  .then(user => {
+    if (confirm!=newPassword) {
+      req.flash('passwordError','Your passwowrd does not match, refresh and try again');
+       return res.redirect(`/reset/${passwordToken}`)
+      
+    }
+    resetUser = user;
+    return bcrypt.hash(newPassword,12);
   }).then(hashedPassword=>{
     resetUser.password= hashedPassword;
     resetUser.resetToken= null;
     resetUser.resetTokenExpiration =null;
-    return resetUser.save();
-
-  }).then(result=>{
-    req.flash('successMessage','You have succesifully changed your password! please click home page link to login ');
-    return res.redirect('/');
+    resetUser.resetFlag = '1'
+    return resetUser.save()
+  }).then(aftersave=>{
+    req.flash('successMessage','You have succesifully changed your password!');
+    return res.redirect('/')
   })
-  .catch(err=>{console.log(err)})
-  
-}
+  .catch(err => {
+    console.log(err);
+  });
+};
+exports.getUserProfile= (req,res,next) =>{
+  res.render('user-profile-view', {
+      pageTitle: 'user-profile',
+      path: '/user-profile-view',
+      isAuthenticated: req.session.isLoggedIn,
+})
+};
+exports.getManageUsers= (req,res,next) =>{
+  res.render('manage-users', {
+      pageTitle: 'manage-users',
+      path: '/manage-users',
+      isAuthenticated: req.session.isLoggedIn,
+})
+};
+exports.getLogs= (req,res,next) =>{
+  res.render('logs', {
+      pageTitle: 'logs',
+      path: '/logs',
+      isAuthenticated: req.session.isLoggedIn,
+})
+};

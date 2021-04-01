@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <div class="dash-container">
+      <div class="dash-top">
+        <div class="dash-top-right">
+          <img src="/images/avatar.jpg" alt="Profile Image" />
+          <h3>Enzo Wo</h3>
+        </div>
+      </div>
+
+      <div class="dash-main">
+        <div class="dash-main-top">
+          <h2 style="text-align: start; width: 100%">User Profiles</h2>
+        </div>
+
+        <div class="dash-main-body">
+          <div class="user-profile-details">
+            <div class="user-profile-logo">
+              <img src="./images/avatar.jpg" alt="user-profile" />
+            </div>
+            <div class="prof-row">
+              <div class="prof-col">
+                <form action="" class="user-reg-form" method="post">
+                  <div class="user-split-row">
+                    <div class="user-input-group">
+                      <input
+                        type="text"
+                        class="user-reg-input"
+                        placeholder="First name"
+                        value="Stephen"
+                      />
+                    </div>
+                    <div class="user-input-group">
+                      <input
+                        type="text"
+                        class="user-reg-input"
+                        placeholder="Last name"
+                        value="Muraya"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="user-input-group">
+                    <input
+                      type="email"
+                      class="user-reg-input"
+                      placeholder="Email"
+                      value="gathaiya28@gmail.com"
+                    />
+                  </div>
+
+                  <div class="user-input-group">
+                    <input
+                      type="tel"
+                      class="user-reg-input"
+                      placeholder="Phone number"
+                      value="0797923201"
+                    />
+                  </div>
+                  <div class="user-input-group">
+                    <select
+                      name=""
+                      id=""
+                      class="user-reg-input"
+                      style="padding: 0 0 0 1rem"
+                    >
+                      <option value="">Select user priviledge level</option>
+                      <option value="">Low Level</option>
+                      <option value="" selected>Middle Level</option>
+                      <option value="">High Level</option>
+                    </select>
+                  </div>
+                  <div class="btn-holder">
+                    <button class="create-btn">Update Details</button>
+                  </div>
+                </form>
+              </div>
+              <div class="prof-col">
+                <h3>Management Options</h3>
+                <button class="btn prof-options">Reset Password</button>
+                <button class="btn prof-options">Delete Account</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="date-time">
+          <%- include ('./includes/date.ejs') %>
+        </div>
+      </div>
+      <%- include ('./includes/sidePane.ejs') %>
+    </div>
+  </body>
+</html>

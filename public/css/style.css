@@ -169,7 +169,12 @@
   text-decoration: none;
   display: flex;
   align-items: center;
+  cursor: pointer;
   font-size: 13px;
+}
+
+.btn.login {
+  padding: 0.5rem 2rem;
 }
 
 .btn.search {
@@ -395,16 +400,77 @@
   text-align: center;
 }
 
+.info-list-table.users td {
+  border: 1px solid #cfcfcf;
+  padding: 0px;
+  text-align: center;
+}
+td.users {
+  text-align: start !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #cfcfcf;
+  background-color: #cfcfcf;
+  padding: 2px !important;
+}
 .info-list-table tbody tr {
   cursor: pointer;
 }
-
+.info-list-table.users tbody tr {
+  cursor: auto;
+}
 .info-list-table tr:hover {
   background-color: rgb(238, 238, 238);
 }
 
 .info-list-table tr:nth-child(even) {
   background-color: #ddd;
+}
+
+.user-option {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  color: #469252;
+  padding: 9px;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  transition: all 400ms ease-in-out;
+  outline: 1px solid #fff;
+  position: relative;
+  border-right: 1px solid #cfcfcf;
+}
+
+.user-option:hover {
+  outline-offset: -6px;
+  animation: outlineAnim 600ms normal;
+  background-color: #469252;
+  color: #fff;
+  transition: all 100ms ease-in-out;
+}
+
+@keyframes outlineAnim {
+  0% {
+    outline-offset: 0px;
+  }
+  50% {
+    outline-offset: -12px;
+  }
+  100% {
+    outline-offset: -6px;
+  }
+}
+
+.user-option:nth-child(2) {
+  color: var(--main-accent-color);
+  background-color: #fff;
+}
+.user-option:nth-child(2):hover {
+  color: #fff;
+  background-color: var(--main-accent-color);
 }
 
 .view-more-link {
@@ -572,11 +638,12 @@
   background-color: var(--main-accent-color);
   color: #fff;
   cursor: pointer;
-  transition: transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out, background-color 400ms;
 }
 
 .btn-holder .create-btn:hover {
   transform: scale(1.05);
+  background-color: #cc1313;
 }
 
 .btn-holder:hover::before {
@@ -603,7 +670,125 @@
   }
 }
 
+@keyframes Pulse-img {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
 .account-title,
 .account-desc {
   padding: 0 1rem;
+}
+
+.pass-red {
+  background-color: #ad3f3f;
+  color: #fff;
+}
+
+.pass-green {
+  background-color: #529e5f;
+  color: #fff;
+}
+
+.pass-red::placeholder {
+  color: #fff;
+  opacity: 1;
+}
+
+.pass-green::placeholder {
+  color: #fff;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: #fff;
+}
+
+::-ms-input-placeholder {
+  color: #fff;
+}
+.user-profile-details {
+  width: 100%;
+}
+.prof-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: 2rem 0;
+}
+.user-profile-logo {
+  max-width: 150px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.user-profile-logo::after {
+  background-color: #cc1313;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 50%;
+  transform: scale(0.9);
+  z-index: -1;
+  /* animation: Pulse-img 1500ms infinite; */
+}
+.prof-col {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  padding: 0 1rem;
+  flex-direction: column;
+}
+.user-profile-logo img {
+  max-width: 150px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: all 500ms ease-in-out;
+}
+.user-profile-logo img:hover {
+  transform: scale(1.15);
+  transition: all 300ms ease-in-out;
+}
+.prof-options {
+  max-width: 200px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 0;
+  color: var(--main-accent-color);
+  outline: 1px solid var(--main-accent-color);
+  outline-offset: -1px;
+  border: 1px solid var(--main-accent-color);
+  background-color: #fff;
+  transition: all 500ms ease-in-out;
+}
+.prof-options:nth-child(2) {
+  color: #529e5f;
+  border: 1px solid #529e5f;
+  outline: 1px solid #529e5f;
+}
+.prof-options:nth-child(2):hover {
+  background-color: #529e5f;
+}
+.prof-options:hover {
+  outline: 1px solid #fff;
+  outline-offset: -10px;
+  transition: all 250ms ease-in-out;
+  background-color: #aa2424;
+  color: #fff;
 }
