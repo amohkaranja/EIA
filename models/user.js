@@ -31,7 +31,12 @@ const User = sequelize.define('user', {
     allowNull:false
   },
   resetToken:Sequelize.STRING,
-  resetTokenExpiration:Sequelize.DATE
+  resetTokenExpiration:Sequelize.DATE,
+  resetFlag:{
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  }
   
 });
 

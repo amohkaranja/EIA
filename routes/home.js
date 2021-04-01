@@ -34,4 +34,9 @@ router.get('/reset/:token',controllers.getNewpassword);
 
 router.post('/newPassword',controllers.postNewPassword);
 
+router.get('/user-profile-view',controllers.getUserProfile);
+
+router.get('/manage-users',controllers.getManageUsers);
+
+router.get('/logs',controllers.getLogs);
 module.exports= router;
