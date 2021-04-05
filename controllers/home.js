@@ -371,7 +371,6 @@ exports.getLogs= (req,res,next) =>{
         userName = user.firstName
       })
     }
-    console.log(userName)
     res.render('logs', {
       logs: logs,
       userName:userName,
