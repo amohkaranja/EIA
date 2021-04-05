@@ -31,50 +31,59 @@
         <div class="dash-main-body">
           <div class="user-profile-details">
             <div class="user-profile-logo">
-              <img src="./images/avatar.jpg" alt="user-profile" />
+              <img src="/images/avatar.jpg" alt="user-profile" />
             </div>
             <div class="prof-row">
               <div class="prof-col">
-                <form action="" class="user-reg-form" method="post">
+                <form action="/user-profile-view" class="user-reg-form" method="post">
                   <div class="user-split-row">
                     <div class="user-input-group">
                       <input
                         type="text"
+                        disabled
                         class="user-reg-input"
                         placeholder="First name"
-                        value="Stephen"
+                        name="firstName"
+                        value="<%= user.firstName %>"
                       />
                     </div>
                     <div class="user-input-group">
                       <input
+                      disabled
                         type="text"
                         class="user-reg-input"
-                        placeholder="Last name"
-                        value="Muraya"
+                        placeholder="last Name"
+                        name="lastName"
+                        value="<%= user.lastName %>"
                       />
                     </div>
                   </div>
 
                   <div class="user-input-group">
                     <input
+                    disabled
+                    disabled
                       type="email"
                       class="user-reg-input"
                       placeholder="Email"
-                      value="gathaiya28@gmail.com"
+                      name="email"
+                      value="<%= user.email %>"
                     />
                   </div>
 
                   <div class="user-input-group">
                     <input
+                    disabled
                       type="tel"
                       class="user-reg-input"
-                      placeholder="Phone number"
+                      placeholder="<%= user.phoneNumber %>"
+                      name="phoneNumber"
                       value="0797923201"
                     />
                   </div>
                   <div class="user-input-group">
                     <select
-                      name=""
+                      name="userLevel"
                       id=""
                       class="user-reg-input"
                       style="padding: 0 0 0 1rem"
@@ -88,17 +97,34 @@
                   <div class="btn-holder">
                     <button class="create-btn">Update Details</button>
                   </div>
+                  <input type="hidden" value="<%= user._id %>" name="userId">
                 </form>
               </div>
               <div class="prof-col">
                 <h3>Management Options</h3>
-                <button class="btn prof-options">Reset Password</button>
-                <button class="btn prof-options">Delete Account</button>
+                <form action="/reset-flag" method="POST">
+                  <input type="hidden" value="<%= user._id %>" name="userId">
+                  <button class="btn prof-options"> Reset Password </button>
+              </form>
+                
+                <form action="/delete-user" method="POST">
+                  <input type="hidden" value="<%= user._id %>" name="userId">
+                  <button class="btn prof-options">Delete Account</button> 
+              </form>
+                <% if (updateSuccess) {%>
+                  <h3> <%= updateSuccess%></h3> 
+                   
+              <%}%>
+              <% if (resetSuccess) {%>
+                <h3> <%= resetSuccess%></h3> 
+                 
+            <%}%>
               </div>
             </div>
           </div>
         </div>
-
+        
+        
         <div class="date-time">
           <%- include ('./includes/date.ejs') %>
         </div>

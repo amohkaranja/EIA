@@ -92,8 +92,8 @@
                     <td><%= user.email %></td>
                     <td><%= user.phoneNumber %></td>
                     <td class="users">
-                      <a href="/user-profile-view" class="user-option">Edit</a>
-                      <a href="" class="user-option">Delete</a>
+                      <a href="/user-profile-view/<%= user._id%>" class="user-option">Edit</a>
+                      <!-- <a href="" class="user-option">Delete</a> -->
                     </td>
                   </tr>
                   <% } %>

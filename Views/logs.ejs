@@ -47,48 +47,20 @@
             </thead>
 
             <tbody>
+           
+            <% if(logs.length > 0) { %> 
+              <% for(let log of logs) { %>
               <tr onclick="document.location=''">
-                <td>Login</td>
-                <td>30-Mar-2021</td>
-                <td>13:50</td>
-                <td>Stephen Muraya</td>
+                <td><%=log.task %></td>
+                <td><%=log.date %></td>
+                <td><%=log.time %></td>
+                <td><%=userName %></td>
               </tr>
-              <tr onclick="document.location=''">
-                <td>Update Vehicle Details</td>
-                <td>30-Mar-2021</td>
-                <td>13:50</td>
-                <td>Stanslous Wanjala</td>
-              </tr>
-              <tr onclick="document.location=''">
-                <td>View Client Details</td>
-                <td>30-Mar-2021</td>
-                <td>13:50</td>
-                <td>Moses Muguthu</td>
-              </tr>
-              <tr onclick="document.location=''">
-                <td>Login</td>
-                <td>30-Mar-2021</td>
-                <td>13:50</td>
-                <td>Kennedy Kamau</td>
-              </tr>
-              <tr onclick="document.location=''">
-                <td>Change Password</td>
-                <td>30-Mar-2021</td>
-                <td>13:50</td>
-                <td>Edward Marenya</td>
-              </tr>
-              <tr onclick="document.location=''">
-                <td>Updated Claims</td>
-                <td>30-Mar-2021</td>
-                <td>13:50</td>
-                <td>Enzo Wo</td>
-              </tr>
-              <tr onclick="document.location=''">
-                <td>Created new Policy</td>
-                <td>30-Mar-2021</td>
-                <td>13:50</td>
-                <td>Amos Ngigi</td>
-              </tr>
+              <% } %>
+              <% } else { %>
+                <h2>nothing to display</h2>
+            <% } %>
+              
             </tbody>
           </table>
         </div>

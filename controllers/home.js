@@ -1,11 +1,14 @@
 const User = require('../models/user');
 
+const Logs = require('../models/logs');
+
 const bcrypt= require('bcrypt');
 
 const crypto = require('crypto');
 
 const nodemailer= require('nodemailer');
-const { reset } = require('nodemon');
+
+
 
 // const transporter =nodemailer.createTransport({
 //   service : 'gmail',
@@ -85,7 +88,13 @@ exports.postLogin = (req,res,next)=>{
               req.session.user = user;
               return req.session.save(err => {
                 console.log(err);
+                const log= new Logs({
+                  task: "loggin",
+                  userId: user._id
+                });
+                    log.save();
                 res.redirect('/dashboard');
+               
               });
             }
             req.flash('error','Invalid email or Password!');
@@ -102,7 +111,12 @@ exports.getDashboard=(req,res,next)=>{
   const email = req.params.email
   User.findByPk(email)
   .then(user=>{
-    console.log(email)
+    console.log(user);
+    // const log= new Logs({
+    //   task: "dashboardlevel",
+    //   userId: user._id
+    // });
+    //     log.save();
       res.render('dashboard', {
         user:user,
         pageTitle: 'dashboard',
@@ -192,6 +206,11 @@ exports.postReset=(req,res,next)=>{
             }
             user.resetToken = token;
             user.resetTokenExpiration= Date.now() + 3600000;
+            const log= new Logs({
+              task: "reset",
+              userId: user._id
+            });
+                log.save();
             return user.save();
     })
     .then(result=>{
@@ -254,23 +273,114 @@ exports.postNewPassword=(req,res,next)=>{
   });
 };
 exports.getUserProfile= (req,res,next) =>{
-  res.render('user-profile-view', {
-      pageTitle: 'user-profile',
-      path: '/user-profile-view',
-      isAuthenticated: req.session.isLoggedIn,
-})
+
+const userId = req.params.userId;
+const log= new Logs({
+  task: "new user",
+  userId: userId
+});
+    log.save();
+User.findByPk(userId)
+.then(user=>{
+        if(!user){
+
+          req.flash('fetchError','Unable to get user!');
+          return res.redirect('/manage-users')
+        }
+        res.render('user-profile-view',{
+            pageTitle: 'user-profile',
+            path:'/user-profile-view',
+            user: user,
+            updateSuccess: req.flash('updateSuccess'),
+            resetSuccess: req.flash('resetSuccess'),
+            isAuthenticated: req.session.isLoggedIn
+        });
+    }
+).catch(err=> console.log(err));
+
 };
 exports.getManageUsers= (req,res,next) =>{
-  res.render('manage-users', {
+  User.findAll()
+  .then(users=>{
+    res.render('manage-users', {
+      users: users,
       pageTitle: 'manage-users',
       path: '/manage-users',
+      fetchError: req.flash('fetchError'),
       isAuthenticated: req.session.isLoggedIn,
 })
+}).catch(err=>{console.log(err)});
+
+};
+
+exports.postEditUser=(req,res,next)=>{
+  const userId = req.body.userId;
+    const updatedFirstName = req.body.firstName;
+    const updatedLastName = req.body.lastName;
+    const updatedEmail = req.body.email;
+    const updatedPhoneNumber =  req.body.phoneNumber;
+    const updatedUserLevel = req.body.userLevel;
+   User.findByPk(userId).then(
+       user=>{
+           user.firstName= updatedFirstName;
+           user.lastName= updatedLastName;
+           user.email= updatedEmail;
+           user.phoneNumber= updatedPhoneNumber;
+           user.userLevel = updatedUserLevel;
+           return user.save();
+       })
+       .then( result=>{
+        req.flash('updateSuccess','You succesifully updated', updatedFirstName, updatedLastName);
+        res.redirect(`/user-profile-view/${userId}`)
+       })
+       .catch(err=>console.log(err));
+
+};
+exports.postDeleteUser = (req, res, next) => {
+  const userId = req.body.userId;
+  User.findByPk(userId)
+    .then(user => {
+      
+      return user.destroy();
+    })
+    .then(result => {
+      res.redirect('/manage-users');
+    })
+    .catch(err => console.log(err));
+};
+exports.postResetFlag=(req,res,next)=>{
+  const userId = req.body.userId;
+  User.findByPk(userId)
+  .then(user=>{
+     user.resetFlag = 0;
+     return user.save()
+  }).then(result=>{
+    req.flash('resetSuccess','Reset succesifully done!');
+    res.redirect(`/user-profile-view/${userId}`)
+  })
+  .catch(err=>console.log(err))
+
 };
 exports.getLogs= (req,res,next) =>{
-  res.render('logs', {
+  var userName = []
+  Logs.findAll({include:User})
+  .then(logs=>{
+    for (let i =0; i < logs.length; i++){
+      User.findOne({where:{_id: logs[i].userId}})
+      .then(user=>{
+        userName = user.firstName
+      })
+    }
+    console.log(userName)
+    res.render('logs', {
+      logs: logs,
+      userName:userName,
       pageTitle: 'logs',
       path: '/logs',
-      isAuthenticated: req.session.isLoggedIn,
-})
+      fetchError: req.flash('fetchError'),
+      isAuthenticated: req.session.isLoggedIn
+    })
+ 
+}).catch(err=>{console.log(err)});
+
 };

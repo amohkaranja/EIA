@@ -1,4 +1,4 @@
-const { DATE } = require('sequelize');
+
 const Sequelize = require('sequelize');
 
 const sequelize = require('../util/database');
@@ -36,8 +36,12 @@ const User = sequelize.define('user', {
     type: Sequelize.INTEGER,
     allowNull: false,
     defaultValue: 0
-  }
-  
+  },
+  userLevel:{
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: "High level"
+  },
 });
 
 module.exports = User;
