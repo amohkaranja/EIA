@@ -12,6 +12,9 @@ const nodemailer = require('nodemailer');
 
 const User = require('./models/user');
 
+const Logs = require('./models/logs')
+
+
 const sequelize = require('./util/database');
 
 const  SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -51,7 +54,8 @@ app.use((req,res,next)=>{
     .catch(err=>{console.log(err)});
 })
 
-
+Logs.belongsTo(User,{constraints: true, onDelete:'CASCADE'});
+User.hasMany(Logs);
 
 sequelize
 //  .sync({force : true})

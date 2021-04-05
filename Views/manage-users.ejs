@@ -41,60 +41,34 @@
             </thead>
 
             <tbody>
-              <tr>
-                <td>Stephen</td>
-                <td>Muraya</td>
-                <td>gathaiya28@gmail.com</td>
-                <td>0797923201</td>
-                <td class="users">
-                  <a href="/user-profile-view" class="user-option">Edit</a>
-                  <a href="" class="user-option">Delete</a>
-                </td>
-              </tr>
-              <tr>
-                <td>Stephen</td>
-                <td>Muraya</td>
-                <td>gathaiya28@gmail.com</td>
-                <td>0797923201</td>
-                <td class="users">
-                  <a href="user-profile-view.html" class="user-option">Edit</a>
-                  <a href="" class="user-option">Delete</a>
-                </td>
-              </tr>
-              <tr>
-                <td>Stephen</td>
-                <td>Muraya</td>
-                <td>gathaiya28@gmail.com</td>
-                <td>0797923201</td>
-                <td class="users">
-                  <a href="user-profile-view.html" class="user-option">Edit</a>
-                  <a href="" class="user-option">Delete</a>
-                </td>
-              </tr>
-              <tr>
-                <td>Stephen</td>
-                <td>Muraya</td>
-                <td>gathaiya28@gmail.com</td>
-                <td>0797923201</td>
-                <td class="users">
-                  <a href="user-profile-view.html" class="user-option">Edit</a>
-                  <a href="" class="user-option">Delete</a>
-                </td>
-              </tr>
-              <tr>
-                <td>Stephen</td>
-                <td>Muraya</td>
-                <td>gathaiya28@gmail.com</td>
-                <td>0797923201</td>
-                <td class="users">
-                  <a href="/user-profile-view" class="user-option">Edit</a>
-                  <a href="" class="user-option">Delete</a>
-                </td>
-              </tr>
+              <% if(users.length > 0) { %> 
+                <% for(let user of users) { %>
+                <tr>
+                  <td><%= user.firstName %></td>
+                  <td><%= user.lastName %></td>
+                  <td><%= user.email %></td>
+                  <td><%= user.phoneNumber %></td>
+                  <td class="users">
+                    <a href="/user-profile-view/<%= user._id%>" class="user-option">Edit</a>
+                    <form action="/delete-user" method="POST">
+                      <input type="hidden" value="<%= user._id %>" name="userId">
+                      <button class="user-option">Delete Account</button> 
+                  </form>
+                    <!-- <a href="" class="user-option" >Delete</a> -->
+                  </td>
+                </tr>
+                <% } %>
+            <% } else { %>
+              <h2>nothing to displayh2>
+            <% } %>
+                                  
             </tbody>
           </table>
         </div>
-
+        <% if (fetchError) {%>
+          <h3> <%= fetchError%></h3> 
+           
+      <%}%>
         <div class="date-time">
           <%- include ('./includes/date.ejs') %>
         </div>
