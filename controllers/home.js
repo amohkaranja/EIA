@@ -362,18 +362,11 @@ exports.postResetFlag=(req,res,next)=>{
 
 };
 exports.getLogs= (req,res,next) =>{
-  var userName = []
-  Logs.findAll({include:User})
+  Logs.findAll({include:[{model:User}]})
   .then(logs=>{
-    for (let i =0; i < logs.length; i++){
-      User.findOne({where:{_id: logs[i].userId}})
-      .then(user=>{
-        userName = user.firstName
-      })
-    }
+    
     res.render('logs', {
       logs: logs,
-      userName:userName,
       pageTitle: 'logs',
       path: '/logs',
       fetchError: req.flash('fetchError'),
