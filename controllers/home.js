@@ -110,10 +110,8 @@ exports.postLogin = (req,res,next)=>{
 };
 exports.getDashboard=(req,res,next)=>{
   const email = req.params.email
-  console.log(email);
   User.findByPk(email)
   .then(user=>{
-
     // const log= new Logs({
     //   task: "dashboardlevel",
     //   userId: user._id
