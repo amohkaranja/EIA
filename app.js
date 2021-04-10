@@ -12,14 +12,39 @@ const nodemailer = require('nodemailer');
 
 const User = require('./models/user');
 
-const Logs = require('./models/logs')
+const Logs = require('./models/logs');
+
+const multer =  require('multer')
 
 
 const sequelize = require('./util/database');
 
 const  SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-const allRoutes= require('./routes/home')
+const homeRoutes= require('./routes/home')
+
+const clientRoutes= require('./routes/client');
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'images');
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.filename + '-' + file.originalname);
+    }
+  });
+  
+  const fileFilter = (req, file, cb) => {
+    if (
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg'
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  };
 
 const app = express();
 
@@ -28,6 +53,9 @@ app.set('view engine','ejs');
 app.set('views','views');
 
 app.use(bodyParser.urlencoded({extended:false}));
+
+app.use(multer({storage:fileStorage,fileFilter:fileFilter }).single('kraCert'));
+
 app.use(session({
     secret: 'endeavors',
      resave: false, 
@@ -38,9 +66,12 @@ app.use(session({
     }));
 app.use(flash());
 
-app.use(allRoutes);
+app.use(homeRoutes);
+
+app.use(clientRoutes);
 
 app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'images')));
 
 app.use((req,res,next)=>{
     if(!req.session.user){

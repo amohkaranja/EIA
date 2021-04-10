@@ -89,10 +89,11 @@ exports.postLogin = (req,res,next)=>{
               return req.session.save(err => {
                 console.log(err);
                 const log= new Logs({
-                  task: "loggin",
+                  task: "logged in",
                   userId: user._id
-                });
+                })
                     log.save();
+                  
                 res.redirect('/dashboard');
                
               });
@@ -109,9 +110,10 @@ exports.postLogin = (req,res,next)=>{
 };
 exports.getDashboard=(req,res,next)=>{
   const email = req.params.email
+  console.log(email);
   User.findByPk(email)
   .then(user=>{
-    console.log(user);
+
     // const log= new Logs({
     //   task: "dashboardlevel",
     //   userId: user._id
@@ -206,11 +208,7 @@ exports.postReset=(req,res,next)=>{
             }
             user.resetToken = token;
             user.resetTokenExpiration= Date.now() + 3600000;
-            const log= new Logs({
-              task: "reset",
-              userId: user._id
-            });
-                log.save();
+            
             return user.save();
     })
     .then(result=>{
