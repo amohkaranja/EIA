@@ -23,6 +23,7 @@ const nodemailer= require('nodemailer');
 // });
 
 exports.getIndex= (req,res,next) =>{
+  
     res.render('index', {
         pageTitle: 'home',
         path: '/',
@@ -74,6 +75,7 @@ exports.postCreate=(req,res,next)=>{
 exports.postLogin = (req,res,next)=>{
     const email = req.body.email;
     const password = req.body.password;
+    console.log(email);
     User.findOne({where:{ email: email }})
       .then(user => {
         if (!user) {
@@ -88,9 +90,20 @@ exports.postLogin = (req,res,next)=>{
               req.session.user = user;
               return req.session.save(err => {
                 console.log(err);
+                let today = new Date()
+                let month = today.getMonth() + 1;
+                let date= today.getDate();
+                let year = today.getFullYear();
+                let hour = today.getHours();
+                let min = today.getMinutes();
+                let secs = today.getSeconds();
+                const current_date = `${date}/${month}/${year}`;
+                const current_time = `${hour}:${min}:${secs}`;
                 const log= new Logs({
                   task: "logged in",
-                  userId: user._id
+                  userId: user._id,
+                  time:current_time,
+                  date:current_date
                 })
                     log.save();
                   
@@ -109,23 +122,36 @@ exports.postLogin = (req,res,next)=>{
       .catch(err => console.log(err)); 
 };
 exports.getDashboard=(req,res,next)=>{
-  const email = req.params.email
+  const user = req.user;
+  let today = new Date()
+        let month = today.getMonth() + 1;
+        let date= today.getDate();
+        let year = today.getFullYear();
+        let hour = today.getHours();
+        let min = today.getMinutes();
+        let secs = today.getSeconds();
+        const current_date = `${date}/${month}/${year}`;
+        const current_time = `${hour}:${min}:${secs}`;
+
+  const log= new Logs({
+      task: "dashboardlevel",
+      userId: user._id,
+      time: current_time,
+      date:current_date
+    });
+        log.save();
+  const email = req.params.email;
   User.findByPk(email)
   .then(user=>{
-    // const log= new Logs({
-    //   task: "dashboardlevel",
-    //   userId: user._id
-    // });
-    //     log.save();
       res.render('dashboard', {
         user:user,
         pageTitle: 'dashboard',
         path: '/dashboard',
         isAuthenticated: req.session.isLoggedIn
   }
-  ).catch(err=>{console.log(err)});
+  )
     
-})
+}).catch(err=>{console.log(err)})
 };
 exports.getUnderwriting= (req,res,next)=>{
     res.render('underwriting', {
@@ -153,6 +179,23 @@ exports.getNewpolicy= (req,res,next)=>{
 };
 
 exports.postLogout =(req,res,next)=>{ 
+  const user = req.user;
+  let today = new Date()
+  let month = today.getMonth() + 1;
+  let date= today.getDate();
+  let year = today.getFullYear();
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  let secs = today.getSeconds();
+  const current_date = `${date}/${month}/${year}`;
+  const current_time = `${hour}:${min}:${secs}`;
+  const log= new Logs({
+      task: "logged out",
+      userId: user._id,
+      time: current_time,
+      date:current_date
+    });
+        log.save();
     req.session.destroy((err)=>{
         console.log(err);
         res.redirect('/');
@@ -207,6 +250,11 @@ exports.postReset=(req,res,next)=>{
             user.resetToken = token;
             user.resetTokenExpiration= Date.now() + 3600000;
             
+            const log= new Logs({
+              task: "reset",
+              userId: user._id
+            });
+                log.save();
             return user.save();
     })
     .then(result=>{
@@ -271,11 +319,11 @@ exports.postNewPassword=(req,res,next)=>{
 exports.getUserProfile= (req,res,next) =>{
 
 const userId = req.params.userId;
-const log= new Logs({
-  task: "new user",
-  userId: userId
-});
-    log.save();
+// const log= new Logs({
+//   task: "new user",
+//   userId: userId
+// });
+    // log.save();
 User.findByPk(userId)
 .then(user=>{
         if(!user){
@@ -358,6 +406,7 @@ exports.postResetFlag=(req,res,next)=>{
 
 };
 exports.getLogs= (req,res,next) =>{
+
   Logs.findAll({include:[{model:User}]})
   .then(logs=>{
     

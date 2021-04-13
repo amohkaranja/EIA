@@ -1,75 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;1,700&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css" />
     <title><%= pageTitle %></title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="dash-container">
-        <div class="dash-top">
-            <div class="dash-top-right">
-                <img src="/images/avatar.jpg" alt="Profile Image">
-                <h3>Enzo Wo</h3>
-            </div>
+      <div class="dash-top">
+        <div class="dash-top-right">
+          <img src="/images/avatar.jpg" alt="Profile Image" />
+          <h3>Enzo Wo</h3>
         </div>
+      </div>
 
-        <div class="dash-main">
-            <div class="dash-main-top">
-                <div class="form-action-flexed">
-                    <!-- <input type="text" class="input-space-search" placeholder="Enter detail to search">
+      <div class="dash-main">
+        <div class="dash-main-top">
+          <div class="form-action-flexed">
+            <!-- <input type="text" class="input-space-search" placeholder="Enter detail to search">
                     <button class="btn search">SEARCH</button> -->
-                </div>
-            </div>
-
-            <div class="dash-main-body">
-                <h3>Admin Tasks</h3>
-
-                <div class="admin-panel">
-                    <a href="/new-user">
-                        <div class="admin-card-options">
-                            <h2>01</h2>
-                            <h3>New User</h3>
-                            <p>Create a new user account for the system</p>
-                        </div>
-                    </a>
-                    <a href="/logs">
-                        <div class="admin-card-options">
-                            <h2>02</h2>
-                            <h3>View System Logs</h3>
-                            <p>See changes made in the system with in-detail data</p>
-                        </div>
-                    </a>
-                    <a href="/manage-users">
-                        <div class="admin-card-options">
-                            <h2>03</h2>
-                            <h3>Manage Users</h3>
-                            <p>Change users information, privilleges and rights</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="date-time">
-                <%- include ('./includes/date.ejs') %>
-            </div>
+          </div>
         </div>
-        <%- include ('./includes/sidePane.ejs') %>
+
+        <div class="dash-main-body">
+          <h3>Admin Tasks</h3>
+
+          <div class="admin-panel">
+            <a href="/new-user">
+              <div class="admin-card-options">
+                <h2>01</h2>
+                <h3>New User</h3>
+                <p>Create a new user account for the system</p>
+              </div>
+            </a>
+            <a href="/logs">
+              <div class="admin-card-options">
+                <h2>02</h2>
+                <h3>View System Logs</h3>
+                <p>See changes made in the system with in-detail data</p>
+              </div>
+            </a>
+            <a href="/manage-users">
+              <div class="admin-card-options">
+                <h2>03</h2>
+                <h3>Manage Users</h3>
+                <p>Change users information, privilleges and rights</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="date-time">
+          <%- include ('./includes/date.ejs') %>
+        </div>
+      </div>
+  <%- include ('./includes/sidePane.ejs') %>
     </div>
-    <script type="text/javascript" src="/js/vanilla-tilt.js"></script>
+    <script type="text/javascript" src="vanilla-tilt.js"></script>
     <script type="text/javascript">
-        VanillaTilt.init(document.querySelectorAll(".admin-card-options"), {
-            max: 10,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.4
-        });
+      VanillaTilt.init(document.querySelectorAll(".admin-card-options"), {
+        max: 10,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.4,
+      });
     </script>
-</body>
+  </body>
 </html>

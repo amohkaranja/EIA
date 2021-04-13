@@ -12,9 +12,8 @@ const nodemailer = require('nodemailer');
 
 const User = require('./models/user');
 
-const Logs = require('./models/logs');
-
 const multer =  require('multer')
+const Logs = require('./models/logs')
 
 
 const sequelize = require('./util/database');
@@ -65,6 +64,17 @@ app.use(session({
      proxy:true
     }));
 app.use(flash());
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+  User.findByPk(req.session.user._id)
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+});
 
 app.use(homeRoutes);
 

@@ -52,8 +52,8 @@
               <% for(let log of logs) { %>
               <tr onclick="document.location=''">
                 <td><%=log.task %></td>
-                <td><%=log.createdAt %></td>
-                <td><%=log.updatedAt %></td>
+                <td><%=log.date %></td>
+                <td><%=log.time %></td>
                 <td><%=log.user.firstName%>  <%=log.user.lastName%></td>
               </tr>
               <% } %>
