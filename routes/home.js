@@ -1,7 +1,9 @@
 const express = require ('express');
 
-const controllers = require('../controllers/home')
-const controller = require('../controllers/logs')
+const {check} = require('express-validator/check')
+
+const controllers = require('../controllers/home');
+const controller = require('../controllers/logs');
 
 const router = express.Router();
 
@@ -21,7 +23,7 @@ router.get("/underwriting",controllers.getUnderwriting);
 
 router.get('/new-policy',controllers.getNewpolicy);
 
-router.post('/create',controllers.postCreate);
+router.post('/create', check('email').isEmail(),controllers.postCreate);
 
 router.get('/admin',controllers.getAdmin);
 

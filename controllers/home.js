@@ -8,6 +8,8 @@ const crypto = require('crypto');
 
 const nodemailer= require('nodemailer');
 
+const {validationResult}= require('express-validator/check')
+
 
 
 // const transporter =nodemailer.createTransport({
@@ -44,21 +46,34 @@ exports.getSignup= (req,res,next) =>{
 exports.postCreate=(req,res,next)=>{
     const email = req.body.email;
     const endeavor= "1234"
-  const password = endeavor;
+  const password = endeavor.toString();
   const phoneNumber= req.body.phoneNumber;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
+  const error = validationResult(req);
+  if(!error.isEmpty){
+    return res.status(422).render(
+      res.render('new-user', {
+        users: users,
+        pageTitle: 'new-user',
+        path: '/new-user',
+        isAuthenticated: req.session.isLoggedIn,
+        errorMessage: req.flash('email-error')
+    })
+    )
+  }
   User.findOne({where:{email: email}})
     .then(user => {
       if (user) {
         req.flash('email-error','username or email already exist!');
         return res.redirect('/new-user');
       }
-    }).then(result=>{
+    return bcrypt.hash(password,12);
+    }).then(hashedPassword=>{
 
       const user = new User({
         email: email,
-        password: password,
+        password: hashedPassword,
         phoneNumber:phoneNumber,
         firstName:firstName,
         lastName:lastName
@@ -97,13 +112,15 @@ exports.postLogin = (req,res,next)=>{
                 let hour = today.getHours();
                 let min = today.getMinutes();
                 let secs = today.getSeconds();
-                const current_date = `${date}/${month}/${year}`;
+                const current_date = `${month}/${date}/${year}`;
                 const current_time = `${hour}:${min}:${secs}`;
+                console.log(current_date);
                 const log= new Logs({
                   task: "logged in",
                   userId: user._id,
-                  time:current_time,
-                  date:current_date
+                  date:current_date,
+                  time:current_time
+                  
                 })
                     log.save();
                   
@@ -130,7 +147,7 @@ exports.getDashboard=(req,res,next)=>{
         let hour = today.getHours();
         let min = today.getMinutes();
         let secs = today.getSeconds();
-        const current_date = `${date}/${month}/${year}`;
+        const current_date = `${month}/${date}/${year}`;
         const current_time = `${hour}:${min}:${secs}`;
 
   const log= new Logs({
@@ -187,7 +204,7 @@ exports.postLogout =(req,res,next)=>{
   let hour = today.getHours();
   let min = today.getMinutes();
   let secs = today.getSeconds();
-  const current_date = `${date}/${month}/${year}`;
+  const current_date = `${month}/${date}/${year}`;
   const current_time = `${hour}:${min}:${secs}`;
   const log= new Logs({
       task: "logged out",
@@ -211,7 +228,7 @@ exports.getAdmin = (req,res,next) =>{
 })
 };
 exports.getNewUser = (req,res,next) =>{
-  User.findAll()
+  User.findAll({limit:3,order: [ [ 'createdAt', 'DESC' ]]})
   .then(users=>{
     res.render('new-user', {
       users: users,

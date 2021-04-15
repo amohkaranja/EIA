@@ -16,14 +16,14 @@ const Log = sequelize.define('logs', {
   },
   time:{
     type:Sequelize.TIME,
-    allowNull:true,
+    allowNull:false,
     // set(valueToBeSet){
     //   this.setDataValue('time',valueToBeSet)
     // }
   },
   date:{
-    type:Sequelize.DATEONLY(),
-    allowNull:true,
+    type:Sequelize.DATEONLY,
+    allowNull:false,
     // set(valueToBeSet){
     //   this.setDataValue('data',valueToBeSet)
     // }
