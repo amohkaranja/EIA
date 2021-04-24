@@ -1,7 +1,10 @@
 const Client = require('../models/client');
 
 exports.getNewClient= (req,res,next) =>{
+  const user = req.user;
+const userName =  "Hello"+ " "  + user.firstName +"!";
     res.render('new-client', {
+      userName:userName,
         pageTitle: 'new-client',
         path: '/new-client',
         isAuthenticated: req.session.isLoggedIn,
@@ -10,7 +13,10 @@ exports.getNewClient= (req,res,next) =>{
 })
 };
 exports.getClientProfile= (req,res,next) =>{
+  const user = req.user;
+const userName =  "Hello"+ " "  + user.firstName +"!";
     res.render('client-profile', {
+      userName:userName,
         pageTitle: 'client-profile',
         path: '/client-profile',
         isAuthenticated: req.session.isLoggedIn,
@@ -28,14 +34,23 @@ exports.postClient=(req,res,next)=>{
   const businessType= req.body.businessType;
   const businessNature = req.body.businessNature;
   const pin = req.body.pin;
-  const regNumber=  req.body.regNumber;
+  const regNumber=  "EIA/CP/08/2021";
   const kraCert= req.file;
-  const idCopy = req.body.idCopy;
-  const incopCert = req.body.incopCert;
+  const idCopy = req.file;
+  const level = req.body.level;
+  const occupation = req.body.occupation;
+  const contactPerson = req.body.contactPerson;
+  const contactPersonNumber = req.body.contactPersonNumber;
+  console.log(kraCert + idCopy);
    if(!kraCert){
     req.flash('fileError','Attached file is not an image!');
     return res.redirect('/new-client');
-   }
+   };
+   if(!idCopy){
+    req.flash('fileError','Attached file is not an image!');
+    return res.redirect('/new-client');
+   };
+  
   Client.findOne({where:{email: email}})
   .then(client => {
     if (client) {
@@ -44,12 +59,14 @@ exports.postClient=(req,res,next)=>{
     }
   }).then(result=>{
        const kraCertPath =kraCert.path;
+       const idCopyPath = idCopy.path;
     const client = new Client({
       email: email,
       phoneNumber:phoneNumber,
       firstName:firstName,
       lastName:lastName,
-      city: city,
+      town: city,
+      regNumber:regNumber,
       country:country,
       boxOffice:boxOffice,
       idNumber: idNumber,
@@ -58,9 +75,12 @@ exports.postClient=(req,res,next)=>{
       kraCert:kraCertPath,
       pin:pin,
       regNumber:regNumber,
-    //   kraCert:kraCert,
-      idCopy:idCopy,
-      incopCert: incopCert,
+      idCopy:idCopyPath,
+      level:level,
+      occupation:occupation,
+      contactPerson: contactPerson,
+      contactPersonNumber: contactPersonNumber
+  
     });
     return client.save();
 

@@ -53,7 +53,11 @@ app.set('views','views');
 
 app.use(bodyParser.urlencoded({extended:false}));
 
+// app.use(multer({storage:fileStorage,fileFilter:fileFilter }).fields([{name:'kraCert',maxCount:1},{name:'idCopy',maxCount:1}]));
+
 app.use(multer({storage:fileStorage,fileFilter:fileFilter }).single('kraCert'));
+
+
 
 app.use(session({
     secret: 'endeavors',

@@ -1,30 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;1,700&display=swap"
-      rel="stylesheet"
-    />
-
-    <link rel="stylesheet" href="/css/style.css" />
-    <title><%= pageTitle %></title>
-  </head>
-  <body>
-    <div class="dash-container">
-      <div class="dash-top">
-        <div class="dash-top-right">
-          <img src="/images/avatar.jpg" alt="Profile Image" />
-          <h3>Enzo Wo</h3>
-        </div>
-      </div>
+<%- include ('./includes/head.ejs') %>
 
       <div class="dash-main">
-        <div class="dash-main-top">
+        <!-- <div class="dash-main-top">
           <div class="form-action-flexed">
             <input
               type="text"
@@ -33,21 +10,20 @@
             />
             <button class="btn search">SEARCH</button>
           </div>
-        </div>
-        <% if (emailError) {%>
-          <h3> <%= emailError%></h3> 
-      <%}%>
-      <% if (fileError) {%>
-        <h3> <%= fileError%></h3> 
-    <%}%>
-         <form action="/new-client" method="POST" style="width: 100%;" enctype="multipart/form-data">
+        </div> -->
+
         <div class="dash-main-body">
           <div class="client-profile-page">
             <div class="client-details">
               <div class="client-image">
                 <img src="/images/user-img.png" alt="" />
               </div>
+              <% if (emailError) {%>
+                <h3> <%= emailError%></h3> 
+            <%}%>
               <h2>Client Details</h2>
+              <!-- enctype="multipart/form-data" -->
+            <form action="/new-client" method="POST" style="width: 100%;" enctype="multipart/form-data" >
               <div class="client-details-row">
                 <div class="details-col">
                   <div class="client-prof-info">
@@ -56,41 +32,44 @@
                         <input
                           type="text"
                           class="user-reg-input"
-                          placeholder="First name"
                           name="firstName"
+                          placeholder="First name"
+                          required
                         />
                       </div>
                       <div class="user-input-group">
                         <input
                           type="text"
                           class="user-reg-input"
-                          placeholder="Last name"
                           name="lastName"
+                          placeholder="Last name"
+                          required
                         />
                       </div>
                     </div>
                   </div>
                   <div class="client-prof-info">
-                    <div class="user-split-row">
-                      <div class="user-input-group">
-                        <input
-                          type="text"
-                          class="user-reg-input"
-                          placeholder="city"
-                          name="city"
-                        />
-                      </div>
-                      <div class="user-input-group">
-                        <input
-                          type="text"
-                          class="user-reg-input"
-                          placeholder="country"
-                          name="country"
-                        />
-                      </div>
+                    <div class="user-input-group">
+                      <input
+                        type="text"
+                        class="user-reg-input"
+                        placeholder="Street, City"
+                        name="city"
+                        required
+                      />
                     </div>
                   </div>
-                  
+                  <div class="client-prof-info">
+                    <div class="user-input-group">
+                      <input
+                        type="text"
+                        class="user-reg-input"
+                        placeholder="Country"
+                        name="country"
+                        required
+                      />
+                    </div>
+                  </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <input
@@ -98,6 +77,7 @@
                         class="user-reg-input"
                         placeholder="P. O. Box"
                         name="boxOffice"
+                        required
                       />
                     </div>
                   </div>
@@ -108,16 +88,50 @@
                         class="user-reg-input"
                         placeholder="Phone Number"
                         name="phoneNumber"
+                        required
                       />
                     </div>
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <input
+                        type="text"
+                        class="user-reg-input"
+                        placeholder="Client Occupation"
+                        name="occupation"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="client-prof-info">
+                    <div class="user-input-group">
+                      <select
+                        name="level"
+                        id=""
+                        class="user-reg-input"
+                        style="padding: 0 0 0 1rem"
+                        required
+                      >
+                        <option value="" selected>Select Client Level</option>
+                        <option value="Level_A">Level A</option>
+                        <option value="Level_B">Level B</option>
+                        <option value="Level_C">Level C</option>
+                        <option value="Level_D">Level D</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+               
+                <div class="details-col">
+                  <div class="client-prof-info">
+                    <div class="user-input-group">
+                      <input
                         type="email"
+                        name="email"
                         class="user-reg-input"
                         placeholder="Email"
-                        name="email"
+                        required
+                        
                       />
                     </div>
                   </div>
@@ -126,13 +140,12 @@
                       <input
                         type="number"
                         class="user-reg-input"
-                        placeholder="ID| Passport| DL Number"
+                        placeholder="ID Number| Business Number"
                         name="idNumber"
+                        required
                       />
                     </div>
                   </div>
-                </div>
-                <div class="details-col">
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <select
@@ -140,10 +153,11 @@
                         id=""
                         class="user-reg-input"
                         style="padding: 0 0 0 1rem"
+                        required
                       >
                         <option value="" selected>Select Business Type</option>
-                        <option value="">Individual</option>
-                        <option value="">Corporate</option>
+                        <option value="Individual">Individual</option>
+                        <option value="Corporate">Corporate</option>
                       </select>
                     </div>
                   </div>
@@ -154,13 +168,14 @@
                         id=""
                         class="user-reg-input"
                         style="padding: 0 0 0 1rem"
+                        required
                       >
                         <option value="" selected>
                           Select Nature of Business
                         </option>
-                        <option value="">Manufacturing</option>
-                        <option value="">Processing</option>
-                        <option value="">Contruction</option>
+                        <option value="Manufacturing">Manufacturing</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Construction">Construction</option>
                       </select>
                     </div>
                   </div>
@@ -171,6 +186,7 @@
                         class="user-reg-input"
                         placeholder="KRA Pin"
                         name="pin"
+                        required
                       />
                     </div>
                   </div>
@@ -179,56 +195,84 @@
                       <input
                         type="text"
                         class="user-reg-input"
-                        placeholder="Registration Number"
-                        name="regNumber"
+                        placeholder="Contact Person Name"
+                        name="contactPerson"
+                        required
                       />
                     </div>
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <input
-                        type="file"
+                        type="tel"
                         class="user-reg-input"
-                        placeholder="upload KRA Cert"
-                        name="kraCert"
-                      />
-                    </div>
-                  </div>
-                  <div class="client-prof-info">
-                    <div class="user-input-group">
-                      <input
-                        type="file"
-                        class="user-reg-input"
-                        placeholder="upload copy of ID"
-                        name="idCopy"
-                      />
-                    </div>
-                  </div>
-                  <div class="client-prof-info">
-                    <div class="user-input-group">
-                      <input
-                        type="file"
-                        class="user-reg-input"
-                        placeholder="upload Cert of Incoporation"
-                        name="incopCert"
+                        placeholder="Contact Person Phone"
+                        name="contactPersonNumber"
+                        required
                       />
                     </div>
                   </div>
                 </div>
               </div>
+              <div
+                style="
+                  background-color: rgba(128, 128, 128, 0.473);
+                  width: 100%;
+                  height: 1px;
+                  margin: 1rem;
+                "
+              ></div>
+              
+              <div class="client-upload-docs">
+                <h1>Upload Documents</h1>
+                <h5 style="font-weight: 300">
+                  Click the Buttons to select the files
+                </h5>
+                <div class="upload-docs-content">
+                  <div class="upload-holder">
+                    <label class="id_upload" for="id_copy">
+                      ID Copy | Cert of Incorporation
+                    </label>
+                    <input
+                      id="id_copy"
+                      type="file"
+                      name="idCopy"
+                      class="input-upload-documents"
+                      
+                    />
+                    <p class="upload-file-info-id"></p>
+                  </div>
+                  <div class="upload-holder">
+                    <label class="kra_label" for="kra_upload">
+                      KRA Pin Certificate
+                    </label>
+                    <input
+                      type="file"
+                      id="kra_upload"
+                      name="kraCert"
+                      class="input-upload-documents"
+                    />
+                    <p class="upload-file-info-kra"></p>
+                  </div>
+                </div>
+              </div>
+              <% if (fileError) {%>
+                <h3> <%= fileError%></h3> 
+            <%}%>
               <div class="btn-holder" style="margin: 0 0 2rem 0">
                 <button class="create-btn" type="submit">Create Account</button>
               </div>
             </div>
+          </form>
           </div>
         </div>
-        
-      </form>
+
         <div class="date-time">
           <%- include ('./includes/date.ejs') %>
         </div>
       </div>
       <%- include ('./includes/sidePane.ejs') %>
     </div>
+    <script type="text/javascript" src="/js/upload-files.js"></script>
   </body>
 </html>
