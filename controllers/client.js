@@ -1,5 +1,9 @@
 const Client = require('../models/client');
 
+const fs = require('fs');
+
+const path = require('path');
+
 exports.getNewClient= (req,res,next) =>{
   const user = req.user;
 const userName =  "Hello"+ " "  + user.firstName +"!";
@@ -15,12 +19,26 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
 exports.getClientProfile= (req,res,next) =>{
   const user = req.user;
 const userName =  "Hello"+ " "  + user.firstName +"!";
-    res.render('client-profile', {
-      userName:userName,
-        pageTitle: 'client-profile',
-        path: '/client-profile',
-        isAuthenticated: req.session.isLoggedIn,
-})
+
+const clientId = req.params.clientId;
+Client.findByPk(clientId)
+.then(myclient=>{
+        if(!myclient){
+
+          req.flash('fetchError','Unable to get user!');
+          return res.redirect('/dashboard')
+        }
+        res.render('client-profile',{
+          userName:userName ,
+            pageTitle: 'client-profile',
+            path:'/client-profile',
+            myclient: myclient,
+            updateSuccess: req.flash('updateSuccess'),
+            resetSuccess: req.flash('resetSuccess'),
+            isAuthenticated: req.session.isLoggedIn
+        });
+    }
+).catch(err=> console.log(err));
 };
 exports.postClient=(req,res,next)=>{
   const firstName = req.body.firstName;
@@ -94,3 +112,17 @@ exports.postClient=(req,res,next)=>{
 
 
 };
+exports.getKraCert = (req,res,next)=>{
+const myclientId= req.params.myclientId;
+Client.findOne({where:{id :myclientId}}).then(client=>{
+  const kraCertPath = path.join('images',client.kraCert);
+  fs.readFile(kraCertPath,(err,data)=>{
+    if(err){
+      return next (err);
+    }
+    res.setHeader('content-Type','application/image')
+    res.send(data);
+  })
+})
+
+}

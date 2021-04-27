@@ -1,5 +1,4 @@
 <%- include ('./includes/head.ejs') %>
-
       <div class="dash-main">
         <div class="dash-main-top">
           <div class="form-action-flexed">
@@ -9,7 +8,7 @@
               placeholder="Enter detail to search"
             />
             <button class="btn search">SEARCH</button>
-            <a href="new-client.html" class="btn other search">ADD NEW</a>
+            <a href="/new-client" class="btn other search">ADD NEW</a>
           </div>
         </div>
 
@@ -24,55 +23,108 @@
                 <div class="details-col">
                   <div class="client-prof-info">
                     <h3>Name:</h3>
-                    <h4>Stephen Gathaiya Muraya</h4>
+                    <h4><%= myclient.firstName%> <%= myclient.lastName%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Physical Address:</h3>
-                    <h4>One Stop Arcade Ngong RD, Nairobi Kenya</h4>
+                    <h4><%= myclient.town%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>P. O. Box :</h3>
-                    <h4>13-00100 NAIROBI, KENYA</h4>
+                    <h4><%= myclient.boxOffice%> <%= myclient.town%>, KENYA</h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Phone:</h3>
-                    <h4>0797923201</h4>
+                    <h4><%= myclient.phoneNumber%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Email:</h3>
-                    <h4>gathaiya28@gmail.com</h4>
+                    <h4><%= myclient.email%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>ID| Passport| DL Number:</h3>
-                    <h4>35522379</h4>
+                    <h4><%= myclient.idNumber%></h4>
                   </div>
                 </div>
                 <div class="details-col">
                   <div class="client-prof-info">
                     <h3>Business Type:</h3>
-                    <h4>Individual</h4>
+                    <h4><%= myclient.businessType%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Nature of Business:</h3>
-                    <h4>Manufacturing</h4>
+                    <h4><%= myclient.businessNature%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>KRA Pin:</h3>
-                    <h4>A01948920V</h4>
+                    <h4><%= myclient.pin%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Registration Number:</h3>
-                    <h4>KSJLSKSI-098J</h4>
+                    <h4><%= myclient.regNumber%></h4>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="client-documents">
-              <h2>Client Scanned Documents</h2>
-              <a href="" class="document">KRA Certificate</a>
-              <a href="" class="document">ID/Passport/DL Copy</a>
-              <a href="" class="document">Cert of Incorporation</a>
+            <div
+              class="client-documents"
+              style="
+                display: flex;
+                flex-direction: initial;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                margin-bottom: 2rem;
+                border-bottom: 1px solid #0000003b;
+              "
+            >
+              <h2 style="width: 100%">Client Scanned Documents</h2>
+              
+              <a href="/<%= myclient.kraCert %>" class="document" download="<%= myclient.kraCert %>" >KRA Certificate</a>
+              <input type="hidden" name="myclientId" value="<%= myclient.id%>">
+              <a href="" class="document">ID | Cert of Incorporation</a>
             </div>
+
+            <table class="info-list-table" style="margin-bottom: 3rem">
+              <thead>
+                <tr>
+                  <th>Reg No.</th>
+                  <th>Client Name</th>
+                  <th>Sum Insured</th>
+                  <th>Type of Cover</th>
+                  <th>From</th>
+                  <th>To</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr onclick="document.location='mv-details.html'">
+                  <td>KBL 084R</td>
+                  <td>Stephen Muraya</td>
+                  <td>Kshs 700000</td>
+                  <td>Comprehensive</td>
+                  <td>8-Mar-2021</td>
+                  <td>7-Mar-2022</td>
+                </tr>
+
+                <tr onclick="document.location='mv-details.html'">
+                  <td>KBL 084R</td>
+                  <td>Stephen Muraya</td>
+                  <td>Kshs 700000</td>
+                  <td>Comprehensive</td>
+                  <td>8-Mar-2021</td>
+                  <td>7-Mar-2022</td>
+                </tr>
+
+                <tr onclick="document.location='mv-details.html'">
+                  <td>KBL 084R</td>
+                  <td>Stephen Muraya</td>
+                  <td>Kshs 700000</td>
+                  <td>Comprehensive</td>
+                  <td>8-Mar-2021</td>
+                  <td>7-Mar-2022</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
