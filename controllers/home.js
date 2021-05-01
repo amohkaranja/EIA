@@ -2,6 +2,8 @@ const User = require('../models/user');
 
 const Logs = require('../models/logs');
 
+const Clients = require('../models/client');
+
 const bcrypt= require('bcrypt');
 
 const crypto = require('crypto');
@@ -36,6 +38,35 @@ exports.getIndex= (req,res,next) =>{
         resetNull: req.flash('resetNull')
 })
 };
+exports.getHome=(req,res,next)=>{
+  const user = req.user;
+  let today = new Date()
+        let month = today.getMonth() + 1;
+        let date= today.getDate();
+        let year = today.getFullYear();
+        let hour = today.getHours();
+        let min = today.getMinutes();
+        let secs = today.getSeconds();
+        const current_date = `${month}/${date}/${year}`;
+        const current_time = `${hour}:${min}:${secs}`;
+
+  const log= new Logs({
+      task: "dashboardlevel",
+      userId: user._id,
+      time: current_time,
+      date:current_date
+    });
+        log.save();
+      const userName =  "Hello"+ " "  + user.firstName +"!";
+        res.render('home', {
+          userName:userName ,
+          pageTitle: 'home',
+          path: '/home',
+          isAuthenticated: req.session.isLoggedIn,
+          
+      })
+     
+};
 exports.getSignup= (req,res,next) =>{
     res.render('signup', {
         pageTitle: 'signup',
@@ -44,23 +75,31 @@ exports.getSignup= (req,res,next) =>{
 })
 };
 exports.postCreate=(req,res,next)=>{
+  const user= req.user;
+   const userName ="Hello" + " " + user.firstName +"!";
     const email = req.body.email;
     const endeavor= "1234"
   const password = endeavor.toString();
   const phoneNumber= req.body.phoneNumber;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
-  const error = validationResult(req);
-  if(!error.isEmpty){
-    return res.status(422).render(
-      res.render('new-user', {
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    console.log(errors.array());
+  return  User.findAll({limit:3,order: [ [ 'createdAt', 'DESC' ]]})
+    .then(users=>{
+      res.status(422).render('new-user', {
+        userName:userName ,
         users: users,
         pageTitle: 'new-user',
         path: '/new-user',
         isAuthenticated: req.session.isLoggedIn,
-        errorMessage: req.flash('email-error')
+        errorMessage: errors.array()[0].msg
     })
-    )
+    .catch(err=>{console.log(err)});
+   
+  })
+    
   }
   User.findOne({where:{email: email}})
     .then(user => {
@@ -124,7 +163,7 @@ exports.postLogin = (req,res,next)=>{
                 })
                     log.save();
                   
-                res.redirect('/dashboard');
+                res.redirect('/home');
                
               });
             }
@@ -157,28 +196,36 @@ exports.getDashboard=(req,res,next)=>{
       date:current_date
     });
         log.save();
-  const email = req.params.email;
-  User.findByPk(email)
-  .then(user=>{
-      res.render('dashboard', {
-        user:user,
-        pageTitle: 'dashboard',
-        path: '/dashboard',
-        isAuthenticated: req.session.isLoggedIn
-  }
-  )
-    
-}).catch(err=>{console.log(err)})
+      const userName =  "Hello"+ " "  + user.firstName +"!";
+      Clients.findAll({limit:3,order: [ [ 'createdAt', 'DESC' ]]})
+      .then(clients=>{
+        res.render('dashboard', {
+          userName:userName ,
+          clients: clients,
+          pageTitle: 'dashboard',
+          path: '/dashboard',
+          isAuthenticated: req.session.isLoggedIn,
+          errorMessage: req.flash('email-error')
+      })
+      .catch(err=>{console.log(err)});
+     
+    })
 };
 exports.getUnderwriting= (req,res,next)=>{
+  const user = req.user
+  const userName =  "Hello"+ " "  + user.firstName +"!";
     res.render('underwriting', {
+      userName:userName ,
         pageTitle: 'underwriting',
         path: '/underwriting',
         isAuthenticated: req.session.isLoggedIn
 })
 };
 exports.getMvdetails= (req,res,next)=>{
+  const user = req.user
+  const userName =  "Hello"+ " "  + user.firstName +"!";
     res.render('mv-details', {
+      userName:userName ,
         pageTitle: 'mv-details',
         path: '/mv-details',
         isAuthenticated: req.session.isLoggedIn
@@ -187,7 +234,10 @@ exports.getMvdetails= (req,res,next)=>{
 };
 
 exports.getNewpolicy= (req,res,next)=>{
+  const user = req.user
+  const userName =  "Hello"+ " "  + user.firstName +"!";
     res.render('new-policy', {
+      userName:userName ,
         pageTitle: 'new-policy',
         path: '/new-policy',
         isAuthenticated: req.session.isLoggedIn
@@ -221,16 +271,22 @@ exports.postLogout =(req,res,next)=>{
   
 };
 exports.getAdmin = (req,res,next) =>{
+  const user = req.user
+  const userName =  "Hello"+ " "  + user.firstName +"!";
   res.render('admin', {
+    userName:userName ,
     pageTitle: 'admin',
     path: '/admin',
     isAuthenticated: req.session.isLoggedIn
 })
 };
 exports.getNewUser = (req,res,next) =>{
+  const user = req.user
+  const userName =  "Hello"+ " "  + user.firstName +"!";
   User.findAll({limit:3,order: [ [ 'createdAt', 'DESC' ]]})
   .then(users=>{
     res.render('new-user', {
+      userName:userName ,
       users: users,
       pageTitle: 'new-user',
       path: '/new-user',
@@ -242,6 +298,8 @@ exports.getNewUser = (req,res,next) =>{
 })
 };
 exports.getReset=(req,res,next)=>{
+  
+  // const userName =  "Hello"+ " "  + user.firstName +"!";
   res.render('reset', {
     pageTitle: 'reset',
     path: '/reset',
@@ -281,6 +339,7 @@ exports.postReset=(req,res,next)=>{
   });
 };
 exports.getNewpassword=(req,res,next)=>{
+  
   const token = req.params.token;
   User.findOne({where:{resetToken: token,}})
   .then(user=>{
@@ -307,8 +366,9 @@ exports.getNewpassword=(req,res,next)=>{
 exports.postNewPassword=(req,res,next)=>{
   const newPassword = req.body.password;
   const confirm =  req.body.confirm;
-  const userId = req.body.userId;
+  // const userId = req.body.userId;
   const passwordToken = req.body.passwordToken;
+  const errors = validationResult(req);
   let resetUser;
   User.findOne({where:{resetToken:passwordToken}})
   .then(user => {
@@ -316,6 +376,9 @@ exports.postNewPassword=(req,res,next)=>{
       req.flash('passwordError','Your passwowrd does not match, refresh and try again');
        return res.redirect(`/reset/${passwordToken}`)
       
+    }if(!errors.isEmpty()){
+      req.flash('passwordError','Your passwowrd must be 6-8 characters long and it must contain alphanumerics');
+       return res.redirect(`/reset/${passwordToken}`)
     }
     resetUser = user;
     return bcrypt.hash(newPassword,12);
@@ -334,6 +397,8 @@ exports.postNewPassword=(req,res,next)=>{
   });
 };
 exports.getUserProfile= (req,res,next) =>{
+  const user = req.user
+  const userName =  "Hello"+ " "  + user.firstName +"!";
 
 const userId = req.params.userId;
 // const log= new Logs({
@@ -349,6 +414,7 @@ User.findByPk(userId)
           return res.redirect('/manage-users')
         }
         res.render('user-profile-view',{
+          userName:userName ,
             pageTitle: 'user-profile',
             path:'/user-profile-view',
             user: user,
@@ -361,9 +427,12 @@ User.findByPk(userId)
 
 };
 exports.getManageUsers= (req,res,next) =>{
+  const user = req.user
+  const userName =  "Hello"+ " "  + user.firstName +"!";
   User.findAll()
   .then(users=>{
     res.render('manage-users', {
+      userName:userName ,
       users: users,
       pageTitle: 'manage-users',
       path: '/manage-users',
@@ -423,11 +492,14 @@ exports.postResetFlag=(req,res,next)=>{
 
 };
 exports.getLogs= (req,res,next) =>{
+  const user = req.user
+  const userName =  "Hello"+ " "  + user.firstName +"!";
 
   Logs.findAll({include:[{model:User}]})
   .then(logs=>{
     
     res.render('logs', {
+      userName:userName ,
       logs: logs,
       pageTitle: 'logs',
       path: '/logs',

@@ -1,25 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/css/style.css">
-    <title><%= pageTitle %></title>
-</head>
-<body>
-    <div class="dash-container">
-        <div class="dash-top">
-            <div class="dash-top-right">
-                <img src="/images/avatar.jpg" alt="Profile Image">
-                <h3>Enzo Wo</h3>
-            </div>
-        </div>
-
+   <%- include ('./includes/head.ejs') %>
         <div class="dash-main">
             <div class="dash-main-top">
                 <div class="form-action-flexed">
@@ -43,86 +22,21 @@
                     </thead>
                     
                     <tbody>
-                        <tr onclick="document.location='/client-profile'">
-                            <td>E01/SAK/003/2021</td>
-                            <td>Stephen Muraya</td>
-                            <td>A01948920V</td>
-                            <td>421-00100 NAIROBI</td>
-                            <td>Individual</td>
-                            <td style="background-color: #da2424;color: #FFF;">Kshs 1000000</td>
-                        </tr>
+                        <% if(clients.length > 0) { %> 
+                            <% for(let client of clients) { %>
                         
-                        <tr onclick="document.location=''">
-                            <td>E01/SAK/003/2021</td>
-                            <td>Stephen Muraya</td>
-                            <td>A01948920V</td>
-                            <td>421-00100 NAIROBI</td>
-                            <td>Individual</td>
+                        <tr onclick="document.location='/client-profile/<%= client.id%>'">
+                            <td><%= client.regNumber%></td>
+                            <td><%= client.firstName%> <%= client.lastName%></td>
+                            <td><%= client.pin%></td>
+                            <td><%= client.boxOffice%>  <%= client.town%></td>
+                            <td><%= client.businessType%></td>
                             <td>Kshs 1000000</td>
                         </tr>
-
-                        <tr onclick="document.location=''">
-                            <td>E01/SAK/003/2021</td>
-                            <td>Stephen Muraya</td>
-                            <td>A01948920V</td>
-                            <td>421-00100 NAIROBI</td>
-                            <td>Individual</td>
-                            <td>Kshs 1000000</td>
-                        </tr>
-
-                        <tr onclick="document.location=''">
-                            <td>E01/SAK/003/2021</td>
-                            <td>Stephen Muraya</td>
-                            <td>A01948920V</td>
-                            <td>421-00100 NAIROBI</td>
-                            <td>Individual</td>
-                            <td style="background-color: #da2424;color: #FFF;">Kshs 1300000</td>
-                        </tr>
-
-                        <tr onclick="document.location=''">
-                            <td>E01/SAK/003/2021</td>
-                            <td>Stephen Muraya</td>
-                            <td>A01948920V</td>
-                            <td>421-00100 NAIROBI</td>
-                            <td>Individual</td>
-                            <td>Kshs 5000</td>
-                        </tr>
-
-                        <tr onclick="document.location=''">
-                            <td>E01/SAK/003/2021</td>
-                            <td>Stephen Muraya</td>
-                            <td>A01948920V</td>
-                            <td>421-00100 NAIROBI</td>
-                            <td>Individual</td>
-                            <td>Kshs 550000</td>
-                        </tr>
-
-                        <tr onclick="document.location=''">
-                            <td>E01/SAK/003/2021</td>
-                            <td>Stephen Muraya</td>
-                            <td>A01948920V</td>
-                            <td>421-00100 NAIROBI</td>
-                            <td>Individual</td>
-                            <td>Kshs 300000</td>
-                        </tr>
-
-                        <tr onclick="document.location=''">
-                            <td>E01/SAK/003/2021</td>
-                            <td>Stephen Muraya</td>
-                            <td>A01948920V</td>
-                            <td>421-00100 NAIROBI</td>
-                            <td>Individual</td>
-                            <td>Kshs 100000</td>
-                        </tr>
-
-                        <tr onclick="document.location=''">
-                            <td>E01/SAK/003/2021</td>
-                            <td>Stephen Muraya</td>
-                            <td>A01948920V</td>
-                            <td>421-00100 NAIROBI</td>
-                            <td>Individual</td>
-                            <td style="background-color: #da2424;color: #FFF;">Kshs 3000000</td>
-                        </tr>
+                        <% } %>
+                        <% } else { %>
+                          <h2>nothing to displayh2>
+                        <% } %>
                         
                     </tbody>
                 </table>

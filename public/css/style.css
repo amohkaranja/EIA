@@ -879,3 +879,403 @@ td.users {
   text-decoration: none;
   margin: 0.5rem;
 }
+.client-upload-docs {
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.upload-docs-content {
+  width: 80%;
+  padding: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.upload-holder {
+  width: fit-content;
+  padding: 1rem;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.kra_label {
+  background-color: var(--main-accent-color);
+  color: #fff;
+  max-width: 300px;
+  text-align: center;
+  padding: 0.6rem 2rem;
+  cursor: pointer;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+  transition: all 200ms ease-in-out;
+}
+.id_upload {
+  background-color: var(--main-primary-color);
+  color: #fff;
+  padding: 0.6rem 2rem;
+  max-width: 300px;
+  text-align: center;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 1rem;
+  transition: all 200ms ease-in-out;
+}
+.kra_label:hover {
+  background-color: #db1212;
+}
+.id_upload:hover {
+  background-color: #3c5faa;
+}
+.input-upload-documents {
+  display: none;
+}
+.upload-file-info-id,
+.upload-file-info-kra {
+  margin: -10px 1rem;
+  height: 2rem;
+  font-weight: 600;
+  text-align: center;
+  color: rgb(37, 37, 37);
+}
+.pop-up-back {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  background-color: #00000086;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 300ms ease-in-out;
+}
+.pop-up-back.show {
+  display: flex;
+  opacity: 1;
+  pointer-events: all;
+  transition: all 300ms ease-in-out;
+}
+.pop-box.show {
+  opacity: 1;
+  pointer-events: all;
+  transition: all 300ms ease-in-out;
+}
+.pop-box {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+  right: 0;
+  display: flex;
+  z-index: 100;
+  pointer-events: none;
+  justify-content: center;
+  align-items: center;
+  transition: all 300ms ease-in-out;
+}
+.pop-box-panel {
+  width: 35%;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 101;
+  padding: 1rem;
+  border-radius: 0.3rem;
+  background-color: rgba(255, 255, 255, 0.767);
+  backdrop-filter: blur(10px);
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+}
+.policy-otions {
+  width: 100%;
+  height: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.policy-type-select {
+  text-decoration: none;
+  background-color: var(--main-accent-color);
+  color: #fff;
+  width: 180px;
+  text-align: center;
+  padding: 0.7rem 2.1rem;
+  transition: all 200ms ease-in-out;
+}
+.policy-type-select:last-child:hover {
+  background-color: #3260c4;
+}
+.policy-type-select:last-child {
+  background-color: var(--main-primary-color);
+}
+.policy-type-select:hover {
+  background-color: #db1212;
+  transform: scale(1.01);
+}
+.policy-otion-actions {
+  width: 100%;
+  display: flex;
+}
+
+.btn.other.search:first-child {
+  transition: all 300ms ease-in-out;
+}
+.btn.other.search:first-child:hover {
+  background-color: #db1212 !important;
+}
+.btn.other.search:last-child:hover {
+  background-color: #3260c4 !important;
+}
+.btn.other.search:last-child {
+  background-color: var(--main-primary-color) !important;
+  transition: all 300ms ease-in-out;
+}
+
+.productivity-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.productivity-content {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+.productivity-title {
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+}
+.productivity-card {
+  flex: 2;
+  min-height: 3rem;
+  display: flex;
+  margin: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 0.3rem;
+  box-shadow: 3px 2px 3px 3px rgba(0, 0, 0, 0.178);
+}
+.bar-levels {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.eia-img {
+  flex: 1;
+}
+.bar-level {
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  border-radius: 0.2rem;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.103);
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.bar-level:nth-child(2) {
+  background-color: #1da734;
+  width: 70%;
+}
+.bar-level:nth-child(4) {
+  background-color: #3260c4;
+  width: 80%;
+}
+.bar-level:nth-child(6) {
+  background-color: #cc1313;
+  width: 20%;
+}
+.tasks-card {
+  flex: 1;
+  margin: 1rem;
+  background-color: #fff;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  height: fit-content;
+  box-shadow: 3px 2px 3px 3px rgba(0, 0, 0, 0.178);
+}
+/* ///////////////////////////////////////// CALENDAR CODE */
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,600");
+:root {
+  --calendar-bg-color: #262829;
+  --calendar-font-color: #fff;
+  --weekdays-border-bottom-color: #404040;
+  --calendar-date-hover-color: #505050;
+  --calendar-current-date-color: #1b1f21;
+  --calendar-today-color: #2196f3;
+  --calendar-today-innerborder-color: #000;
+  --calendar-nextprev-bg-color: #1a1f21;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.calendar {
+  font-family: "Nunito", sans-serif;
+  position: relative;
+  width: 80%; /*change as per your design need */
+  min-width: 320px;
+  background: #6e7fa5;
+  color: var(--calendar-font-color);
+  margin: 20px auto;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-weight: normal;
+}
+
+.calendar-inner {
+  padding: 10px 10px;
+}
+
+.calendar .calendar-inner .calendar-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+}
+
+.calendar .calendar-inner .calendar-body div {
+  padding: 4px;
+  min-height: 30px;
+  line-height: 30px;
+  border: 1px solid transparent;
+  margin: 10px 2px 0px;
+}
+
+.calendar .calendar-inner .calendar-body div:nth-child(-n + 7) {
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--weekdays-border-bottom-color);
+}
+
+.calendar .calendar-inner .calendar-body div:nth-child(-n + 7):hover {
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--weekdays-border-bottom-color);
+}
+
+.calendar .calendar-inner .calendar-body div > a {
+  color: var(--calendar-font-color);
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+}
+
+.calendar .calendar-inner .calendar-body div:hover {
+  border: 1px solid var(--calendar-date-hover-color);
+}
+
+.calendar .calendar-inner .calendar-body div.empty-dates:hover {
+  border: 1px solid transparent;
+}
+
+.calendar .calendar-inner .calendar-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.calendar .calendar-inner .calendar-controls a {
+  color: var(--calendar-font-color);
+}
+
+.calendar .calendar-inner .calendar-today-date {
+  display: grid;
+  text-align: center;
+  cursor: pointer;
+  margin: 3px 0px;
+  background: #36486d;
+  padding: 8px 0px;
+}
+
+.calendar .calendar-inner .calendar-controls .calendar-year-month {
+  display: flex;
+  min-width: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar .calendar-inner .calendar-controls .calendar-next {
+  text-align: right;
+}
+
+.calendar
+  .calendar-inner
+  .calendar-controls
+  .calendar-year-month
+  .calendar-year-label,
+.calendar
+  .calendar-inner
+  .calendar-controls
+  .calendar-year-month
+  .calendar-month-label {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.calendar .calendar-inner .calendar-body .calendar-today {
+  background: #cc1313;
+}
+
+.calendar .calendar-inner .calendar-body .calendar-today:hover {
+  border: 1px solid transparent;
+}
+
+.calendar .calendar-inner .calendar-body .calendar-today a {
+  outline: 2px solid #fc8787;
+}
+
+.calendar .calendar-inner .calendar-controls .calendar-next a,
+.calendar .calendar-inner .calendar-controls .calendar-prev a {
+  font-family: consolas, sans-serif;
+  font-size: 26px;
+  text-decoration: none;
+  padding: 4px 12px;
+  display: inline-block;
+  background: #3b4d74;
+  margin: 0 0 10px 0;
+}
+
+.benefits-list {
+  width: 100%;
+  display: flex;
+  height: 0;
+  margin: 1rem 0;
+  opacity: 0;
+  pointer-events: none;
+  flex-direction: column;
+  align-items: center;
+  transition: all 400ms ease-in-out;
+}
+.benefits-content {
+  width: 87%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.check-box-holder {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.check-box {
+  flex: 1;
+}
+.check-box-input {
+  flex: 1;
+}

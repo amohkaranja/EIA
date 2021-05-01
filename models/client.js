@@ -20,19 +20,19 @@ const Client = sequelize.define('clients', {
   },
   town:{
     type: Sequelize.STRING,
-    allowNull:true
+    allowNull:false
   },
   country:{
     type: Sequelize.STRING,
-    allowNull:true
+    allowNull:false
   },
   boxOffice:{
     type: Sequelize.STRING,
-    allowNull:true
+    allowNull:false
   },
   phoneNumber:{
     type: Sequelize.INTEGER,
-    allowNull:true
+    allowNull:false
   },
   email:{
     type: Sequelize.STRING,
@@ -40,37 +40,48 @@ const Client = sequelize.define('clients', {
   },
   idNumber:{
     type: Sequelize.INTEGER,
-    allowNull:true
+    allowNull:false
   },
   businessType:{
     type: Sequelize.STRING,
-    allowNull:true
+    allowNull:false
   },
   businessNature:{
     type: Sequelize.STRING,
-    allowNull:true
+    allowNull:false
   },
   pin:{
     type: Sequelize.STRING,
-    allowNull:true
+    allowNull:false
   },
   regNumber:{
     type: Sequelize.STRING,
-    allowNull:true
+    allowNull:false
   },
   kraCert:{
     type: Sequelize.STRING,
-    allowNull:true
+    allowNull:false
   },
   idCopy:{
     type: Sequelize.STRING,
     allowNull:true
   },
-  incopCert:{
+  level:{
     type: Sequelize.STRING,
-    allowNull:true
+    allowNull:false
   },
- 
+  occupation:{
+    type: Sequelize.STRING,
+    allowNull:false
+  },
+  contactPerson:{
+    type: Sequelize.STRING,
+    allowNull:false
+  },
+  contactPersonNumber:{
+    type: Sequelize.INTEGER,
+    allowNull:false
+  },
  
   
 });
