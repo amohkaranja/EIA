@@ -15,6 +15,8 @@ router.post('/login',controllers.postLogin);
 
 router.get('/logout',controllers.postLogout);
 
+router.get('/home',controllers.getHome);
+
 router.get('/dashboard',controllers.getDashboard);
 
 router.get('/mv-details',controllers.getMvdetails);

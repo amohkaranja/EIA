@@ -38,6 +38,35 @@ exports.getIndex= (req,res,next) =>{
         resetNull: req.flash('resetNull')
 })
 };
+exports.getHome=(req,res,next)=>{
+  const user = req.user;
+  let today = new Date()
+        let month = today.getMonth() + 1;
+        let date= today.getDate();
+        let year = today.getFullYear();
+        let hour = today.getHours();
+        let min = today.getMinutes();
+        let secs = today.getSeconds();
+        const current_date = `${month}/${date}/${year}`;
+        const current_time = `${hour}:${min}:${secs}`;
+
+  const log= new Logs({
+      task: "dashboardlevel",
+      userId: user._id,
+      time: current_time,
+      date:current_date
+    });
+        log.save();
+      const userName =  "Hello"+ " "  + user.firstName +"!";
+        res.render('home', {
+          userName:userName ,
+          pageTitle: 'home',
+          path: '/home',
+          isAuthenticated: req.session.isLoggedIn,
+          
+      })
+     
+};
 exports.getSignup= (req,res,next) =>{
     res.render('signup', {
         pageTitle: 'signup',
@@ -134,7 +163,7 @@ exports.postLogin = (req,res,next)=>{
                 })
                     log.save();
                   
-                res.redirect('/dashboard');
+                res.redirect('/home');
                
               });
             }

@@ -1,5 +1,7 @@
 const Client = require('../models/client');
 
+const Policy = require('../models/policy');
+
 const fs = require('fs');
 
 const path = require('path');
@@ -125,4 +127,74 @@ Client.findOne({where:{id :myclientId}}).then(client=>{
   })
 })
 
+};
+exports.getMotor= (req,res,next) =>{
+  const user = req.user;
+const userName =  "Hello"+ " "  + user.firstName +"!";
+
+res.render('motor-details',{
+  userName:userName ,
+    pageTitle: 'motor-details',
+    path:'/motor-details',
+    isAuthenticated: req.session.isLoggedIn
+});
+ 
+};
+exports.getNonMotor= (req,res,next) =>{
+  const user = req.user;
+const userName =  "Hello"+ " "  + user.firstName +"!";
+
+res.render('non-motor-details',{
+  userName:userName ,
+    pageTitle: 'non-motor-details',
+    path:'/non-motor-details',
+    isAuthenticated: req.session.isLoggedIn
+});
+  
+};
+exports.postMotor= (req,res,next)=>{
+  const clientId= req.params.clientId
+  const policyName= req.body.policyName;
+  const coverType = req.body.coverType;
+  const branch= req.body.branch;
+  const policyNumber= req.body.policyNumber;
+  const mvClass = req.body.mvClass;
+  const policyStart= req.body.policyStart;
+  const policyEnd = req.body.policyEnd;
+  const regNumber=request.body.regNumber;
+  const sumInsured= request.body.sumInsured;
+  const insurer =req.body.insurer;
+  const logBookNumber= req.body.logBookNumber;
+  const engineNumber = req.body.engineNumber;
+  const chasisNumber = req.body.chasisNumber;
+  const logBookScanned= req.body.logBookScanned;
+  const exPro = req.body.exPro;
+  const poliTe = req.body.poliTe;
+  const perAcc= req.body.perAcc;
+  const otherBe = req.body.otherBe
+
+  const policy= new Policy({
+    clientId:clientId,
+    otherBe:otherBe,
+    exPro:exPro,
+    poliTe:poliTe,
+    perAcc:perAcc,
+    policytype: policytype,
+    policyName: policyName,
+    coverType: coverType,
+    branch: branch,
+    mvClass: mvClass,
+    regNumber: regNumber,
+    sumInsured: sumInsured,
+    insurer: insurer,
+    logBookNumber: logBookNumber,
+    engineNumber: engineNumber,
+    chasisNumber: chasisNumber,
+    logBookScanned: logBookScanned,
+    policyNumber: policyNumber,
+    policyStart: policyStart,
+    policyEnd: policyEnd
+  });
+  return policy.save;
+  
 }

@@ -1,6 +1,42 @@
-<%- include ('./includes/head.ejs') %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <div class="dash-container">
+      <div class="pop-up-back" id="popup_background"></div>
+      <div class="pop-box" id="popup_panel">
+        <div class="pop-box-panel">
+          <h2>Select Policy Type</h2>
+          <div class="policy-otions">
+            <a href="/motor-details/<%= myclient.id%>" class="policy-type-select">Motor</a>
+            <a href="/non-motor-details/<%= myclient.id%>" class="policy-type-select"
+              >Non-Motor</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="dash-top">
+        <div class="dash-top-right">
+          <img src="/images/avatar.jpg" alt="Profile Image" />
+          <h3><%= userName %></h3>
+        </div>
+      </div>
+
       <div class="dash-main">
-        <div class="dash-main-top">
+        <!-- <div class="dash-main-top">
           <div class="form-action-flexed">
             <input
               type="text"
@@ -8,15 +44,28 @@
               placeholder="Enter detail to search"
             />
             <button class="btn search">SEARCH</button>
-            <a href="/new-client" class="btn other search">ADD NEW</a>
+            <a href="new-client.html" class="btn other search">ADD NEW</a>
           </div>
-        </div>
+        </div> -->
 
         <div class="dash-main-body">
           <div class="client-profile-page">
             <div class="client-details">
               <div class="client-image">
-                <img src="./images/avatar.jpg" alt="" />
+                <img src="/images/avatar.jpg" alt="" />
+                <div class="policy-otion-actions">
+                  <a
+                    class="btn other search"
+                    style="
+                      width: 150px;
+                      display: flex;
+                      justify-content: center;
+                      background-color: #b61f1f;
+                    "
+                    id="new_policy"
+                    >Add New Policy</a
+                  >
+                </div>
               </div>
               <h2>Client Details</h2>
               <div class="client-details-row">
@@ -77,11 +126,11 @@
                 border-bottom: 1px solid #0000003b;
               "
             >
-              <h2 style="width: 100%">Client Scanned Documents</h2>
-              
-              <a href="/<%= myclient.kraCert %>" class="document" download="<%= myclient.kraCert %>" >KRA Certificate</a>
-              <input type="hidden" name="myclientId" value="<%= myclient.id%>">
-              <a href="" class="document">ID | Cert of Incorporation</a>
+            <h2 style="width: 100%">Client Scanned Documents</h2>
+            <!-- download="<%= myclient.kraCert %>" -->
+            <a href="../<%= myclient.kraCert %>" class="document" download="<%= myclient.kraCert %>" >KRA Certificate</a>
+            <input type="hidden" name="myclientId" value="<%= myclient.id%>">
+            <a href="" class="document">ID | Cert of Incorporation</a>
             </div>
 
             <table class="info-list-table" style="margin-bottom: 3rem">
@@ -134,5 +183,19 @@
       </div>
       <%- include ('./includes/sidePane.ejs') %>
     </div>
+    <script>
+      var policy = document.getElementById("new_policy");
+      var pop_up_back = document.getElementById("popup_background");
+      var pop_up_panel = document.getElementById("popup_panel");
+      policy.addEventListener("click", () => {
+        pop_up_back.classList.toggle("show");
+        pop_up_panel.classList.toggle("show");
+      });
+
+      pop_up_panel.addEventListener("click", () => {
+        pop_up_back.classList.remove("show");
+        pop_up_panel.classList.remove("show");
+      });
+    </script>
   </body>
 </html>

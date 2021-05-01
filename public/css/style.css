@@ -1042,3 +1042,240 @@ td.users {
   background-color: var(--main-primary-color) !important;
   transition: all 300ms ease-in-out;
 }
+
+.productivity-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.productivity-content {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+.productivity-title {
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+}
+.productivity-card {
+  flex: 2;
+  min-height: 3rem;
+  display: flex;
+  margin: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 0.3rem;
+  box-shadow: 3px 2px 3px 3px rgba(0, 0, 0, 0.178);
+}
+.bar-levels {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.eia-img {
+  flex: 1;
+}
+.bar-level {
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  border-radius: 0.2rem;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.103);
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.bar-level:nth-child(2) {
+  background-color: #1da734;
+  width: 70%;
+}
+.bar-level:nth-child(4) {
+  background-color: #3260c4;
+  width: 80%;
+}
+.bar-level:nth-child(6) {
+  background-color: #cc1313;
+  width: 20%;
+}
+.tasks-card {
+  flex: 1;
+  margin: 1rem;
+  background-color: #fff;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  height: fit-content;
+  box-shadow: 3px 2px 3px 3px rgba(0, 0, 0, 0.178);
+}
+/* ///////////////////////////////////////// CALENDAR CODE */
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,600");
+:root {
+  --calendar-bg-color: #262829;
+  --calendar-font-color: #fff;
+  --weekdays-border-bottom-color: #404040;
+  --calendar-date-hover-color: #505050;
+  --calendar-current-date-color: #1b1f21;
+  --calendar-today-color: #2196f3;
+  --calendar-today-innerborder-color: #000;
+  --calendar-nextprev-bg-color: #1a1f21;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.calendar {
+  font-family: "Nunito", sans-serif;
+  position: relative;
+  width: 80%; /*change as per your design need */
+  min-width: 320px;
+  background: #6e7fa5;
+  color: var(--calendar-font-color);
+  margin: 20px auto;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-weight: normal;
+}
+
+.calendar-inner {
+  padding: 10px 10px;
+}
+
+.calendar .calendar-inner .calendar-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+}
+
+.calendar .calendar-inner .calendar-body div {
+  padding: 4px;
+  min-height: 30px;
+  line-height: 30px;
+  border: 1px solid transparent;
+  margin: 10px 2px 0px;
+}
+
+.calendar .calendar-inner .calendar-body div:nth-child(-n + 7) {
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--weekdays-border-bottom-color);
+}
+
+.calendar .calendar-inner .calendar-body div:nth-child(-n + 7):hover {
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--weekdays-border-bottom-color);
+}
+
+.calendar .calendar-inner .calendar-body div > a {
+  color: var(--calendar-font-color);
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+}
+
+.calendar .calendar-inner .calendar-body div:hover {
+  border: 1px solid var(--calendar-date-hover-color);
+}
+
+.calendar .calendar-inner .calendar-body div.empty-dates:hover {
+  border: 1px solid transparent;
+}
+
+.calendar .calendar-inner .calendar-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.calendar .calendar-inner .calendar-controls a {
+  color: var(--calendar-font-color);
+}
+
+.calendar .calendar-inner .calendar-today-date {
+  display: grid;
+  text-align: center;
+  cursor: pointer;
+  margin: 3px 0px;
+  background: #36486d;
+  padding: 8px 0px;
+}
+
+.calendar .calendar-inner .calendar-controls .calendar-year-month {
+  display: flex;
+  min-width: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar .calendar-inner .calendar-controls .calendar-next {
+  text-align: right;
+}
+
+.calendar
+  .calendar-inner
+  .calendar-controls
+  .calendar-year-month
+  .calendar-year-label,
+.calendar
+  .calendar-inner
+  .calendar-controls
+  .calendar-year-month
+  .calendar-month-label {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.calendar .calendar-inner .calendar-body .calendar-today {
+  background: #cc1313;
+}
+
+.calendar .calendar-inner .calendar-body .calendar-today:hover {
+  border: 1px solid transparent;
+}
+
+.calendar .calendar-inner .calendar-body .calendar-today a {
+  outline: 2px solid #fc8787;
+}
+
+.calendar .calendar-inner .calendar-controls .calendar-next a,
+.calendar .calendar-inner .calendar-controls .calendar-prev a {
+  font-family: consolas, sans-serif;
+  font-size: 26px;
+  text-decoration: none;
+  padding: 4px 12px;
+  display: inline-block;
+  background: #3b4d74;
+  margin: 0 0 10px 0;
+}
+
+.benefits-list {
+  width: 100%;
+  display: flex;
+  height: 0;
+  margin: 1rem 0;
+  opacity: 0;
+  pointer-events: none;
+  flex-direction: column;
+  align-items: center;
+  transition: all 400ms ease-in-out;
+}
+.benefits-content {
+  width: 87%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.check-box-holder {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.check-box {
+  flex: 1;
+}
+.check-box-input {
+  flex: 1;
+}

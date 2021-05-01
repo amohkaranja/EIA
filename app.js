@@ -15,6 +15,10 @@ const User = require('./models/user');
 const multer =  require('multer')
 const Logs = require('./models/logs')
 
+const Client = require('./models/client')
+
+const Policy = require('./models/policy')
+
 
 const sequelize = require('./util/database');
 
@@ -101,9 +105,10 @@ app.use((req,res,next)=>{
 
 Logs.belongsTo(User,{constraints: true, onDelete:'CASCADE'});
 User.hasMany(Logs);
+Policy.belongsTo(Client,{constraints: true, onDelete:'CASCADE'});
+Client.hasMany(Policy);
 
 sequelize
-//  .sync({force : true})
     .sync({ alter: true })
 // .sync()
 
