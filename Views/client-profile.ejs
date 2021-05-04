@@ -21,8 +21,8 @@
         <div class="pop-box-panel">
           <h2>Select Policy Type</h2>
           <div class="policy-otions">
-            <a href="/motor-details/<%= myclient.id%>" class="policy-type-select">Motor</a>
-            <a href="/non-motor-details/<%= myclient.id%>" class="policy-type-select"
+            <a href="/motor-details/<%= clientId%>" class="policy-type-select">Motor</a>
+            <a href="/non-motor-details/<%= clientId%>" class="policy-type-select"
               >Non-Motor</a
             >
           </div>
@@ -68,49 +68,51 @@
                 </div>
               </div>
               <h2>Client Details</h2>
+              <% if(policies.length > 0) { %> 
+                
               <div class="client-details-row">
                 <div class="details-col">
                   <div class="client-prof-info">
                     <h3>Name:</h3>
-                    <h4><%= myclient.firstName%> <%= myclient.lastName%></h4>
+                    <h4><%= policies[0].client.firstName%> <%= policies[0].client.lastName%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Physical Address:</h3>
-                    <h4><%= myclient.town%></h4>
+                    <h4><%= policies[0].client.town%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>P. O. Box :</h3>
-                    <h4><%= myclient.boxOffice%> <%= myclient.town%>, KENYA</h4>
+                    <h4><%= policies[0].client.boxOffice%> <%= policies[0].client.town%>, KENYA</h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Phone:</h3>
-                    <h4><%= myclient.phoneNumber%></h4>
+                    <h4><%= policies[0].client.phoneNumber%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Email:</h3>
-                    <h4><%= myclient.email%></h4>
+                    <h4><%= policies[0].client.email%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>ID| Passport| DL Number:</h3>
-                    <h4><%= myclient.idNumber%></h4>
+                    <h4><%= policies[0].client.idNumber%></h4>
                   </div>
                 </div>
                 <div class="details-col">
                   <div class="client-prof-info">
                     <h3>Business Type:</h3>
-                    <h4><%= myclient.businessType%></h4>
+                    <h4><%= policies[0].client.businessType%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Nature of Business:</h3>
-                    <h4><%= myclient.businessNature%></h4>
+                    <h4><%= policies[0].client.businessNature%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>KRA Pin:</h3>
-                    <h4><%= myclient.pin%></h4>
+                    <h4><%= policies[0].client.pin%></h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Registration Number:</h3>
-                    <h4><%= myclient.regNumber%></h4>
+                    <h4><%= policies[0].client.regN%></h4>
                   </div>
                 </div>
               </div>
@@ -127,12 +129,15 @@
               "
             >
             <h2 style="width: 100%">Client Scanned Documents</h2>
-            <!-- download="<%= myclient.kraCert %>" -->
-            <a href="../<%= myclient.kraCert %>" class="document" download="<%= myclient.kraCert %>" >KRA Certificate</a>
-            <input type="hidden" name="myclientId" value="<%= myclient.id%>">
+            <!-- download="<%= policies.kraCert %>" -->
+            <a href="../<%= policies[0].client.kraCert %>" class="document" download="<%= policies[0].client.kraCert %>" >KRA Certificate</a>
+            <input type="hidden" name="myclientId" value="<%= policies.clientId%>">
             <a href="" class="document">ID | Cert of Incorporation</a>
             </div>
 
+            <% } else { %>
+              <h2>nothing to display</h2>
+          <% } %>
             <table class="info-list-table" style="margin-bottom: 3rem">
               <thead>
                 <tr>
@@ -146,34 +151,24 @@
               </thead>
 
               <tbody>
-                <tr onclick="document.location='mv-details.html'">
-                  <td>KBL 084R</td>
-                  <td>Stephen Muraya</td>
-                  <td>Kshs 700000</td>
-                  <td>Comprehensive</td>
-                  <td>8-Mar-2021</td>
-                  <td>7-Mar-2022</td>
+                <% if(policies.length > 0) { %> 
+                  <% for(let policy of policies) { %>
+                    <input type="hidden" value="policy.id" name="policyId">
+                <tr onclick="document.location='/mv-details/<%=policy.id%>'">
+                  <td><%= policy.regN %></td>
+                  <td><%= policy.client.firstName %> <%= policy.client.lastName %></td>
+                  <td><%=policy.sumInsured %></td>
+                  <td><%= policy.coverType %></td>
+                  <td><%= policy.policyStart %></td>
+                  <td><%= policy.policyEnd %></td>
                 </tr>
-
-                <tr onclick="document.location='mv-details.html'">
-                  <td>KBL 084R</td>
-                  <td>Stephen Muraya</td>
-                  <td>Kshs 700000</td>
-                  <td>Comprehensive</td>
-                  <td>8-Mar-2021</td>
-                  <td>7-Mar-2022</td>
-                </tr>
-
-                <tr onclick="document.location='mv-details.html'">
-                  <td>KBL 084R</td>
-                  <td>Stephen Muraya</td>
-                  <td>Kshs 700000</td>
-                  <td>Comprehensive</td>
-                  <td>8-Mar-2021</td>
-                  <td>7-Mar-2022</td>
-                </tr>
+                <% } %>
+            <% } else { %>
+              <h2>nothing to display</h2>
+          <% } %>
               </tbody>
             </table>
+           
           </div>
         </div>
 

@@ -12,7 +12,7 @@
             <a href="new-client.html" class="btn other search">ADD NEW</a>
           </div>
         </div> -->
-
+        <form action="/non-motor-details/<%=clientId%>" method="POST">
         <div class="dash-main-body">
           <div class="client-profile-page">
             <div class="client-details">
@@ -22,6 +22,7 @@
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <input
+                      name="policyName"
                         type="text"
                         class="user-reg-input"
                         placeholder="Policy Name/ Project Name"
@@ -31,6 +32,7 @@
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <input
+                      name="baranch"
                         type="text"
                         class="user-reg-input"
                         placeholder="Branch"
@@ -40,7 +42,7 @@
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <select
-                        name=""
+                        name="coverType"
                         id="class_selection"
                         class="user-reg-input"
                         style="padding: 0 0 0 1rem"
@@ -73,13 +75,14 @@
                         <option value="Contactor's Plant and Machinery">
                           Contactor's Plant and Machinery
                         </option>
-                        <option value="">Goods in transit</option>
+                        <option value="Goods in transit">Goods in transit</option>
                       </select>
                     </div>
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <input
+                      name="businessNumber"
                         type="text"
                         class="user-reg-input"
                         placeholder="Business/ Project Number"
@@ -89,21 +92,22 @@
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <select
-                        name=""
+                        name="insurer"
                         id=""
                         class="user-reg-input"
                         style="padding: 0 0 0 1rem"
                       >
                         <option value="" selected>Select Insurer</option>
-                        <option value="">Sanlum</option>
-                        <option value="">Jubilee</option>
-                        <option value="">AAR</option>
+                        <option value="Sanlum">Sanlum</option>
+                        <option value="Jubilee">Jubilee</option>
+                        <option value="AAR">AAR</option>
                       </select>
                     </div>
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <input
+                      name="employees"
                         type="number"
                         class="user-reg-input"
                         placeholder="No. of employees"
@@ -115,6 +119,7 @@
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <input
+                      name="policyNumber"
                         type="text"
                         class="user-reg-input"
                         placeholder="Policy Number"
@@ -134,6 +139,7 @@
                     <div class="user-split-row">
                       <div class="user-input-group">
                         <input
+                        name="policyStart"
                           type="text"
                           class="user-reg-input"
                           placeholder="From"
@@ -143,6 +149,7 @@
                       </div>
                       <div class="user-input-group">
                         <input
+                        name="policyEnd"
                           type="text"
                           class="user-reg-input"
                           placeholder="To"
@@ -155,6 +162,7 @@
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <input
+                      name="sumInsured"
                         type="number"
                         class="user-reg-input"
                         placeholder="Sum Insured"
@@ -173,6 +181,7 @@
                           <div class="client-prof-info">
                             <div class="user-input-group">
                               <input
+                              name="TPBP"
                                 type="number"
                                 id="third_party_basic_premium"
                                 class="user-reg-input"
@@ -193,6 +202,7 @@
                           <div class="client-prof-info">
                             <div class="user-input-group">
                               <input
+                              name="MBP"
                                 type="number"
                                 disabled
                                 id="maintenance_basic_premium"
@@ -209,6 +219,7 @@
                           <div class="user-input-group" style="padding: 0">
                             <input
                               type="text"
+                              disabled
                               class="user-reg-input"
                               id="other_benefits_non"
                               placeholder="Other Benefit"
@@ -218,6 +229,7 @@
                         <div class="check-box-input">
                           <div class="user-input-group">
                             <input
+                            name="otherBe"
                               type="number"
                               class="user-reg-input"
                               id="other_benefits_basic_premium"
@@ -246,6 +258,7 @@
                           <div class="client-prof-info">
                             <div class="user-input-group">
                               <input
+                              name="ELBP"
                                 type="number"
                                 id="employee_liability_basic_premium"
                                 class="user-reg-input"
@@ -272,6 +285,7 @@
                           <div class="client-prof-info">
                             <div class="user-input-group">
                               <input
+                              name="PANBP"
                                 type="number"
                                 disabled
                                 id="personal_accident_non_basic_premium"
@@ -302,6 +316,7 @@
                           <div class="client-prof-info">
                             <div class="user-input-group">
                               <input
+                              name="TPPMBP"
                                 type="number"
                                 id="third_party_plant_machinery_basic_premium"
                                 class="user-reg-input"
@@ -340,11 +355,11 @@
               </div>
             </div>
             <div class="btn-holder" style="margin: 0 0 2rem 0">
-              <button class="create-btn">Create Policy</button>
+              <button class="create-btn" type="submit">Create Policy</button>
             </div>
           </div>
         </div>
-
+      </form>
         <div class="date-time">
           <%- include ('./includes/date.ejs') %>
         </div>

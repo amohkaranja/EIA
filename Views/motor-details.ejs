@@ -16,7 +16,7 @@
           <div class="client-profile-page">
             <div class="client-details">
               <h2>Motor Policy Details</h2>
-              <form action="/motor-details" method="POST">
+             <form action="/motor-details/<%= clientId %>" method="POST">
               <div class="client-details-row">
                 <div class="details-col">
                   <div class="client-prof-info">
@@ -56,7 +56,10 @@
                           Private Motor Cycle
                         </option>
                         <option value="">--COMMERCIAL--</option>
-                        <option value="General Cartage">General Cartage</option>
+                        <option value="General Cartage">
+                          General Cartage
+
+                        </option>
                         <option value="Special Vehicles">
                           Special Vehicles
                         </option>
@@ -76,9 +79,9 @@
                         <div class="check-box">
                           <input
                             type="checkbox"
-                            name=""
+                            
                             id="excess_protector"
-                            value="Exess Protector"
+                          
                           />
                           <label for="excess_protector">Excess Protector</label>
                         </div>
@@ -86,7 +89,8 @@
                           <div class="client-prof-info">
                             <div class="user-input-group">
                               <input
-                                type="text"
+                              name="exPro"
+                                type="number"
                                 id="excess_basic_premium"
                                 class="user-reg-input"
                                 disabled
@@ -101,7 +105,7 @@
                         <div class="check-box">
                           <input
                             type="checkbox"
-                            name="poliTe"
+                            
                             id="political_and_terror"
                             value="Political Violence Terrorism"
                           />
@@ -113,7 +117,8 @@
                           <div class="client-prof-info">
                             <div class="user-input-group">
                               <input
-                                type="text"
+                              name="poliTe"
+                                type="number"
                                 disabled
                                 id="political_violence_basic_premium"
                                 class="user-reg-input"
@@ -128,7 +133,7 @@
                         <div class="check-box">
                           <input
                             type="checkbox"
-                            name="personal Accident"
+                          
                             id="personal_accident"
                             value="Personal Accident"
                             
@@ -141,7 +146,8 @@
                           <div class="client-prof-info">
                             <div class="user-input-group">
                               <input
-                                type="text"
+                              name="perAcc"
+                                type="number"
                                 class="user-reg-input"
                                 disabled
                                 id="personal_accident_basic_premium"
@@ -156,16 +162,18 @@
                         <div class="check-box-input">
                           <div class="user-input-group" style="padding: 0">
                             <input
-                              type="text"
+                          disabled
                               class="user-reg-input"
                               id="other_benefits_non"
                               placeholder="Other Benefit"
+                              
                             />
                           </div>
                         </div>
                         <div class="check-box-input">
                           <div class="user-input-group">
                             <input
+                            name="otherBe"
                               type="number"
                               class="user-reg-input"
                               id="other_benefits_basic_premium"
@@ -182,7 +190,7 @@
                         type="text"
                         class="user-reg-input"
                         placeholder="Registration Number"
-                        name="regNumber"
+                        name="regN"
                       />
                     </div>
                   </div>
@@ -261,12 +269,13 @@
                       </div>
                       <div class="user-input-group">
                         <input
+                        name="policyEnd"
                           type="text"
                           class="user-reg-input"
                           placeholder="To"
                           onblur="(this.type='text')"
                           onfocus="(this. type='date')"
-                          value="policyEnd"
+                          
                         />
                       </div>
                     </div>
@@ -277,17 +286,18 @@
                         type="number"
                         class="user-reg-input"
                         placeholder="Sum Insured"
-                        value="sumInsured"
+                        name="sumInsured"
                       />
                     </div>
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
                       <input
-                        type="number"
+                  
+                        type="text"
                         class="user-reg-input"
                         placeholder="Logbook Number"
-                        value="logBookNumber"
+                        name="logBookNumber"
                       />
                     </div>
                   </div>
@@ -297,7 +307,7 @@
                         type="text"
                         class="user-reg-input"
                         placeholder="Chasis Number"
-                        value="chasisNumber"
+                        name="chasisNumber"
                       />
                     </div>
                   </div>

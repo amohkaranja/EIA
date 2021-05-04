@@ -23,24 +23,21 @@ exports.getClientProfile= (req,res,next) =>{
 const userName =  "Hello"+ " "  + user.firstName +"!";
 
 const clientId = req.params.clientId;
-Client.findByPk(clientId)
-.then(myclient=>{
-        if(!myclient){
+Policy.findAll({include:[{model:Client,where:{id:clientId}}]})
+.then(policies=>{
+  console.log(policies);
+  res.render('client-profile',{
+    userName:userName ,
+      pageTitle: 'client-profile',
+      path:'/client-profile',
+      clientId:clientId,
+      policies: policies,
+      updateSuccess: req.flash('updateSuccess'),
+      resetSuccess: req.flash('resetSuccess'),
+      isAuthenticated: req.session.isLoggedIn
+  });
+}).catch(err=>{console.log(err);})
 
-          req.flash('fetchError','Unable to get user!');
-          return res.redirect('/dashboard')
-        }
-        res.render('client-profile',{
-          userName:userName ,
-            pageTitle: 'client-profile',
-            path:'/client-profile',
-            myclient: myclient,
-            updateSuccess: req.flash('updateSuccess'),
-            resetSuccess: req.flash('resetSuccess'),
-            isAuthenticated: req.session.isLoggedIn
-        });
-    }
-).catch(err=> console.log(err));
 };
 exports.postClient=(req,res,next)=>{
   const firstName = req.body.firstName;
@@ -129,23 +126,27 @@ Client.findOne({where:{id :myclientId}}).then(client=>{
 
 };
 exports.getMotor= (req,res,next) =>{
+  const clientId= req.params.clientId;
   const user = req.user;
 const userName =  "Hello"+ " "  + user.firstName +"!";
 
 res.render('motor-details',{
   userName:userName ,
     pageTitle: 'motor-details',
+    clientId:clientId,
     path:'/motor-details',
     isAuthenticated: req.session.isLoggedIn
 });
  
 };
 exports.getNonMotor= (req,res,next) =>{
+  const clientId= req.params.clientId;
   const user = req.user;
 const userName =  "Hello"+ " "  + user.firstName +"!";
 
 res.render('non-motor-details',{
   userName:userName ,
+  clientId:clientId,
     pageTitle: 'non-motor-details',
     path:'/non-motor-details',
     isAuthenticated: req.session.isLoggedIn
@@ -153,7 +154,8 @@ res.render('non-motor-details',{
   
 };
 exports.postMotor= (req,res,next)=>{
-  const clientId= req.params.clientId
+  const clientId= req.params.clientId;
+  const policytype= 'Motor vehicles'
   const policyName= req.body.policyName;
   const coverType = req.body.coverType;
   const branch= req.body.branch;
@@ -161,19 +163,19 @@ exports.postMotor= (req,res,next)=>{
   const mvClass = req.body.mvClass;
   const policyStart= req.body.policyStart;
   const policyEnd = req.body.policyEnd;
-  const regNumber=request.body.regNumber;
-  const sumInsured= request.body.sumInsured;
+  const regN=req.body.regN;
+  const sumInsured= req.body.sumInsured;
   const insurer =req.body.insurer;
   const logBookNumber= req.body.logBookNumber;
   const engineNumber = req.body.engineNumber;
   const chasisNumber = req.body.chasisNumber;
-  const logBookScanned= req.body.logBookScanned;
+  // const logBookScanned= req.body.logBookScanned;
   const exPro = req.body.exPro;
   const poliTe = req.body.poliTe;
   const perAcc= req.body.perAcc;
   const otherBe = req.body.otherBe
 
-  const policy= new Policy({
+  const  policy= new Policy({
     clientId:clientId,
     otherBe:otherBe,
     exPro:exPro,
@@ -184,17 +186,82 @@ exports.postMotor= (req,res,next)=>{
     coverType: coverType,
     branch: branch,
     mvClass: mvClass,
-    regNumber: regNumber,
+    regN: regN,
     sumInsured: sumInsured,
     insurer: insurer,
     logBookNumber: logBookNumber,
     engineNumber: engineNumber,
     chasisNumber: chasisNumber,
-    logBookScanned: logBookScanned,
+    // logBookScanned: logBookScanned,
     policyNumber: policyNumber,
     policyStart: policyStart,
     policyEnd: policyEnd
   });
-  return policy.save;
+    policy.save();
+
+res.redirect(`/motor-details/${clientId}`)
   
+};
+exports.postNonMotor= (req,res,next)=>{
+  const clientId= req.params.clientId;
+  const policytype= 'NonMotor vehicles'
+  const policyName= req.body.policyName;
+  const coverType = req.body.coverType;
+  const branch= req.body.branch;
+  const policyNumber= req.body.policyNumber;
+  const policyStart= req.body.policyStart;
+  const policyEnd = req.body.policyEnd;
+  const sumInsured= req.body.sumInsured;
+  const insurer =req.body.insurer;
+  const employees= req.body.employees;
+  const businessNumber= req.body.businessNumber;
+  const TPBP = req.body.TPBP;
+  const MBP = req.body.MBP;
+  const ELBP= req.body.ELBP;
+  const PANBP=req.body.PANBP;
+  const TPPMBP= req.body.TPPMBP;
+  const otherBe=req.body. otherBe
+  console.log(policyName);
+
+  const policy= new Policy({
+    clientId:clientId,
+    otherBe:otherBe,
+     employees:employees,
+     businessNumber:businessNumber,
+     TPBP:TPBP,
+     MBP:MBP,
+     ELBP:ELBP,
+     PANBP:PANBP,
+     TPPMBP:TPPMBP,
+    policytype: policytype,
+    policyName: policyName,
+    coverType: coverType,
+    branch: branch,
+    sumInsured: sumInsured,
+    insurer: insurer,
+    policyNumber: policyNumber,
+    policyStart: policyStart,
+    policyEnd: policyEnd
+  });
+    policy.save();
+
+res.redirect(`/non-motor-details/${clientId}`)
 }
+exports.getMvDetails= (req,res,next) =>{
+  const policyId = req.params.policyId;
+  const user = req.user;
+const userName =  "Hello"+ " "  + user.firstName +"!";
+Policy.findOne({where:{id:policyId}}).then(
+  policy=>{
+    res.render('mv-details', {
+      userName:userName,
+      policy:policy,
+        pageTitle: 'mv-details',
+        path: '/mv-details',
+        isAuthenticated: req.session.isLoggedIn,
+       
+})
+  }
+)
+
+};

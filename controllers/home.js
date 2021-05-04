@@ -4,6 +4,8 @@ const Logs = require('../models/logs');
 
 const Clients = require('../models/client');
 
+const Policy = require('../models/policy');
+
 const bcrypt= require('bcrypt');
 
 const crypto = require('crypto');
@@ -211,25 +213,22 @@ exports.getDashboard=(req,res,next)=>{
      
     })
 };
-exports.getUnderwriting= (req,res,next)=>{
-  const user = req.user
-  const userName =  "Hello"+ " "  + user.firstName +"!";
-    res.render('underwriting', {
-      userName:userName ,
-        pageTitle: 'underwriting',
-        path: '/underwriting',
-        isAuthenticated: req.session.isLoggedIn
-})
-};
-exports.getMvdetails= (req,res,next)=>{
-  const user = req.user
-  const userName =  "Hello"+ " "  + user.firstName +"!";
-    res.render('mv-details', {
-      userName:userName ,
-        pageTitle: 'mv-details',
-        path: '/mv-details',
-        isAuthenticated: req.session.isLoggedIn
-}) 
+
+exports.getUnderwriting= (req,res,next) =>{
+  const user = req.user;
+const userName =  "Hello"+ " "  + user.firstName +"!";
+
+Policy.findAll({include:[{model:Clients}]})
+.then(policies=>{
+  console.log(policies);
+  res.render('underwriting',{
+    userName:userName ,
+      pageTitle: 'underwriting',
+      path:'/underwriting',
+      policies: policies,
+      isAuthenticated: req.session.isLoggedIn
+  });
+}).catch(err=>{console.log(err);})
 
 };
 
@@ -497,7 +496,7 @@ exports.getLogs= (req,res,next) =>{
 
   Logs.findAll({include:[{model:User}]})
   .then(logs=>{
-    
+    console.log(logs);
     res.render('logs', {
       userName:userName ,
       logs: logs,

@@ -32,13 +32,14 @@ const Policy = sequelize.define('policy', {
     type: Sequelize.STRING,
     allowNull:true
   },
-  regNumber:{
+  regN:{
     type: Sequelize.STRING,
     allowNull:true
   },
   sumInsured:{
     type: Sequelize.INTEGER,
-    allowNull:true
+    allowNull:true,
+    default:0
   },
   insurer:{
     type: Sequelize.STRING,
@@ -85,20 +86,50 @@ incorpCert:{
     allowNull:true
   },
   exPro:{
-    type: Sequelize.STRING,
-    allowNull:true
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    default:0
+    
   },
   poliTe:{
-    type: Sequelize.STRING,
-    allowNull:true
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    default:0
   },
   perAcc:{
-    type: Sequelize.STRING,
-    allowNull:true
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    default:0
   },
   otherBe:{
-    type: Sequelize.STRING,
-    allowNull:true
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    default:0
+  },
+  TPBP:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    default:0
+  },
+  MBP:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    default:0
+  },
+  ELBP:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    default:0
+  },
+  PANBP:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    default:0
+  },
+  TPPMBP:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    default:0
   },
   
 });

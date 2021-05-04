@@ -19,8 +19,6 @@ router.get('/home',controllers.getHome);
 
 router.get('/dashboard',controllers.getDashboard);
 
-router.get('/mv-details',controllers.getMvdetails);
-
 router.get("/underwriting",controllers.getUnderwriting);
 
 router.get('/new-policy',controllers.getNewpolicy);
