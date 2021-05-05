@@ -60,7 +60,7 @@ const Client = sequelize.define('clients', {
   },
   kraCert:{
     type: Sequelize.STRING,
-    allowNull:false
+    allowNull:true
   },
   idCopy:{
     type: Sequelize.STRING,

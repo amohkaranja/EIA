@@ -26,16 +26,16 @@
                             <% for(let client of clients) { %>
                         
                         <tr onclick="document.location='/client-profile/<%= client.id%>'">
-                            <td><%= client.regNumber%></td>
+                            <td><%= client.id%></td>
                             <td><%= client.firstName%> <%= client.lastName%></td>
                             <td><%= client.pin%></td>
                             <td><%= client.boxOffice%>  <%= client.town%></td>
-                            <td><%= client.businessType%></td>
+                            <td><%= client.businessType %></td>
                             <td>Kshs 1000000</td>
                         </tr>
                         <% } %>
                         <% } else { %>
-                          <h2>nothing to displayh2>
+                          <h2>nothing to display</h2>
                         <% } %>
                         
                     </tbody>

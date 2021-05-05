@@ -99,7 +99,9 @@ exports.postClient=(req,res,next)=>{
       contactPersonNumber: contactPersonNumber
   
     });
-    return client.save();
+    return client.save().then(data=>{
+      console.log(data);
+    });
 
   }).then(aftersave=>{
     res.redirect('/new-client');
@@ -155,7 +157,13 @@ res.render('non-motor-details',{
 };
 exports.postMotor= (req,res,next)=>{
   const clientId= req.params.clientId;
-  const policytype= 'Motor vehicles'
+  const policytype= 'Motor vehicles';
+  let stampDuty =req.params.stampDuty;
+  let epLoading = req.params.epLoading;
+  let paLoading = req.params.paLoading;
+  let plLoading = req.params.plLoading;
+  let otherLoading = req.params.otherLoading;
+  let rate = req.params.rate;
   const policyName= req.body.policyName;
   const coverType = req.body.coverType;
   const branch= req.body.branch;
@@ -173,11 +181,34 @@ exports.postMotor= (req,res,next)=>{
   const exPro = req.body.exPro;
   const poliTe = req.body.poliTe;
   const perAcc= req.body.perAcc;
-  const otherBe = req.body.otherBe
-
+  const otherBe = req.body.otherBe;
+  let newStampDuty = (stampDuty-0) || 0;
+  let newEpLoading = (epLoading-0) || 0;
+  let NewPaLoading = (paLoading-0) || 0;
+  let NewPlLoading = (plLoading-0) || 0;
+  let NewOtherLoading = (otherLoading-0) || 0;
+  let NewRate = (rate-0) || 1;
+  let newSumInsured= (sumInsured-0) || 0;
+  let newExPro =(exPro-0) || 0;
+  let newPoliTe= (poliTe-0) || 0;
+  let newPerAcc= (perAcc-0) || 0;
+  let newOtherBe = (otherBe-0) || 0;
+  let basicPremium = (newSumInsured *(NewRate/100));
+  let subBasic = (basicPremium + newEpLoading + NewPlLoading + NewPaLoading + NewOtherLoading);
+  let trainingLevy= (subBasic * 0.002);
+  let PHCF = (subBasic * 0.0025);
+  const GrandTotal = (newStampDuty + trainingLevy + PHCF + subBasic);
+  const netProfit = (newSumInsured + newExPro + newPoliTe + newPerAcc + newOtherBe);
   const  policy= new Policy({
     clientId:clientId,
     otherBe:otherBe,
+    rate:rate,
+    stampDuty: stampDuty,
+    paLoading:paLoading,
+    plLoading:paLoading,
+    otherLoading: otherLoading,
+    epLoading:epLoading,
+    netProfit:netProfit,
     exPro:exPro,
     poliTe:poliTe,
     perAcc:perAcc,
@@ -195,7 +226,8 @@ exports.postMotor= (req,res,next)=>{
     // logBookScanned: logBookScanned,
     policyNumber: policyNumber,
     policyStart: policyStart,
-    policyEnd: policyEnd
+    policyEnd: policyEnd,
+    GrandTotal:GrandTotal,
   });
     policy.save();
 
@@ -204,28 +236,58 @@ res.redirect(`/motor-details/${clientId}`)
 };
 exports.postNonMotor= (req,res,next)=>{
   const clientId= req.params.clientId;
-  const policytype= 'NonMotor vehicles'
+  const policytype= 'NonMotor vehicles';
+  let stampDuty =req.body.stampDuty;
+  let epLoading = req.body.epLoading;
+  let paLoading = req.body.paLoading;
+  let plLoading = req.body.plLoading;
+  let otherLoading = req.body.otherLoading;
+  let rate = req.body.rate;
   const policyName= req.body.policyName;
   const coverType = req.body.coverType;
   const branch= req.body.branch;
   const policyNumber= req.body.policyNumber;
   const policyStart= req.body.policyStart;
   const policyEnd = req.body.policyEnd;
-  const sumInsured= req.body.sumInsured;
+  let sumInsured= req.body.sumInsured;
   const insurer =req.body.insurer;
   const employees= req.body.employees;
   const businessNumber= req.body.businessNumber;
-  const TPBP = req.body.TPBP;
-  const MBP = req.body.MBP;
-  const ELBP= req.body.ELBP;
-  const PANBP=req.body.PANBP;
-  const TPPMBP= req.body.TPPMBP;
-  const otherBe=req.body. otherBe
-  console.log(policyName);
-
+  let TPBP = req.body.TPBP;
+  let MBP = req.body.MBP;
+  let ELBP= req.body.ELBP;
+  let PANBP=req.body.PANBP;
+  let TPPMBP= req.body.TPPMBP;
+  let otherBe=req.body. otherBe;
+  let newStampDuty = (stampDuty-0) || 0;
+  let newEpLoading = (epLoading-0) || 0;
+  let NewPaLoading = (paLoading-0) || 0;
+  let NewPlLoading = (plLoading-0) || 0;
+  let NewOtherLoading = (otherLoading-0) || 0;
+  let NewRate = (rate-0) || 1;
+  let newSumInsured=(sumInsured-0) || 0;
+  let newTPBP= (TPBP-0) || 0;
+  let newMBP = (MBP-0) || 0;
+  let newELBP= (ELBP-0) || 0;
+  let newPANBP= (PANBP-0) || 0;
+  let newTPPMBP= (TPPMBP-0) || 0;
+  let newOtherBe = (otherBe-0) || 0;
+  let basicPremium = (newSumInsured *(NewRate/100));
+  let subBasic = (basicPremium + newEpLoading + NewPlLoading + NewPaLoading + NewOtherLoading);
+  let trainingLevy= (subBasic * 0.002);
+  let PHCF = (subBasic * 0.0025);
+  const GrandTotal = (newStampDuty + trainingLevy + PHCF + subBasic);
+  const netProfit = (GrandTotal+ newTPBP + newMBP + newELBP + newPANBP + newTPPMBP + newOtherBe);
   const policy= new Policy({
     clientId:clientId,
     otherBe:otherBe,
+    rate:rate,
+    stampDuty: stampDuty,
+    paLoading:paLoading,
+    plLoading:paLoading,
+    otherLoading: otherLoading,
+    epLoading:epLoading,
+    netProfit:netProfit,
      employees:employees,
      businessNumber:businessNumber,
      TPBP:TPBP,
@@ -241,7 +303,8 @@ exports.postNonMotor= (req,res,next)=>{
     insurer: insurer,
     policyNumber: policyNumber,
     policyStart: policyStart,
-    policyEnd: policyEnd
+    policyEnd: policyEnd,
+    GrandTotal:GrandTotal,
   });
     policy.save();
 
@@ -263,5 +326,4 @@ Policy.findOne({where:{id:policyId}}).then(
 })
   }
 )
-
 };

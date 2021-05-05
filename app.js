@@ -109,6 +109,7 @@ Policy.belongsTo(Client,{constraints: true, onDelete:'CASCADE'});
 Client.hasMany(Policy);
 
 sequelize
+    // .sync({force: true})
     .sync({ alter: true })
 // .sync()
 

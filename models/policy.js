@@ -39,7 +39,7 @@ const Policy = sequelize.define('policy', {
   sumInsured:{
     type: Sequelize.INTEGER,
     allowNull:true,
-    default:0
+    defaultValue:'0'
   },
   insurer:{
     type: Sequelize.STRING,
@@ -67,7 +67,8 @@ const Policy = sequelize.define('policy', {
   },
   employees:{
     type: Sequelize.INTEGER,
-    allowNull:true
+    allowNull:true,
+    defaultValue:'0'
   },
 incorpCert:{
     type: Sequelize.STRING,
@@ -88,50 +89,89 @@ incorpCert:{
   exPro:{
     type: Sequelize.INTEGER,
     allowNull:true,
-    default:0
+    defaultValue:'0'
     
   },
   poliTe:{
     type: Sequelize.INTEGER,
     allowNull:true,
-    default:0
+    defaultValue:'0'
   },
   perAcc:{
     type: Sequelize.INTEGER,
     allowNull:true,
-    default:0
+    defaultValue:'0'
   },
   otherBe:{
     type: Sequelize.INTEGER,
     allowNull:true,
-    default:0
+    defaultValue:'0'
   },
   TPBP:{
     type: Sequelize.INTEGER,
     allowNull:true,
-    default:0
+    defaultValue:'0'
   },
   MBP:{
     type: Sequelize.INTEGER,
     allowNull:true,
-    default:0
+    defaultValue:'0'
   },
   ELBP:{
     type: Sequelize.INTEGER,
     allowNull:true,
-    default:0
+    defaultValue:'0'
   },
   PANBP:{
     type: Sequelize.INTEGER,
     allowNull:true,
-    default:0
+    defaultValue:'0'
   },
   TPPMBP:{
     type: Sequelize.INTEGER,
     allowNull:true,
-    default:0
+    defaultValue:'0'
   },
-  
+  netProfit:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    defaultValue:'0'
+  },
+  GrandTotal:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    defaultValue:'0'
+  },
+  stampDuty:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    defaultValue:'0'
+  },
+  epLoading:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    defaultValue:'0'
+  },
+  paLoading:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    defaultValue:'0'
+  },
+  plLoading:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    defaultValue:'0'
+  },
+  otherLoading:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    defaultValue:'0'
+  },
+  rate:{
+    type: Sequelize.INTEGER,
+    allowNull:true,
+    defaultValue:'0'
+  },
 });
 
 module.exports = Policy;
