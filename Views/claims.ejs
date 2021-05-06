@@ -1,0 +1,114 @@
+<%- include ('./includes/head.ejs') %>
+
+      <div class="dash-main">
+        <div class="dash-main-top">
+          <div class="form-action-flexed">
+            <input
+              type="text"
+              class="input-space-search"
+              placeholder="Enter detail to search"
+            />
+            <button class="btn search">SEARCH</button>
+            <a href="/new-claim" class="btn other search">ADD NEW</a>
+          </div>
+        </div>
+
+        <div class="dash-main-body">
+          <table class="info-list-table">
+            <thead>
+              <tr>
+                <th>Ref No.</th>
+                <th>Client Name</th>
+                <th>Sum Insured</th>
+                <th>Type of Cover</th>
+                <th>From</th>
+                <th>To</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr onclick="document.location='mv-details.html'">
+                <td>KBL 084R</td>
+                <td>Stephen Muraya</td>
+                <td>Kshs 700000</td>
+                <td>Comprehensive</td>
+                <td>8-Mar-2021</td>
+                <td>7-Mar-2022</td>
+              </tr>
+
+              <tr onclick="document.location='mv-details.html'">
+                <td>KBL 084R</td>
+                <td>Stephen Muraya</td>
+                <td>Kshs 700000</td>
+                <td>Comprehensive</td>
+                <td>8-Mar-2021</td>
+                <td>7-Mar-2022</td>
+              </tr>
+
+              <tr onclick="document.location='mv-details.html'">
+                <td>KBL 084R</td>
+                <td>Stephen Muraya</td>
+                <td>Kshs 700000</td>
+                <td>Comprehensive</td>
+                <td>8-Mar-2021</td>
+                <td>7-Mar-2022</td>
+              </tr>
+
+              <tr onclick="document.location='mv-details.html'">
+                <td>KBL 084R</td>
+                <td>Stephen Kamau</td>
+                <td>Kshs 700000</td>
+                <td>Comprehensive</td>
+                <td>8-Mar-2021</td>
+                <td>7-Mar-2022</td>
+              </tr>
+
+              <tr onclick="document.location='mv-details.html'">
+                <td>KBL 084R</td>
+                <td>Stephen Muraya</td>
+                <td>Kshs 700000</td>
+                <td>Comprehensive</td>
+                <td>8-Mar-2021</td>
+                <td>7-Mar-2022</td>
+              </tr>
+
+              <tr onclick="document.location='mv-details.html'">
+                <td>KBL 084R</td>
+                <td>Stephen Muraya</td>
+                <td>Kshs 700000</td>
+                <td>Comprehensive</td>
+                <td>8-Mar-2021</td>
+                <td>7-Mar-2022</td>
+              </tr>
+
+              <tr onclick="document.location='mv-details.html'">
+                <td>KBL 084R</td>
+                <td>Stephen Muraya</td>
+                <td>Kshs 700000</td>
+                <td>Comprehensive</td>
+                <td>8-Mar-2021</td>
+                <td>7-Mar-2022</td>
+              </tr>
+
+              <tr onclick="document.location='mv-details.html'">
+                <td>KBL 084R</td>
+                <td>Stephen Muraya</td>
+                <td>Kshs 700000</td>
+                <td>Comprehensive</td>
+                <td>8-Mar-2021</td>
+                <td>7-Mar-2022</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <a href="" class="view-more-link">View More</a>
+
+        <div class="date-time">
+          <%- include ('./includes/date.ejs') %>
+        </div>
+      </div>
+      <%- include ('./includes/sidePane.ejs') %>
+    </div>
+  </body>
+</html>

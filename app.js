@@ -19,6 +19,8 @@ const Client = require('./models/client')
 
 const Policy = require('./models/policy')
 
+const Claims =  require('./models/claims')
+
 
 const sequelize = require('./util/database');
 
@@ -107,6 +109,8 @@ Logs.belongsTo(User,{constraints: true, onDelete:'CASCADE'});
 User.hasMany(Logs);
 Policy.belongsTo(Client,{constraints: true, onDelete:'CASCADE'});
 Client.hasMany(Policy);
+Claims.belongsTo(Policy,{constraints: true, onDelete:'CASCADE'});
+Policy.hasMany(Claims);
 
 sequelize
     // .sync({force: true})

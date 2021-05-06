@@ -199,7 +199,7 @@ exports.getDashboard=(req,res,next)=>{
     });
         log.save();
       const userName =  "Hello"+ " "  + user.firstName +"!";
-      Clients.findAll({limit:3,order: [ [ 'createdAt', 'DESC' ]]})
+      Clients.findAll({limit:3,order: [ [ 'createdAt', 'ASC' ]]})
       .then(clients=>{
         res.render('dashboard', {
           userName:userName ,

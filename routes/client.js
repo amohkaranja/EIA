@@ -22,4 +22,10 @@ router.post('/non-motor-details/:clientId',controllers.postNonMotor);
 
 router.get('/mv-details/:policyId',controllers.getMvDetails);
 
+router.get('/claims',controllers.getClaims);
+
+router.get('/new-claim',controllers.getNewClaims);
+
+router.post('/new-claim',controllers.postClaim);
+
 module.exports= router;

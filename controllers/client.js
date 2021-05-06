@@ -2,6 +2,8 @@ const Client = require('../models/client');
 
 const Policy = require('../models/policy');
 
+const Claim = require('../models/claims')
+
 const fs = require('fs');
 
 const path = require('path');
@@ -327,3 +329,65 @@ Policy.findOne({where:{id:policyId}}).then(
   }
 )
 };
+exports.getClaims= (req,res,next) =>{
+  const user = req.user;
+const userName =  "Hello"+ " "  + user.firstName +"!";
+    res.render('claims', {
+      userName:userName,
+        pageTitle: 'claims',
+        path: '/claims',
+        isAuthenticated: req.session.isLoggedIn,
+        
+})
+};
+exports.getNewClaims= (req,res,next) =>{
+  const user = req.user;
+const userName =  "Hello"+ " "  + user.firstName +"!";
+    res.render('new-claim', {
+      userName:userName,
+        pageTitle: 'new-claim',
+        path: '/new-claim',
+        isAuthenticated: req.session.isLoggedIn,
+       
+})
+};
+exports.postClaim=(req,res,next)=>{
+  const policyNumber = req.body.policyNumber;
+  console.log(policyNumber);
+  const reportDate = req.body.reportDate;
+  const compensation = req.body.comp;
+  console.log(compensation);
+  const lossDate = req.body.lossDate;
+  const claimAmount = req.body.claimAmount;
+  const claimType = req.body.claimType;
+  const offerAmount = req.body.offerAmount;
+  const reporter = req.body.reporter;
+  const offerDate = req.body.offerDate;
+  const compDate = req.body.compDate;
+  const reporterContact = req.body.reporterContact;
+  const garagedAt = req.body.garagedAt;
+ 
+  
+  const garageContact = req.body.garageContact;
+   const claim = new Claim({
+     policyId:policyNumber,
+     reportDate:reportDate,
+     lossDate:lossDate,
+     claimAmount: claimAmount,
+     claimType: claimType,
+     offerAmount: offerAmount,
+     reporter:reporter,
+     offerDate: offerDate,
+     compDate:compDate,
+     reporterContact:reporterContact,
+     garagedAt:garagedAt,
+     compensation: compensation,
+     garageContact:garageContact
+
+   })
+   claim.save().then(data=>{
+     console.log(data);
+   });
+   res.redirect('/new-claim')
+
+}
