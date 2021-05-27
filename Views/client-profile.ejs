@@ -129,8 +129,8 @@
               "
             >
             <h2 style="width: 100%">Client Scanned Documents</h2>
-            <!-- download="<%= policies.kraCert %>" -->
-            <a href="../<%= policies[0].client.kraCert %>" class="document" download="<%= policies[0].client.kraCert %>" >KRA Certificate</a>
+            <!-- download="<%= policies[0].client.kraCert %>" -->
+            <a href="/uploads/<%= clientId %>" class="document" >KRA Certificate</a>
             <input type="hidden" name="myclientId" value="<%= policies.clientId%>">
             <a href="" class="document">ID | Cert of Incorporation</a>
             </div>

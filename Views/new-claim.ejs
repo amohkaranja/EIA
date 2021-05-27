@@ -14,33 +14,62 @@
         </div> -->
 
         <div class="dash-main-body">
-          <form action="/new-claim" method="POST">
+          <form action="/new-claim/<%= policyId%>" method="POST">
           <div class="client-profile-page">
             <div class="client-details">
               <h2>New Claim</h2>
               <div class="client-details-row">
                 <div class="details-col">
                   <div class="client-prof-info">
+                    <p
+                    style="
+                      width: 100%;
+                      padding-left: 1rem;
+                      text-align: center;
+                    "
+                  >
+                    Policy Number
+                  </p>
                     <div class="user-input-group">
                       <input
                         type="text"
+                        disabled
                         class="user-reg-input"
                         placeholder="Policy Number"
-                        name="policyNumber"
+                        value="<%= singlePolicy.policyNumber %>"
                       />
                     </div>
                   </div>
                   <div class="client-prof-info" style="margin-top: 1.4rem">
+                    <p
+                    style="
+                      width: 100%;
+                      padding-left: 1rem;
+                      text-align: center;
+                    "
+                  >
+                    Registration Number
+                  </p>
                     <div class="user-input-group">
                       <input
                         type="text"
                         class="user-reg-input"
                         disabled
                         placeholder="Reg Number"
+                        value="<%=singlePolicy.regN%>"
                       />
                     </div>
                   </div>
                   <div class="client-prof-info">
+                    <p
+                    style="
+                      width: 100%;
+                      padding-left: 1rem;
+                      text-align: center;
+                    "
+                  >
+                    Cover Type
+                  </p>
                     <div class="user-input-group">
                       <select
                         name=""
@@ -49,7 +78,7 @@
                         class="user-reg-input"
                         style="padding: 0 0 0 1rem"
                       >
-                        <option value="" selected>Select Cover Type</option>
+                        <option value="" selected><%=singlePolicy.coverType%></option>
                         <option value="">--INDIVIDUAL--</option>
                         <option value="">Personal Accident</option>
                         <option value="">Professional Indemnity</option>
@@ -72,6 +101,15 @@
                 </div>
                 <div class="details-col">
                   <div class="client-prof-info">
+                    <p
+                    style="
+                      width: 100%;
+                      padding-left: 1rem;
+                      text-align: center;
+                    "
+                  >
+                    Insurer
+                  </p>
                     <div class="user-input-group">
                       <select
                         name=""
@@ -80,7 +118,7 @@
                         disabled
                         style="padding: 0 0 0 1rem"
                       >
-                        <option value="" selected>Select Insurer</option>
+                        <option value="" selected><%=singlePolicy.insurer%></option>
                         <option value="">Sanlum</option>
                         <option value="">Jubilee</option>
                         <option value="">AAR</option>
@@ -104,6 +142,7 @@
                           class="user-reg-input"
                           disabled
                           placeholder="From"
+                          value="<%=singlePolicy.policyStart%>"
                           onblur="(this.type='text')"
                           onfocus="(this. type='date')"
                         />
@@ -113,7 +152,7 @@
                           type="text"
                           disabled
                           class="user-reg-input"
-                          placeholder="To"
+                          placeholder="<%=singlePolicy.policyEnd%>"
                           onblur="(this.type='text')"
                           onfocus="(this. type='date')"
                         />
@@ -121,12 +160,21 @@
                     </div>
                   </div>
                   <div class="client-prof-info">
+                    <p
+                    style="
+                      width: 100%;
+                      padding-left: 1rem;
+                      text-align: center;
+                    "
+                  >
+                    sum insured
+                  </p>
                     <div class="user-input-group">
                       <input
                         type="number"
                         disabled
                         class="user-reg-input"
-                        placeholder="Sum Insured"
+                        placeholder="<%=singlePolicy.sumInsured%>"
                       />
                     </div>
                   </div>
@@ -134,7 +182,7 @@
               </div>
 
               <div class="btn-holder" style="margin: 0 0 2rem 0">
-                <button class="create-btn">Fetch Information</button>
+               
               </div>
             </div>
             <div class="client-documents">
@@ -167,17 +215,22 @@
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
-                      <select
-                        name="claimType"
-                        id=""
+                      <input
+                        type="text"
                         class="user-reg-input"
-                        style="padding: 0 0 0 1rem"
-                      >
-                        <option value="" selected>Select Claim Type</option>
-                        <option value="claim Type">Claim Type</option>
-                        <option value=" Claim Type">Claim Type</option>
-                        <option value=" Claim Type">CLaim Type</option>
-                      </select>
+                        placeholder="claim Type"
+                        name="claimType"
+                      />
+                    </div>
+                  </div>
+                  <div class="client-prof-info">
+                    <div class="user-input-group">
+                      <input
+                        type="text"
+                        class="user-reg-input"
+                        placeholder="claim description"
+                        name="description"
+                      />
                     </div>
                   </div>
                   <div class="client-prof-info">

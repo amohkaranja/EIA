@@ -16,7 +16,7 @@
           <div class="client-profile-page">
             <div class="client-details">
               <h2>Motor Policy Details</h2>
-             <form action="/motor-details/<%= clientId %>" method="POST">
+             <form action="/motor-details/<%= clientId %>" method="POST" >
               <div class="client-details-row">
                 <div class="details-col">
                   <div class="client-prof-info">
@@ -49,7 +49,7 @@
                       >
                         <option value="" selected>Select MV Class</option>
                         <option value="">--PRIVATE--</option>
-                        <option value="Private Motor Vehicle">
+                        <option value="PMV">
                           Private Motor Vehicle
                         </option>
                         <option value="Private Motor Cycle">
@@ -83,14 +83,14 @@
                             id="excess_protector"
                           
                           />
-                          <label for="excess_protector">Excess Protector</label>
+                          <label for="excess_protector">Excess Protector rate</label>
                         </div>
                         <div class="check-box-input">
                           <div class="client-prof-info">
                             <div class="user-input-group">
                               <input
                               name="exPro"
-                                type="number"
+                                type="text"
                                 id="excess_basic_premium"
                                 class="user-reg-input"
                                 disabled
@@ -110,7 +110,7 @@
                             value="Political Violence Terrorism"
                           />
                           <label for="political_and_terror"
-                            >Political Violence &amp; Terrorism</label
+                            >Political Violence &amp; Terrorism Rate</label
                           >
                         </div>
                         <div class="check-box-input">
@@ -196,6 +196,16 @@
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
+                      <input
+                        type="text"
+                        class="user-reg-input"
+                        placeholder="Other benefit name/description"
+                        name="otherName"
+                      />
+                    </div>
+                  </div>
+                  <div class="client-prof-info">
+                    <div class="user-input-group">
                       <select
                         name="insurer"
                         id=""
@@ -229,36 +239,9 @@
                        
                       />
                     </div>
-                    <div class="user-input-group">
-                      <input
-                      name="epLoading"
-                        type="number"
-                        class="user-reg-input"
-                        placeholder="E.P Loading"
-                        
-                      />
-                    </div>
+                   
                   </div>
-                  <div class="user-split-row">
-                    <div class="user-input-group">
-                      <input
-                      name="paLoading"
-                        type="number"
-                        class="user-reg-input"
-                        placeholder="P.A Loading"
-                      
-                      />
-                    </div>
-                    <div class="user-input-group">
-                      <input
-                      name="plLoading"
-                        type="number"
-                        class="user-reg-input"
-                        placeholder="P.L Loading"
-                        
-                      />
-                    </div>
-                  </div>
+                
                 </div>
                 <div class="details-col">
                   <div class="client-prof-info">
@@ -352,18 +335,11 @@
                     </div>
                   </div>
                   <div class="user-split-row">
-                    <div class="user-input-group">
-                      <input
-                      name="otherLoading"
-                        type="number"
-                        class="user-reg-input"
-                        placeholder="Other Loading"
-                      />
-                    </div>
+                    
                     <div class="user-input-group">
                       <input
                       name="rate"
-                        type="number"
+                        type="text"
                         class="user-reg-input"
                         placeholder="Rate"
                         
@@ -373,6 +349,9 @@
                 </div>
               </div>
             </div>
+            <% if (fileError) {%>
+              <h3> <%= fileError%></h3> 
+          <%}%>
             <div class="client-documents">
               <h2>Scan Documents</h2>
               <div
@@ -385,10 +364,12 @@
                 "
               >
                 <label class="kra_label" for="kra_upload"> Logbook </label>
+                
                 <input
                   type="file"
                   id="kra_upload"
                   class="input-upload-documents"
+                  
                 />
                 <p class="upload-file-info-kra"></p>
               </div>

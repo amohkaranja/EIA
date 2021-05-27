@@ -66,14 +66,18 @@ const Client = sequelize.define('clients', {
     type: Sequelize.STRING,
     allowNull:true
   },
+  logBook:{
+    type: Sequelize.STRING,
+    allowNull:true
+  },
   level:{
     type: Sequelize.STRING,
     allowNull:false
   },
-  occupation:{
-    type: Sequelize.STRING,
-    allowNull:false
-  },
+  // occupation:{
+  //   type: Sequelize.STRING,
+  //   allowNull:false
+  // },
   contactPerson:{
     type: Sequelize.STRING,
     allowNull:false

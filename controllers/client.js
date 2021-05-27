@@ -2,14 +2,34 @@ const Client = require('../models/client');
 
 const Policy = require('../models/policy');
 
-const Claim = require('../models/claims')
+const Claim = require('../models/claims');
+
+const Logs= require('../models/logs');
 
 const fs = require('fs');
 
 const path = require('path');
 
 exports.getNewClient= (req,res,next) =>{
+
   const user = req.user;
+  let today = new Date()
+  let month = today.getMonth() + 1;
+  let date= today.getDate();
+  let year = today.getFullYear();
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  let secs = today.getSeconds();
+  const current_date = `${month}/${date}/${year}`;
+  const current_time = `${hour}:${min}:${secs}`;
+
+const log= new Logs({
+task: "Created new client",
+userId: user._id,
+time: current_time,
+date:current_date
+});
+  log.save();
 const userName =  "Hello"+ " "  + user.firstName +"!";
     res.render('new-client', {
       userName:userName,
@@ -17,7 +37,8 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
         path: '/new-client',
         isAuthenticated: req.session.isLoggedIn,
         emailError: req.flash('emailError'),
-        fileError: req.flash('fileError')
+        fileError: req.flash('fileError'),
+        
 })
 };
 exports.getClientProfile= (req,res,next) =>{
@@ -27,7 +48,7 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
 const clientId = req.params.clientId;
 Policy.findAll({include:[{model:Client,where:{id:clientId}}]})
 .then(policies=>{
-  console.log(policies);
+  
   res.render('client-profile',{
     userName:userName ,
       pageTitle: 'client-profile',
@@ -42,6 +63,8 @@ Policy.findAll({include:[{model:Client,where:{id:clientId}}]})
 
 };
 exports.postClient=(req,res,next)=>{
+  const user = req.user;
+  const userName =  "Hello"+ " "  + user.firstName +"!";
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const phoneNumber= req.body.phoneNumber;
@@ -54,21 +77,41 @@ exports.postClient=(req,res,next)=>{
   const businessNature = req.body.businessNature;
   const pin = req.body.pin;
   const regNumber=  "EIA/CP/08/2021";
-  const kraCert= req.file;
-  const idCopy = req.file;
+  const kraCert= req.files['kraCert'][0];
+  const idCopy = req.files['idCopy'][0];
+  // const logBook = req.files['logBook'][0];
   const level = req.body.level;
-  const occupation = req.body.occupation;
+  // const occupation = req.body.occupation;
   const contactPerson = req.body.contactPerson;
   const contactPersonNumber = req.body.contactPersonNumber;
-  console.log(kraCert + idCopy);
    if(!kraCert){
     req.flash('fileError','Attached file is not an image!');
-    return res.redirect('/new-client');
+    return     res.render('new-client', {
+      userName:userName,
+        pageTitle: 'new-client',
+        path: '/new-client',
+        isAuthenticated: req.session.isLoggedIn,
+        emailError: req.flash('emailError'),
+        fileError: req.flash('fileError'),
+        
+});
    };
    if(!idCopy){
     req.flash('fileError','Attached file is not an image!');
-    return res.redirect('/new-client');
+    return res. res.render('new-client', {
+      userName:userName,
+        pageTitle: 'new-client',
+        path: '/new-client',
+        isAuthenticated: req.session.isLoggedIn,
+        emailError: req.flash('emailError'),
+        fileError: req.flash('fileError'),
+        
+});
    };
+  //  if(!logBook){
+  //   req.flash('fileError','Attached file is not an image!');
+  //   return res.redirect('/new-client');
+  //  };
   
   Client.findOne({where:{email: email}})
   .then(client => {
@@ -77,8 +120,9 @@ exports.postClient=(req,res,next)=>{
       return res.redirect('/new-client');
     }
   }).then(result=>{
-       const kraCertPath =kraCert.path;
+       const kraCertPath = kraCert.path;
        const idCopyPath = idCopy.path;
+      //  const logBookPath = logBook.path;
     const client = new Client({
       email: email,
       phoneNumber:phoneNumber,
@@ -95,14 +139,15 @@ exports.postClient=(req,res,next)=>{
       pin:pin,
       regNumber:regNumber,
       idCopy:idCopyPath,
+      // logBook:logBookPath,
       level:level,
-      occupation:occupation,
+      // occupation:occupation,
       contactPerson: contactPerson,
       contactPersonNumber: contactPersonNumber
   
     });
     return client.save().then(data=>{
-      console.log(data);
+      
     });
 
   }).then(aftersave=>{
@@ -116,15 +161,17 @@ exports.postClient=(req,res,next)=>{
 
 };
 exports.getKraCert = (req,res,next)=>{
-const myclientId= req.params.myclientId;
+const myclientId= req.params.clientId;
 Client.findOne({where:{id :myclientId}}).then(client=>{
-  const kraCertPath = path.join('images',client.kraCert);
+  const kraCertPath = path.join(client.kraCert);
+  
   fs.readFile(kraCertPath,(err,data)=>{
     if(err){
       return next (err);
     }
     res.setHeader('content-Type','application/image')
-    res.send(data);
+
+    res.send(data)
   })
 })
 
@@ -132,6 +179,23 @@ Client.findOne({where:{id :myclientId}}).then(client=>{
 exports.getMotor= (req,res,next) =>{
   const clientId= req.params.clientId;
   const user = req.user;
+  let today = new Date()
+  let month = today.getMonth() + 1;
+  let date= today.getDate();
+  let year = today.getFullYear();
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  let secs = today.getSeconds();
+  const current_date = `${month}/${date}/${year}`;
+  const current_time = `${hour}:${min}:${secs}`;
+
+const log= new Logs({
+task: "created a motor policy",
+userId: user._id,
+time: current_time,
+date:current_date
+});
+  log.save();
 const userName =  "Hello"+ " "  + user.firstName +"!";
 
 res.render('motor-details',{
@@ -139,6 +203,7 @@ res.render('motor-details',{
     pageTitle: 'motor-details',
     clientId:clientId,
     path:'/motor-details',
+    fileError: req.flash('fileError'),
     isAuthenticated: req.session.isLoggedIn
 });
  
@@ -147,6 +212,25 @@ exports.getNonMotor= (req,res,next) =>{
   const clientId= req.params.clientId;
   const user = req.user;
 const userName =  "Hello"+ " "  + user.firstName +"!";
+
+  let today = new Date()
+  let month = today.getMonth() + 1;
+  let date= today.getDate();
+  let year = today.getFullYear();
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  let secs = today.getSeconds();
+  const current_date = `${month}/${date}/${year}`;
+  const current_time = `${hour}:${min}:${secs}`;
+
+const log= new Logs({
+task: "created a non motor policy",
+userId: user._id,
+time: current_time,
+date:current_date
+});
+  log.save();
+
 
 res.render('non-motor-details',{
   userName:userName ,
@@ -160,12 +244,10 @@ res.render('non-motor-details',{
 exports.postMotor= (req,res,next)=>{
   const clientId= req.params.clientId;
   const policytype= 'Motor vehicles';
-  let stampDuty =req.params.stampDuty;
-  let epLoading = req.params.epLoading;
-  let paLoading = req.params.paLoading;
-  let plLoading = req.params.plLoading;
-  let otherLoading = req.params.otherLoading;
-  let rate = req.params.rate;
+  let stampDuty =req.body.stampDuty;
+  const rate = req.body.rate;
+  console.log(rate);
+  const otherName = req.body.otherName;
   const policyName= req.body.policyName;
   const coverType = req.body.coverType;
   const branch= req.body.branch;
@@ -179,38 +261,34 @@ exports.postMotor= (req,res,next)=>{
   const logBookNumber= req.body.logBookNumber;
   const engineNumber = req.body.engineNumber;
   const chasisNumber = req.body.chasisNumber;
-  // const logBookScanned= req.body.logBookScanned;
   const exPro = req.body.exPro;
   const poliTe = req.body.poliTe;
   const perAcc= req.body.perAcc;
   const otherBe = req.body.otherBe;
   let newStampDuty = (stampDuty-0) || 0;
-  let newEpLoading = (epLoading-0) || 0;
-  let NewPaLoading = (paLoading-0) || 0;
-  let NewPlLoading = (plLoading-0) || 0;
-  let NewOtherLoading = (otherLoading-0) || 0;
   let NewRate = (rate-0) || 1;
   let newSumInsured= (sumInsured-0) || 0;
+  console.log(newSumInsured);
   let newExPro =(exPro-0) || 0;
   let newPoliTe= (poliTe-0) || 0;
   let newPerAcc= (perAcc-0) || 0;
   let newOtherBe = (otherBe-0) || 0;
   let basicPremium = (newSumInsured *(NewRate/100));
-  let subBasic = (basicPremium + newEpLoading + NewPlLoading + NewPaLoading + NewOtherLoading);
+  console.log(basicPremium);
+  let subBasic = (basicPremium + newExPro + newPoliTe + newPerAcc + newOtherBe);
   let trainingLevy= (subBasic * 0.002);
   let PHCF = (subBasic * 0.0025);
+  
+  console.log(subBasic);
   const GrandTotal = (newStampDuty + trainingLevy + PHCF + subBasic);
-  const netProfit = (newSumInsured + newExPro + newPoliTe + newPerAcc + newOtherBe);
+  console.log(GrandTotal);
   const  policy= new Policy({
     clientId:clientId,
     otherBe:otherBe,
     rate:rate,
+    otherName:otherName,
     stampDuty: stampDuty,
-    paLoading:paLoading,
-    plLoading:paLoading,
-    otherLoading: otherLoading,
-    epLoading:epLoading,
-    netProfit:netProfit,
+    netProfit:GrandTotal,
     exPro:exPro,
     poliTe:poliTe,
     perAcc:perAcc,
@@ -225,7 +303,6 @@ exports.postMotor= (req,res,next)=>{
     logBookNumber: logBookNumber,
     engineNumber: engineNumber,
     chasisNumber: chasisNumber,
-    // logBookScanned: logBookScanned,
     policyNumber: policyNumber,
     policyStart: policyStart,
     policyEnd: policyEnd,
@@ -240,12 +317,9 @@ exports.postNonMotor= (req,res,next)=>{
   const clientId= req.params.clientId;
   const policytype= 'NonMotor vehicles';
   let stampDuty =req.body.stampDuty;
-  let epLoading = req.body.epLoading;
-  let paLoading = req.body.paLoading;
-  let plLoading = req.body.plLoading;
-  let otherLoading = req.body.otherLoading;
   let rate = req.body.rate;
   const policyName= req.body.policyName;
+  const otherName = req.body.otherName;
   const coverType = req.body.coverType;
   const branch= req.body.branch;
   const policyNumber= req.body.policyNumber;
@@ -262,10 +336,6 @@ exports.postNonMotor= (req,res,next)=>{
   let TPPMBP= req.body.TPPMBP;
   let otherBe=req.body. otherBe;
   let newStampDuty = (stampDuty-0) || 0;
-  let newEpLoading = (epLoading-0) || 0;
-  let NewPaLoading = (paLoading-0) || 0;
-  let NewPlLoading = (plLoading-0) || 0;
-  let NewOtherLoading = (otherLoading-0) || 0;
   let NewRate = (rate-0) || 1;
   let newSumInsured=(sumInsured-0) || 0;
   let newTPBP= (TPBP-0) || 0;
@@ -275,21 +345,16 @@ exports.postNonMotor= (req,res,next)=>{
   let newTPPMBP= (TPPMBP-0) || 0;
   let newOtherBe = (otherBe-0) || 0;
   let basicPremium = (newSumInsured *(NewRate/100));
-  let subBasic = (basicPremium + newEpLoading + NewPlLoading + NewPaLoading + NewOtherLoading);
+  let subBasic = (basicPremium +newOtherBe);
   let trainingLevy= (subBasic * 0.002);
   let PHCF = (subBasic * 0.0025);
-  const GrandTotal = (newStampDuty + trainingLevy + PHCF + subBasic);
-  const netProfit = (GrandTotal+ newTPBP + newMBP + newELBP + newPANBP + newTPPMBP + newOtherBe);
+  const GrandTotal = (newStampDuty + trainingLevy + PHCF + subBasic + newTPBP + newMBP + newELBP + newPANBP + newTPPMBP);
   const policy= new Policy({
     clientId:clientId,
     otherBe:otherBe,
     rate:rate,
     stampDuty: stampDuty,
-    paLoading:paLoading,
-    plLoading:paLoading,
-    otherLoading: otherLoading,
-    epLoading:epLoading,
-    netProfit:netProfit,
+    otherName:otherName,
      employees:employees,
      businessNumber:businessNumber,
      TPBP:TPBP,
@@ -332,45 +397,101 @@ Policy.findOne({where:{id:policyId}}).then(
 exports.getClaims= (req,res,next) =>{
   const user = req.user;
 const userName =  "Hello"+ " "  + user.firstName +"!";
-    res.render('claims', {
-      userName:userName,
-        pageTitle: 'claims',
-        path: '/claims',
-        isAuthenticated: req.session.isLoggedIn,
-        
+Claim.findAll({include:[{model:Policy}],limit:10,order: [ [ 'createdAt', 'DESC' ]]}).then(claim=>{
+  res.render('claims', {
+    userName:userName,
+    claims:claim,
+      pageTitle: 'claims',
+      path: '/claims',
+      isAuthenticated: req.session.isLoggedIn,
+      
 })
+ 
+});
+
 };
+
+
+exports.getPolicySelection=(req,res,next)=>{
+  Policy.findAll({include:[{model:Client}],limit:10,order: [ [ 'createdAt', 'DESC' ]]}).then(policy=>{
+    const user = req.user;
+  const userName =  "Hello"+ " "  + user.firstName +"!";
+  res.render('policy-selection',{
+      userName:userName ,
+      policies:policy,
+      pageTitle: 'policy-selection',
+      path:'/policy-selection',
+      isAuthenticated: req.session.isLoggedIn
+  });
+  })
+   
+}
 exports.getNewClaims= (req,res,next) =>{
+
+  const policyId= req.params.policyId
   const user = req.user;
+  let today = new Date()
+  let month = today.getMonth() + 1;
+  let date= today.getDate();
+  let year = today.getFullYear();
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  let secs = today.getSeconds();
+  const current_date = `${month}/${date}/${year}`;
+  const current_time = `${hour}:${min}:${secs}`;
+
+const log= new Logs({
+task: "created a new claim",
+userId: user._id,
+time: current_time,
+date:current_date
+});
+  log.save();
 const userName =  "Hello"+ " "  + user.firstName +"!";
-    res.render('new-claim', {
-      userName:userName,
-        pageTitle: 'new-claim',
-        path: '/new-claim',
-        isAuthenticated: req.session.isLoggedIn,
-       
+
+ Policy.findOne({where:{id:policyId}})
+ .then(policy=>{
+  //  console.log(policyId);
+  res.render('new-claim', {
+    userName:userName,
+     singlePolicy:policy,
+     policyId:policyId,
+      pageTitle: 'new-claim',
+      path: '/new-claim',
+      isAuthenticated: req.session.isLoggedIn,
+     
 })
+ })
+ 
 };
 exports.postClaim=(req,res,next)=>{
-  const policyNumber = req.body.policyNumber;
-  console.log(policyNumber);
+  const policyId= req.params.policyId;
   const reportDate = req.body.reportDate;
   const compensation = req.body.comp;
-  console.log(compensation);
   const lossDate = req.body.lossDate;
   const claimAmount = req.body.claimAmount;
   const claimType = req.body.claimType;
+  const description = req.body.description;
   const offerAmount = req.body.offerAmount;
   const reporter = req.body.reporter;
   const offerDate = req.body.offerDate;
   const compDate = req.body.compDate;
   const reporterContact = req.body.reporterContact;
   const garagedAt = req.body.garagedAt;
+  const garageContact = req.body.garageContact;
+// Policy.findAll({where:{id:policyId},include:[{model:Client}]}).then(
+//   policies=>{
+//     const firstName= policies[0].client.firstName;
+//     const lastName= policies[0].client.lastName;
+
+//     
+//   }
+// )
  
   
-  const garageContact = req.body.garageContact;
+  
    const claim = new Claim({
-     policyId:policyNumber,
+     policyId:policyId,
      reportDate:reportDate,
      lossDate:lossDate,
      claimAmount: claimAmount,
@@ -382,12 +503,11 @@ exports.postClaim=(req,res,next)=>{
      reporterContact:reporterContact,
      garagedAt:garagedAt,
      compensation: compensation,
-     garageContact:garageContact
+     garageContact:garageContact,
+     description:description
 
    })
-   claim.save().then(data=>{
-     console.log(data);
-   });
-   res.redirect('/new-claim')
+   claim.save()
+   res.redirect('/claims')
 
-}
+};

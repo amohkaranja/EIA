@@ -65,6 +65,10 @@ const Policy = sequelize.define('policy', {
     type: Sequelize.STRING,
     allowNull:true
   },
+  otherName:{
+    type: Sequelize.STRING,
+    allowNull:true
+  },
   employees:{
     type: Sequelize.INTEGER,
     allowNull:true,
@@ -143,26 +147,6 @@ incorpCert:{
     defaultValue:'0'
   },
   stampDuty:{
-    type: Sequelize.INTEGER,
-    allowNull:true,
-    defaultValue:'0'
-  },
-  epLoading:{
-    type: Sequelize.INTEGER,
-    allowNull:true,
-    defaultValue:'0'
-  },
-  paLoading:{
-    type: Sequelize.INTEGER,
-    allowNull:true,
-    defaultValue:'0'
-  },
-  plLoading:{
-    type: Sequelize.INTEGER,
-    allowNull:true,
-    defaultValue:'0'
-  },
-  otherLoading:{
     type: Sequelize.INTEGER,
     allowNull:true,
     defaultValue:'0'

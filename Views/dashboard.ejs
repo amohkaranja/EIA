@@ -2,7 +2,13 @@
         <div class="dash-main">
             <div class="dash-main-top">
                 <div class="form-action-flexed">
-                    <input type="text" class="input-space-search" placeholder="Enter detail to search">
+                    <input
+                     type="text" 
+                     class="input-space-search" 
+                     placeholder="Enter detail to search"
+                      id="myInput"
+                      onkeyup="myFunction()"
+                      >
                     <button class="btn search">SEARCH</button>
                     <a href="/new-client" class="btn other search">ADD NEW</a>
                 </div>
@@ -17,11 +23,11 @@
                               <th>Pin</th>
                               <th>P. O. Box</th>
                               <th>Type</th>
-                              <th>Pending Premium</th>
+                    
                             </tr>
                     </thead>
                     
-                    <tbody>
+                    <tbody id="myTable">
                         <% if(clients.length > 0) { %> 
                             <% for(let client of clients) { %>
                         
@@ -31,7 +37,7 @@
                             <td><%= client.pin%></td>
                             <td><%= client.boxOffice%>  <%= client.town%></td>
                             <td><%= client.businessType %></td>
-                            <td>Kshs 1000000</td>
+                            
                         </tr>
                         <% } %>
                         <% } else { %>
@@ -49,5 +55,28 @@
         <%- include ('./includes/sidePane.ejs') %>
         </div>
     </div>
+    <script>
+        function myFunction() {
+            var input, filter, found, table, tr, td, i, j;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                    }
+                }
+                if (found) {
+                    tr[i].style.display = "";
+                    found = false;
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+      </script>
 </body>
 </html>

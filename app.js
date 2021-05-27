@@ -43,7 +43,8 @@ const fileStorage = multer.diskStorage({
     if (
       file.mimetype === 'image/png' ||
       file.mimetype === 'image/jpg' ||
-      file.mimetype === 'image/jpeg'
+      file.mimetype === 'image/jpeg'||
+      file.mimetype === 'image/pdf'
     ) {
       cb(null, true);
     } else {
@@ -59,9 +60,11 @@ app.set('views','views');
 
 app.use(bodyParser.urlencoded({extended:false}));
 
-// app.use(multer({storage:fileStorage,fileFilter:fileFilter }).fields([{name:'kraCert',maxCount:1},{name:'idCopy',maxCount:1}]));
+app.use(multer({storage:fileStorage,fileFilter:fileFilter }).
+fields([{name:'kraCert',maxCount:1},{name:'idCopy',maxCount:1},{name:'logBook',maxCount:1}]));
 
-app.use(multer({storage:fileStorage,fileFilter:fileFilter }).single('kraCert'));
+// app.use(multer({storage:fileStorage,fileFilter:fileFilter }).single('kraCert'));
+// app.use(multer({storage:fileStorage,fileFilter:fileFilter }).single('idCopy'));
 
 
 
@@ -111,14 +114,15 @@ Policy.belongsTo(Client,{constraints: true, onDelete:'CASCADE'});
 Client.hasMany(Policy);
 Claims.belongsTo(Policy,{constraints: true, onDelete:'CASCADE'});
 Policy.hasMany(Claims);
-
+Claims.belongsTo(Client,{constraints: true, onDelete:'CASCADE'});
+Client.hasMany(Claims);
 sequelize
     // .sync({force: true})
     .sync({ alter: true })
 // .sync()
 
 .then( callback=>{
-    app.listen(3000) 
+    app.listen(8080,'0.0.0.0') 
 })
 .catch(
     
