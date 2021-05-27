@@ -11,7 +11,7 @@ router.get('/client-profile/:clientId',isAuth,controllers.getClientProfile);
 
 router.post('/new-client',controllers.postClient);
 
-router.get('/uploads/:clientId',controllers.getKraCert);
+// router.get('/uploads/:clientId',controllers.getKraCert);
 
 router.get('/motor-details/:clientId',isAuth,controllers.getMotor);
 

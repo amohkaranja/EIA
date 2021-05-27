@@ -77,37 +77,37 @@ exports.postClient=(req,res,next)=>{
   const businessNature = req.body.businessNature;
   const pin = req.body.pin;
   const regNumber=  "EIA/CP/08/2021";
-  const kraCert= req.files['kraCert'][0];
-  const idCopy = req.files['idCopy'][0];
+  // const kraCert= req.files['kraCert'][0];
+  // const idCopy = req.files['idCopy'][0];
   // const logBook = req.files['logBook'][0];
   const level = req.body.level;
   // const occupation = req.body.occupation;
   const contactPerson = req.body.contactPerson;
   const contactPersonNumber = req.body.contactPersonNumber;
-   if(!kraCert){
-    req.flash('fileError','Attached file is not an image!');
-    return     res.render('new-client', {
-      userName:userName,
-        pageTitle: 'new-client',
-        path: '/new-client',
-        isAuthenticated: req.session.isLoggedIn,
-        emailError: req.flash('emailError'),
-        fileError: req.flash('fileError'),
+//    if(!kraCert){
+//     req.flash('fileError','Attached file is not an image!');
+//     return     res.render('new-client', {
+//       userName:userName,
+//         pageTitle: 'new-client',
+//         path: '/new-client',
+//         isAuthenticated: req.session.isLoggedIn,
+//         emailError: req.flash('emailError'),
+//         fileError: req.flash('fileError'),
         
-});
-   };
-   if(!idCopy){
-    req.flash('fileError','Attached file is not an image!');
-    return res. res.render('new-client', {
-      userName:userName,
-        pageTitle: 'new-client',
-        path: '/new-client',
-        isAuthenticated: req.session.isLoggedIn,
-        emailError: req.flash('emailError'),
-        fileError: req.flash('fileError'),
+// });
+//    };
+//    if(!idCopy){
+//     req.flash('fileError','Attached file is not an image!');
+//     return res. res.render('new-client', {
+//       userName:userName,
+//         pageTitle: 'new-client',
+//         path: '/new-client',
+//         isAuthenticated: req.session.isLoggedIn,
+//         emailError: req.flash('emailError'),
+//         fileError: req.flash('fileError'),
         
-});
-   };
+// });
+//    };
   //  if(!logBook){
   //   req.flash('fileError','Attached file is not an image!');
   //   return res.redirect('/new-client');
@@ -120,8 +120,8 @@ exports.postClient=(req,res,next)=>{
       return res.redirect('/new-client');
     }
   }).then(result=>{
-       const kraCertPath = kraCert.path;
-       const idCopyPath = idCopy.path;
+      //  const kraCertPath = kraCert.path;
+      //  const idCopyPath = idCopy.path;
       //  const logBookPath = logBook.path;
     const client = new Client({
       email: email,
@@ -135,10 +135,10 @@ exports.postClient=(req,res,next)=>{
       idNumber: idNumber,
       businessType:businessType,
       businessNature:businessNature,
-      kraCert:kraCertPath,
+      // kraCert:kraCertPath,
       pin:pin,
       regNumber:regNumber,
-      idCopy:idCopyPath,
+      // idCopy:idCopyPath,
       // logBook:logBookPath,
       level:level,
       // occupation:occupation,
@@ -160,22 +160,22 @@ exports.postClient=(req,res,next)=>{
 
 
 };
-exports.getKraCert = (req,res,next)=>{
-const myclientId= req.params.clientId;
-Client.findOne({where:{id :myclientId}}).then(client=>{
-  const kraCertPath = path.join(client.kraCert);
+// exports.getKraCert = (req,res,next)=>{
+// const myclientId= req.params.clientId;
+// Client.findOne({where:{id :myclientId}}).then(client=>{
+//   const kraCertPath = path.join(client.kraCert);
   
-  fs.readFile(kraCertPath,(err,data)=>{
-    if(err){
-      return next (err);
-    }
-    res.setHeader('content-Type','application/image')
+//   fs.readFile(kraCertPath,(err,data)=>{
+//     if(err){
+//       return next (err);
+//     }
+//     res.setHeader('content-Type','application/image')
 
-    res.send(data)
-  })
-})
+//     res.send(data)
+//   })
+// })
 
-};
+// };
 exports.getMotor= (req,res,next) =>{
   const clientId= req.params.clientId;
   const user = req.user;
