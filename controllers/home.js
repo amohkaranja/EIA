@@ -198,7 +198,7 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
 
 Policy.findAll({include:[{model:Clients}],limit:10,order: [ [ 'createdAt', 'DESC' ]]})
 .then(policies=>{
-  console.log(policies);
+  
   res.render('underwriting',{
     userName:userName ,
       pageTitle: 'underwriting',

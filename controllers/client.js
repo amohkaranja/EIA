@@ -176,6 +176,57 @@ exports.postClient=(req,res,next)=>{
 // })
 
 // };
+exports.getPolicyEdit=(req,res,next)=>{
+  const policyId =req.params.policyId;
+  console.log(policyId);
+  const user = req.user;
+  let today = new Date()
+  let month = today.getMonth() + 1;
+  let date= today.getDate();
+  let year = today.getFullYear();
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  let secs = today.getSeconds();
+  const current_date = `${year}/${month}/${date}`;
+  const current_time = `${hour}:${min}:${secs}`;
+
+const log= new Logs({
+task: "Edited a policy",
+userId: user._id,
+time: current_time,
+date:current_date
+});
+  log.save();
+const userName =  "Hello"+ " "  + user.firstName +"!";
+  Policy.findOne({raw: true,where:{id:policyId}}).then(
+    policy=>{
+      
+      console.log("This is the output" + policy.policytype);
+      if(policy.policytype == 'Motor vehicles'){
+      res.render('motorEdit',{
+        userName:userName ,
+        policy:policy,
+          pageTitle: 'motor Edits',
+          path:'/motorEdit',
+          isAuthenticated: req.session.isLoggedIn
+      });
+      }else{
+        console.log('i rendered second');
+        res.render('nonMotorEdit',{
+          userName:userName ,
+          policy:policy,
+            pageTitle: 'non-motor-edits',
+            path:'/nonMotorEdit',
+            isAuthenticated: req.session.isLoggedIn
+        });
+
+      }
+    }
+  ).catch(err=>{
+    console.log(err);
+  })
+
+};
 exports.getMotor= (req,res,next) =>{
   const clientId= req.params.clientId;
   const user = req.user;
@@ -186,7 +237,7 @@ exports.getMotor= (req,res,next) =>{
   let hour = today.getHours();
   let min = today.getMinutes();
   let secs = today.getSeconds();
-  const current_date = `${month}/${date}/${year}`;
+  const current_date = `${year}/${month}/${date}`;
   const current_time = `${hour}:${min}:${secs}`;
 
 const log= new Logs({
@@ -220,7 +271,7 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
   let hour = today.getHours();
   let min = today.getMinutes();
   let secs = today.getSeconds();
-  const current_date = `${month}/${date}/${year}`;
+  const current_date = `${year}/${month}/${date}`;
   const current_time = `${hour}:${min}:${secs}`;
 
 const log= new Logs({
@@ -313,6 +364,83 @@ exports.postMotor= (req,res,next)=>{
 res.redirect(`/motor-details/${clientId}`)
   
 };
+exports.postMotorEdit= (req,res,next)=>{
+  const policyId= req.params.policyId;
+  const policytype= 'Motor vehicles';
+  let stampDuty =req.body.stampDuty;
+  const rate = req.body.rate;
+  console.log(rate);
+  const otherName = req.body.otherName;
+  const policyName= req.body.policyName;
+  const coverType = req.body.coverType;
+  const branch= req.body.branch;
+  const policyNumber= req.body.policyNumber;
+  const mvClass = req.body.mvClass;
+  const policyStart= req.body.policyStart;
+  const policyEnd = req.body.policyEnd;
+  const regN=req.body.regN;
+  const sumInsured= req.body.sumInsured;
+  const insurer =req.body.insurer;
+  const logBookNumber= req.body.logBookNumber;
+  const engineNumber = req.body.engineNumber;
+  const chasisNumber = req.body.chasisNumber;
+  const exPro = req.body.exPro;
+  const poliTe = req.body.poliTe;
+  const perAcc= req.body.perAcc;
+  const otherBe = req.body.otherBe;
+  let newStampDuty = (stampDuty-0) || 0;
+  let NewRate = (rate-0) || 1;
+  let newSumInsured= (sumInsured-0) || 0;
+  console.log(newSumInsured);
+  let newExPro =(exPro-0) || 0;
+  let newPoliTe= (poliTe-0) || 0;
+  let newPerAcc= (perAcc-0) || 0;
+  let newOtherBe = (otherBe-0) || 0;
+  let basicPremium = (newSumInsured *(NewRate/100));
+  console.log(basicPremium);
+  let subBasic = (basicPremium + newExPro + newPoliTe + newPerAcc + newOtherBe);
+  let trainingLevy= (subBasic * 0.002);
+  let PHCF = (subBasic * 0.0025);
+  
+  console.log(subBasic);
+  const GrandTotal = (newStampDuty + trainingLevy + PHCF + subBasic);
+  console.log(GrandTotal);
+  Policy.findOne({where:{id:policyId}}).then(policy=>{
+   policy.otherBe=otherBe,
+   policy.rate=rate,
+   policy.otherName=otherName,
+   policy.stampDuty= stampDuty,
+   policy.netProfit=GrandTotal,
+   policy.exPro=exPro,
+   policy.poliTe=poliTe,
+   policy.perAcc=perAcc,
+   policy.policytype= policytype,
+   policy.policyName= policyName,
+   policy.coverType= coverType,
+   policy.branch= branch,
+   policy.mvClass= mvClass,
+   policy.regN= regN,
+   policy.sumInsured= sumInsured,
+   policy.insurer= insurer,
+   policy.logBookNumber= logBookNumber,
+   policy.engineNumber= engineNumber,
+   policy.chasisNumber= chasisNumber,
+   policy.policyNumber= policyNumber,
+   policy.policyStart= policyStart,
+   policy.policyEnd= policyEnd,
+   policy.GrandTotal=GrandTotal,
+    policy.save();
+
+  }).then(result=>{
+    res.redirect('/underwriting')
+  })
+  
+    
+
+
+  
+};
+
 exports.postNonMotor= (req,res,next)=>{
   const clientId= req.params.clientId;
   const policytype= 'NonMotor vehicles';
@@ -376,7 +504,78 @@ exports.postNonMotor= (req,res,next)=>{
     policy.save();
 
 res.redirect(`/non-motor-details/${clientId}`)
+};
+exports.postNonMotorEdit= (req,res,next)=>{
+  const policyId= req.params.policyId;
+  const policytype= 'NonMotor vehicles';
+  let stampDuty =req.body.stampDuty;
+  let rate = req.body.rate;
+  const policyName= req.body.policyName;
+  const otherName = req.body.otherName;
+  const coverType = req.body.coverType;
+  const branch= req.body.branch;
+  const policyNumber= req.body.policyNumber;
+  const policyStart= req.body.policyStart;
+  const policyEnd = req.body.policyEnd;
+  let sumInsured= req.body.sumInsured;
+  const insurer =req.body.insurer;
+  const employees= req.body.employees;
+  const businessNumber= req.body.businessNumber;
+  let TPBP = req.body.TPBP;
+  let MBP = req.body.MBP;
+  let ELBP= req.body.ELBP;
+  let PANBP=req.body.PANBP;
+  let TPPMBP= req.body.TPPMBP;
+  let otherBe=req.body. otherBe;
+  let newStampDuty = (stampDuty-0) || 0;
+  let NewRate = (rate-0) || 1;
+  let newSumInsured=(sumInsured-0) || 0;
+  let newTPBP= (TPBP-0) || 0;
+  let newMBP = (MBP-0) || 0;
+  let newELBP= (ELBP-0) || 0;
+  let newPANBP= (PANBP-0) || 0;
+  let newTPPMBP= (TPPMBP-0) || 0;
+  let newOtherBe = (otherBe-0) || 0;
+  let basicPremium = (newSumInsured *(NewRate/100));
+  let subBasic = (basicPremium +newOtherBe);
+  let trainingLevy= (subBasic * 0.002);
+  let PHCF = (subBasic * 0.0025);
+  const GrandTotal = (newStampDuty + trainingLevy + PHCF + subBasic + newTPBP + newMBP + newELBP + newPANBP + newTPPMBP);
+
+  Policy.findOne({where:{id:policyId}}).then(policy=>{
+    policy.otherBe=otherBe,
+    policy.rate=rate,
+    policy.stampDuty= stampDuty,
+    policy.otherName=otherName,
+    policy.employees=employees,
+    policy.businessNumber=businessNumber,
+    policy.TPBP=TPBP,
+    policy.MBP=MBP,
+    policy.ELBP=ELBP,
+    policy.PANBP=PANBP,
+    policy.TPPMBP=TPPMBP,
+    policy.policytype= policytype,
+    policy.policyName= policyName,
+    policy.coverType= coverType,
+    policy.branch= branch,
+    policy.sumInsured= sumInsured,
+    policy.insurer= insurer,
+    policy.policyNumber= policyNumber,
+    policy.policyStart= policyStart,
+    policy.policyEnd= policyEnd,
+    policy.GrandTotal=GrandTotal,
+
+    policy.save();
+
+  }).then(result=>{
+    res.redirect('/underwriting')
+  })
+  
+    
+
+
 }
+
 exports.getMvDetails= (req,res,next) =>{
   const policyId = req.params.policyId;
   const user = req.user;
@@ -398,11 +597,30 @@ exports.getClaims= (req,res,next) =>{
   const user = req.user;
 const userName =  "Hello"+ " "  + user.firstName +"!";
 Claim.findAll({include:[{model:Policy}],limit:10,order: [ [ 'createdAt', 'DESC' ]]}).then(claim=>{
+  
   res.render('claims', {
     userName:userName,
     claims:claim,
       pageTitle: 'claims',
       path: '/claims',
+      isAuthenticated: req.session.isLoggedIn,
+      
+})
+ 
+});
+
+};
+exports.getClaimEdit= (req,res,next) =>{
+  const user = req.user;
+  const claimId = req.params.claimId
+const userName =  "Hello"+ " "  + user.firstName +"!";
+  Claim.findOne({where:{id:claimId},include:[{model:Policy}]}).then(claim=>{
+    
+  res.render('singleClaim', {
+    userName:userName,
+    claims:claim,
+      pageTitle: 'claim-edit',
+      path: '/singleClaim',
       isAuthenticated: req.session.isLoggedIn,
       
 })
@@ -451,7 +669,7 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
 
  Policy.findOne({where:{id:policyId}})
  .then(policy=>{
-  //  console.log(policyId);
+  
   res.render('new-claim', {
     userName:userName,
      singlePolicy:policy,
@@ -509,5 +727,45 @@ exports.postClaim=(req,res,next)=>{
    })
    claim.save()
    res.redirect('/claims')
+
+};
+exports.postClaimEdit=(req,res,next)=>{
+  const claimId = req.params.claimId
+  const reportDate = req.body.reportDate;
+  const compensation = req.body.comp;
+  const lossDate = req.body.lossDate;
+  const claimAmount = req.body.claimAmount;
+  const claimType = req.body.claimType;
+  const description = req.body.description;
+  const offerAmount = req.body.offerAmount;
+  const reporter = req.body.reporter;
+  const offerDate = req.body.offerDate;
+  const compDate = req.body.compDate;
+  const reporterContact = req.body.reporterContact;
+  const garagedAt = req.body.garagedAt;
+  const garageContact = req.body.garageContact;
+
+  Claim.findOne({where:{id:claimId}}).then(claim=>{
+   claim.reportDate=reportDate,
+    claim.lossDate=lossDate,
+   claim.claimAmount=claimAmount,
+    claim.claimType=claimType,
+   claim.offerAmount=offerAmount,
+    claim.reporter=reporter,
+    claim.offerDate= offerDate,
+    claim.compDate=compDate,
+   claim.reporterContact=reporterContact,
+   claim.garagedAt=garagedAt,
+    claim.compensation=compensation,
+    claim.garageContact=garageContact,
+   claim.description=description
+  return claim.save()
+
+  }).then(result=>{
+    res.redirect('/claims')
+  })
+
+    
+   
 
 };

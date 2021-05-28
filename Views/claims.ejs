@@ -33,7 +33,8 @@
             <tbody id="myTable">
               <% if(claims.length > 0) { %> 
                 <% for(let claim of claims) { %>
-              <tr onclick="document.location=''">
+                  <input type='hidden' value="<%= claim.id %>" name="claimId">
+              <tr onclick="document.location='/singleClaim/<%=claim.id %>'">
                 <td><%=claim.policy.regN%></td>
                 <td><%=claim.policy.sumInsured%></td>
                 <td><%=claim.claimAmount%></td>

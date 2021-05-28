@@ -34,7 +34,8 @@
                     <tbody id="myTable">
                         <% if(policies.length > 0) { %> 
                             <% for(let policy of policies) { %>
-                        <tr onclick="document.location=''">
+                                <input type="hidden" value="<%=policy.id%>" name="policyId">
+                        <tr onclick="document.location='/policyEdit/<%=policy.id%>'">
                             <td><%= policy.regN %></td>
                             <td><%= policy.client.firstName%>  <%= policy.client.lastName%></td>
                             <td><%= policy.sumInsured %></td>
