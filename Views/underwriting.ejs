@@ -35,7 +35,7 @@
                         <% if(policies.length > 0) { %> 
                             <% for(let policy of policies) { %>
                                 <input type="hidden" value="<%=policy.id%>" name="policyId">
-                        <tr onclick="document.location='/policyEdit/<%=policy.id%>'">
+                        <tr onclick="document.location='/policyView/<%=policy.id%>'">
                             <td><%= policy.regN %></td>
                             <td><%= policy.client.firstName%>  <%= policy.client.lastName%></td>
                             <td><%= policy.sumInsured %></td>

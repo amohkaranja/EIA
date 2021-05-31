@@ -69,7 +69,11 @@ reporterContact:{
   description:{
     type: Sequelize.STRING,
     allowNull:false
-  }
+  },
+  signature:{
+    type: Sequelize.STRING,
+    allowNull:true
+  },
 
  
   

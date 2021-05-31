@@ -13,6 +13,7 @@ const path = require('path');
 exports.getNewClient= (req,res,next) =>{
 
   const user = req.user;
+  const firstName = user.firstName;
   let today = new Date()
   let month = today.getMonth() + 1;
   let date= today.getDate();
@@ -33,6 +34,7 @@ date:current_date
 const userName =  "Hello"+ " "  + user.firstName +"!";
     res.render('new-client', {
       userName:userName,
+      firstName:firstName,
         pageTitle: 'new-client',
         path: '/new-client',
         isAuthenticated: req.session.isLoggedIn,
@@ -44,6 +46,7 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
 exports.getClientProfile= (req,res,next) =>{
   const user = req.user;
 const userName =  "Hello"+ " "  + user.firstName +"!";
+const firstName =user.firstName
 
 const clientId = req.params.clientId;
 Policy.findAll({include:[{model:Client,where:{id:clientId}}]})
@@ -51,6 +54,7 @@ Policy.findAll({include:[{model:Client,where:{id:clientId}}]})
   
   res.render('client-profile',{
     userName:userName ,
+    firstName:firstName,
       pageTitle: 'client-profile',
       path:'/client-profile',
       clientId:clientId,
@@ -66,6 +70,7 @@ exports.postClient=(req,res,next)=>{
   const user = req.user;
   const userName =  "Hello"+ " "  + user.firstName +"!";
   const firstName = req.body.firstName;
+  const signature = req.body.signature;
   const lastName = req.body.lastName;
   const phoneNumber= req.body.phoneNumber;
   const city= req.body.city;
@@ -128,6 +133,7 @@ exports.postClient=(req,res,next)=>{
       phoneNumber:phoneNumber,
       firstName:firstName,
       lastName:lastName,
+      signature:signature,
       town: city,
       regNumber:regNumber,
       country:country,
@@ -201,7 +207,6 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
   Policy.findOne({raw: true,where:{id:policyId}}).then(
     policy=>{
       
-      console.log("This is the output" + policy.policytype);
       if(policy.policytype == 'Motor vehicles'){
       res.render('motorEdit',{
         userName:userName ,
@@ -227,9 +232,61 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
   })
 
 };
+exports.getPolicyView=(req,res,next)=>{
+  const policyId =req.params.policyId;
+  console.log(policyId);
+  const user = req.user;
+  const firstName =user.firstName;
+  let today = new Date()
+  let month = today.getMonth() + 1;
+  let date= today.getDate();
+  let year = today.getFullYear();
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  let secs = today.getSeconds();
+  const current_date = `${year}/${month}/${date}`;
+  const current_time = `${hour}:${min}:${secs}`;
+
+const log= new Logs({
+task: "Edited a policy",
+userId: user._id,
+time: current_time,
+date:current_date
+});
+  log.save();
+const userName =  "Hello"+ " "  + user.firstName +"!";
+  Policy.findOne({raw: true,where:{id:policyId}}).then(
+    policy=>{
+      
+      if(policy.policytype == 'Motor vehicles'){
+      res.render('policy-view-motor',{
+        userName:userName ,
+        policy:policy,
+          pageTitle: 'policy-view-motor',
+          path:'/policy-view-motor',
+          isAuthenticated: req.session.isLoggedIn
+      });
+      }else{
+        console.log('i rendered second');
+        res.render('policy-view-new',{
+          userName:userName ,
+          policy:policy,
+            pageTitle: 'policy-view-new',
+            path:'/policy-view-new',
+            isAuthenticated: req.session.isLoggedIn
+        });
+
+      }
+    }
+  ).catch(err=>{
+    console.log(err);
+  })
+
+};
 exports.getMotor= (req,res,next) =>{
   const clientId= req.params.clientId;
   const user = req.user;
+  const firstName= user.firstName;
   let today = new Date()
   let month = today.getMonth() + 1;
   let date= today.getDate();
@@ -251,6 +308,7 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
 
 res.render('motor-details',{
   userName:userName ,
+  firstName:firstName,
     pageTitle: 'motor-details',
     clientId:clientId,
     path:'/motor-details',
@@ -263,6 +321,7 @@ exports.getNonMotor= (req,res,next) =>{
   const clientId= req.params.clientId;
   const user = req.user;
 const userName =  "Hello"+ " "  + user.firstName +"!";
+const firstName= user.firstName;
 
   let today = new Date()
   let month = today.getMonth() + 1;
@@ -285,6 +344,7 @@ date:current_date
 
 res.render('non-motor-details',{
   userName:userName ,
+  firstName:firstName,
   clientId:clientId,
     pageTitle: 'non-motor-details',
     path:'/non-motor-details',
@@ -299,6 +359,7 @@ exports.postMotor= (req,res,next)=>{
   const rate = req.body.rate;
   console.log(rate);
   const otherName = req.body.otherName;
+  const signature = req.body.signature;
   const policyName= req.body.policyName;
   const coverType = req.body.coverType;
   const branch= req.body.branch;
@@ -336,6 +397,7 @@ exports.postMotor= (req,res,next)=>{
   const  policy= new Policy({
     clientId:clientId,
     otherBe:otherBe,
+    signature:signature,
     rate:rate,
     otherName:otherName,
     stampDuty: stampDuty,
@@ -447,6 +509,7 @@ exports.postNonMotor= (req,res,next)=>{
   let stampDuty =req.body.stampDuty;
   let rate = req.body.rate;
   const policyName= req.body.policyName;
+  const signature = req.body.signature;
   const otherName = req.body.otherName;
   const coverType = req.body.coverType;
   const branch= req.body.branch;
@@ -480,6 +543,7 @@ exports.postNonMotor= (req,res,next)=>{
   const policy= new Policy({
     clientId:clientId,
     otherBe:otherBe,
+    signature:signature,
     rate:rate,
     stampDuty: stampDuty,
     otherName:otherName,
@@ -595,11 +659,13 @@ Policy.findOne({where:{id:policyId}}).then(
 };
 exports.getClaims= (req,res,next) =>{
   const user = req.user;
+  const firstName = user.firstName;
 const userName =  "Hello"+ " "  + user.firstName +"!";
 Claim.findAll({include:[{model:Policy}],limit:10,order: [ [ 'createdAt', 'DESC' ]]}).then(claim=>{
   
   res.render('claims', {
     userName:userName,
+    firstName:firstName,
     claims:claim,
       pageTitle: 'claims',
       path: '/claims',
@@ -648,6 +714,7 @@ exports.getNewClaims= (req,res,next) =>{
 
   const policyId= req.params.policyId
   const user = req.user;
+  const firstName = user.firstName;
   let today = new Date()
   let month = today.getMonth() + 1;
   let date= today.getDate();
@@ -666,12 +733,12 @@ date:current_date
 });
   log.save();
 const userName =  "Hello"+ " "  + user.firstName +"!";
-
  Policy.findOne({where:{id:policyId}})
  .then(policy=>{
   
   res.render('new-claim', {
     userName:userName,
+    firstName:firstName,
      singlePolicy:policy,
      policyId:policyId,
       pageTitle: 'new-claim',
@@ -685,6 +752,7 @@ const userName =  "Hello"+ " "  + user.firstName +"!";
 exports.postClaim=(req,res,next)=>{
   const policyId= req.params.policyId;
   const reportDate = req.body.reportDate;
+  const signature = req.body.signature;
   const compensation = req.body.comp;
   const lossDate = req.body.lossDate;
   const claimAmount = req.body.claimAmount;
@@ -712,6 +780,7 @@ exports.postClaim=(req,res,next)=>{
      policyId:policyId,
      reportDate:reportDate,
      lossDate:lossDate,
+     signature:signature,
      claimAmount: claimAmount,
      claimType: claimType,
      offerAmount: offerAmount,

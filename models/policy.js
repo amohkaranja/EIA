@@ -90,6 +90,10 @@ incorpCert:{
     type: Sequelize.STRING,
     allowNull:true
   },
+  signature:{
+    type: Sequelize.STRING,
+    allowNull:true
+  },
   exPro:{
     type: Sequelize.INTEGER,
     allowNull:true,

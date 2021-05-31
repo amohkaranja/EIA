@@ -36,6 +36,7 @@ router.post('/motorEdit/:policyId',isAuth,controllers.postMotorEdit);
 router.post('/nonMotorEdit/:policyId',isAuth,controllers.postNonMotorEdit);
 
 router.get('/policyEdit/:policyId',isAuth,controllers.getPolicyEdit);
+router.get('/policyView/:policyId',isAuth,controllers.getPolicyView);
 
 router.post('/new-claim/:policyId',controllers.postClaim);
 

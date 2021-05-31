@@ -12,7 +12,8 @@
             <a href="new-client.html" class="btn other search">ADD NEW</a>
           </div>
         </div> -->
-        <form action="" method="POST">
+        <form action="/nonMotorEdit/<%=policy.id%>" method="POST">
+            <input type="hidden" value="<%=policy.id%>" name="policyId">
         <div class="dash-main-body">
           <div class="client-profile-page">
             <div class="client-details">
@@ -21,33 +22,38 @@
                 <div class="details-col">
                   <div class="client-prof-info">
                     <div class="user-input-group">
+                        <label for="third_party">Policy Name/ Project name</label>
                       <input
                       name="policyName"
                         type="text"
                         class="user-reg-input"
                         placeholder="Policy Name/ Project Name"
+                        value="<%=policy.policyName%>"
                       />
                     </div>
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
+                        <label for="third_party">Branch</label>
                       <input
                       name="baranch"
                         type="text"
                         class="user-reg-input"
                         placeholder="Branch"
+                        value="<%=policy.branch%>"
                       />
                     </div>
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
+                        <label for="third_party">Cover Type</label>
                       <select
                         name="coverType"
                         id="class_selection"
                         class="user-reg-input"
                         style="padding: 0 0 0 1rem"
                       >
-                        <option value="" selected>Select Cover Type</option>
+                        <option value="" selected></option>
                         <option value="">--INDIVIDUAL--</option>
                         <option value="Personal Accident">
                           Personal Accident
@@ -81,23 +87,26 @@
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
+                        <label for="third_party">Business/ Project Number</label>
                       <input
                       name="businessNumber"
                         type="text"
                         class="user-reg-input"
                         placeholder="Business/ Project Number"
+                        value="<%=policy.businessNumber%>"
                       />
                     </div>
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
+                        <label for="third_party">Insurer</label>
                       <select
                         name="insurer"
                         id=""
                         class="user-reg-input"
                         style="padding: 0 0 0 1rem"
                       >
-                        <option value="" selected>Select Insurer</option>
+                        <option value="<%=policy.insurer%>" selected><%=policy.insurer%></option>
                         <option value="Sanlum">Sanlum</option>
                         <option value="Jubilee">Jubilee</option>
                         <option value="AAR">AAR</option>
@@ -106,31 +115,37 @@
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
+                        <label for="third_party">No. of employees</label>
                       <input
                       name="employees"
                         type="number"
                         class="user-reg-input"
                         placeholder="No. of employees"
+                        value="<%=policy.employees%>"
                       />
                     </div>
                   </div>
-                  <!-- <div class="client-prof-info">
-                    <div class="user-input-group">
+                  <div class="client-prof-info">
+                    <!-- <div class="user-input-group">
+                        <label for="third_party">Engine Number</label>
                       <input
                         type="text"
                         class="user-reg-input"
                         placeholder="Engine Number"
                         name="engineNumber"
+                        value="<%=policy.engineNumber%>"
                       />
-                    </div>
-                  </div> -->
+                    </div> -->
+                  </div>
                   <div class="user-split-row">
                     <div class="user-input-group">
+                        <label for="third_party">Stamp Duty</label>
                       <input
                       name="stampDuty"
                         type="number"
                         class="user-reg-input"
                         placeholder="Stamp Duty"
+                        value="<%=policy.stampDuty%>"
                        
                       />
                     </div>
@@ -139,11 +154,15 @@
                 <div class="details-col">
                   <div class="client-prof-info">
                     <div class="user-input-group">
+                      <label for="third_party"> Policy Number </label>
                       <input
                       name="policyNumber"
                         type="text"
                         class="user-reg-input"
                         placeholder="Policy Number"
+                        value="<%=policy.policyNumber%>"
+                       
+                        
                       />
                     </div>
                   </div>
@@ -166,6 +185,7 @@
                           placeholder="From"
                           onblur="(this.type='text')"
                           onfocus="(this. type='date')"
+                          value="<%=policy.policyStart%>"
                         />
                       </div>
                       <div class="user-input-group">
@@ -176,17 +196,20 @@
                           placeholder="To"
                           onblur="(this.type='text')"
                           onfocus="(this. type='date')"
+                          value="<%=policy.policyEnd%>"
                         />
                       </div>
                     </div>
                   </div>
                   <div class="client-prof-info">
                     <div class="user-input-group">
+                        <label for="third_party">Sum Insured</label>
                       <input
                       name="sumInsured"
                         type="number"
                         class="user-reg-input"
                         placeholder="Sum Insured"
+                        value="<%=policy.sumInsured%>"
                       
                       />
                     </div>
@@ -197,7 +220,7 @@
                       <div class="check-box-holder">
                         <div class="check-box">
                           <input type="checkbox" name="" id="third_party" />
-                          <label for="third_party">Third Party Liability</label>
+                         
                         </div>
                         <div class="check-box-input">
                           <div class="client-prof-info">
@@ -209,6 +232,7 @@
                                 class="user-reg-input"
                                 disabled
                                 placeholder="Basic Premium"
+                               
                             
                               />
                             </div>
@@ -219,7 +243,7 @@
                       <div class="check-box-holder">
                         <div class="check-box">
                           <input type="checkbox" name="" id="maintenance" />
-                          <label for="maintenance">Maintenance</label>
+                          
                         </div>
                         <div class="check-box-input">
                           <div class="client-prof-info">
@@ -231,6 +255,7 @@
                                 id="maintenance_basic_premium"
                                 class="user-reg-input"
                                 placeholder="Basic Premium"
+                               
                               
                               />
                             </div>
@@ -259,6 +284,7 @@
                               class="user-reg-input"
                               id="other_benefits_basic_premium"
                               placeholder="Basic Premium"
+                              
                             
                             />
                           </div>
@@ -276,9 +302,7 @@
                             name=""
                             id="employee_liability"
                           />
-                          <label for="employee_liability"
-                            >Employers Liability</label
-                          >
+                          
                         </div>
                         <div class="check-box-input">
                           <div class="client-prof-info">
@@ -290,6 +314,7 @@
                                 class="user-reg-input"
                                 disabled
                                 placeholder="Basic Premium"
+                                
                               />
                             </div>
                           </div>
@@ -303,9 +328,7 @@
                             name=""
                             id="personal_accident_non"
                           />
-                          <label for="personal_accident_non"
-                            >Personal Accident</label
-                          >
+                          
                         </div>
                         <div class="check-box-input">
                           <div class="client-prof-info">
@@ -317,6 +340,7 @@
                                 id="personal_accident_non_basic_premium"
                                 class="user-reg-input"
                                 placeholder="Basic Premium"
+                                
                               />
                             </div>
                           </div>
@@ -334,9 +358,7 @@
                             name=""
                             id="third_party_plant_machinery"
                           />
-                          <label for="third_party_plant_machinery"
-                            >Third Party Liability</label
-                          >
+                          
                         </div>
                         <div class="check-box-input">
                           <div class="client-prof-info">
@@ -348,6 +370,7 @@
                                 class="user-reg-input"
                                 disabled
                                 placeholder="Basic Premium"
+                                
                               />
                             </div>
                           </div>
@@ -357,19 +380,23 @@
                   </div>
                   <div class="user-split-row">
                     <div class="user-input-group">
+                        <label for="third_party">Other benefit name/description</label>
                       <input
                       name="otherName"
                         type="text"
                         class="user-reg-input"
                         placeholder="Other benefit name/description"
+                        value="<%=policy.otherName%>"
                       />
                     </div>
                     <div class="user-input-group">
+                        <label for="third_party">policy rate</label>
                       <input
                       name="rate"
                         type="text"
                         class="user-reg-input"
                         placeholder="Rate"
+                        value="<%=policy.rate%>"
                         
                       />
                     </div>
@@ -378,8 +405,8 @@
               </div>
             </div>
             <div class="client-documents">
-              <h2>Scan Documents</h2>
-              <div
+              <!-- <h2>Scan Documents</h2> -->
+              <!-- <div
                 class="upload-holder"
                 style="
                   width: 100%;
@@ -397,11 +424,10 @@
                   class="input-upload-documents"
                 />
                 <p class="upload-file-info-kra"></p>
-              </div>
+              </div> -->
             </div>
             <div class="btn-holder" style="margin: 0 0 2rem 0">
-             
-              <button class="create-btn" type="submit">Create Policy</button>
+              <button class="create-btn" type="submit">Edit</button>
             </div>
           </div>
         </div>

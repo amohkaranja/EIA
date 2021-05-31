@@ -86,6 +86,10 @@ const Client = sequelize.define('clients', {
     type: Sequelize.INTEGER,
     allowNull:false
   },
+  signature:{
+    type: Sequelize.STRING,
+    allowNull:true
+  },
  
   
 });

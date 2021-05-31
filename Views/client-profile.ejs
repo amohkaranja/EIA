@@ -21,8 +21,12 @@
         <div class="pop-box-panel">
           <h2>Select Policy Type</h2>
           <div class="policy-otions">
-            <a href="/motor-details/<%= clientId%>" class="policy-type-select">Motor</a>
-            <a href="/non-motor-details/<%= clientId%>" class="policy-type-select"
+            <a href="/motor-details/<%= clientId%>" class="policy-type-select"
+              >Motor</a
+            >
+            <a
+              href="/non-motor-details/<%= clientId%>"
+              class="policy-type-select"
               >Non-Motor</a
             >
           </div>
@@ -31,7 +35,7 @@
       <div class="dash-top">
         <div class="dash-top-right">
           <img src="/images/avatar.jpg" alt="Profile Image" />
-          <h3><%= userName %></h3>
+          <h3>Hello <%= firstName%></h3>
         </div>
       </div>
 
@@ -50,7 +54,7 @@
 
         <div class="dash-main-body">
           <div class="client-profile-page">
-            <div class="client-details">
+            <div class="client-details" style="border-bottom: none">
               <div class="client-image">
                 <img src="/images/avatar.jpg" alt="" />
                 <div class="policy-otion-actions">
@@ -68,13 +72,16 @@
                 </div>
               </div>
               <h2>Client Details</h2>
-              <% if(policies.length > 0) { %> 
-                
+              <% if(policies.length > 0) { %>
+
               <div class="client-details-row">
                 <div class="details-col">
                   <div class="client-prof-info">
                     <h3>Name:</h3>
-                    <h4><%= policies[0].client.firstName%> <%= policies[0].client.lastName%></h4>
+                    <h4>
+                      <%= policies[0].client.firstName%> <%=
+                      policies[0].client.lastName%>
+                    </h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Physical Address:</h3>
@@ -82,7 +89,10 @@
                   </div>
                   <div class="client-prof-info">
                     <h3>P. O. Box :</h3>
-                    <h4><%= policies[0].client.boxOffice%> <%= policies[0].client.town%>, KENYA</h4>
+                    <h4>
+                      <%= policies[0].client.boxOffice%> <%=
+                      policies[0].client.town%>, KENYA
+                    </h4>
                   </div>
                   <div class="client-prof-info">
                     <h3>Phone:</h3>
@@ -128,16 +138,23 @@
                 border-bottom: 1px solid #0000003b;
               "
             >
-            <h2 style="width: 100%">Client Scanned Documents</h2>
-            <!-- download="<%= policies[0].client.kraCert %>" -->
-            <a href="/uploads/<%= clientId %>" class="document" >KRA Certificate</a>
-            <input type="hidden" name="myclientId" value="<%= policies.clientId%>">
-            <a href="" class="document">ID | Cert of Incorporation</a>
+              <h2 style="width: 100%">Client Documents</h2>
+              <!-- download="<%= policies[0].client.kraCert %>" -->
+              <a
+                href="http://localhost:80/EIA/client_docs.php?id=<%= policies[0].client.id%>&name=<%= userName %>"
+                class="document"
+                >View Documents</a
+              >
+              <input
+                type="hidden"
+                name="myclientId"
+                value="<%= policies.clientId%>"
+              />
             </div>
 
             <% } else { %>
-              <h2>nothing to display</h2>
-          <% } %>
+            <h2>nothing to display</h2>
+            <% } %>
             <table class="info-list-table" style="margin-bottom: 3rem">
               <thead>
                 <tr>
@@ -151,30 +168,28 @@
               </thead>
 
               <tbody>
-                <% if(policies.length > 0) { %> 
-                  <% for(let policy of policies) { %>
-                    <input type="hidden" value="policy.id" name="policyId">
+                <% if(policies.length > 0) { %> <% for(let policy of policies) {
+                %>
+                <input type="hidden" value="policy.id" name="policyId" />
                 <tr onclick="document.location='/mv-details/<%=policy.id%>'">
                   <td><%= policy.regN %></td>
-                  <td><%= policy.client.firstName %> <%= policy.client.lastName %></td>
+                  <td>
+                    <%= policy.client.firstName %> <%= policy.client.lastName %>
+                  </td>
                   <td><%=policy.sumInsured %></td>
                   <td><%= policy.coverType %></td>
                   <td><%= policy.policyStart %></td>
                   <td><%= policy.policyEnd %></td>
                 </tr>
+                <% } %> <% } else { %>
+                <h2>nothing to display</h2>
                 <% } %>
-            <% } else { %>
-              <h2>nothing to display</h2>
-          <% } %>
               </tbody>
             </table>
-           
           </div>
         </div>
 
-        <div class="date-time">
-          <%- include ('./includes/date.ejs') %>
-        </div>
+        <div class="date-time"><%- include ('./includes/date.ejs') %></div>
       </div>
       <%- include ('./includes/sidePane.ejs') %>
     </div>
